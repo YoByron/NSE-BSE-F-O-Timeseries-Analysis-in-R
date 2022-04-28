@@ -3,7 +3,7 @@
 #haldar@kth.se
 ####################################################################################
 # Package names
-packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", "reshape2")
+packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", "reshape2", "hablar", "dplyr")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -22,24 +22,36 @@ rm(list=ls())
 
 fdii = fdii()
 
-#df <- data.frame(
-#  date = factor(date(fdii[3:20,1])),
-#  gross_purchase_crores = factor(gross_purchase_crores(fdii[3:20,2]))
-#)
-
-
 date = fdii[3:20,1]
 date=factor(date)
+
 gross_purchase_crores = fdii[3:20,2]
 gross_purchase_crores = factor(gross_purchase_crores)
-#gross_purchase_crores = as.numeric(gross_purchase_crores)
-plot(date,gross_purchase_crores)
+
+df <- data.frame(
+  date,
+  gross_purchase_crores
+)
+
+#sapply(df, class)
+
+#df[] <- lapply(df, function(x) as.numeric(as.character(x)))
+#df
+#sapply(df, class)
+
+
+
+#gross_purchase_crores = fdii[3:20,2]
+#gross_purchase_crores = factor(gross_purchase_crores)
+
+
+#plot(date,gross_purchase_crores)
 
 #Plot
 #hist(gross_purchase_crores,
-     #main="Maximum daily temperature at La Guardia Airport",
-     #xlab="Gross Purchase (In Crores)"
-    # )
+#     main="Gross Purchase (In Crores)",
+#     xlab="Gross Purchase (In Crores)"
+#    )
 
 #ggplot(aes(date, gross_purchase_crores)) +
 #geom_histogram()
