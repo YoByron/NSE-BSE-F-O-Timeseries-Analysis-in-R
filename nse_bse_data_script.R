@@ -4,7 +4,7 @@
 ####################################################################################
 # Package names
 packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", 
-              "reshape2", "hablar", "dplyr", "tidyverse", "scales"
+              "reshape2", "hablar", "dplyr", "tidyverse", "scales",
               "padr")
 
 # Install packages not yet installed
@@ -47,7 +47,7 @@ fdii_main <- data.frame(date,net_FII,net_DII)
 
 
 # plot the data using ggplot
-ggplot(data = df[which(date$prop>0)],
+ggplot(data = df,
        aes(x = date, y = net_FII)) +
        geom_bar(stat = "identity", fill = "purple") +
        scale_x_date(date_labels="%b %d",date_breaks  ="1 day") 
