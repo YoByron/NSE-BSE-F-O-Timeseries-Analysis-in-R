@@ -24,41 +24,25 @@ fdii = fdii()
 
 date = fdii[3:20,1]
 date <- gsub("-", "", date)                          # Applying gsub function
-dateP = as.Date(date, "%d%b%y")
-dateP_format= format(dateP, "%dd-%MM-%YY")
-
-#df <- data.frame(
-#  date,
-#  gross_purchase_crores
-#)
-
-#sapply(df, class)
-
-#df[] <- lapply(df, function(x) as.numeric(as.character(x)))
-#df
-#sapply(df, class)
-
-#df %>% 
-#  convert(double(date, gross_purchase_crores))
-
+date = as.Date(date, "%d%b%y")
 
 gross_purchase_crores = fdii[3:20,2]
 gross_purchase_crores = factor(gross_purchase_crores)
-gross_purchase_crores <- gsub(",", "", gross_purchase_crores)                   # Applying gsub function
+gross_purchase_crores <- gsub(",","", gross_purchase_crores)                   # Applying gsub function
+options(digits=7)
 gross_purchase_crores=as.double(gross_purchase_crores)
 
-#date= df[,1]
-#gross_purchase_crores=df[,2]
-  
-#plot(date,gross_purchase_crores)
+h <- hist(gross_purchase_crores,
+          main="Gross Purchase (In Crores)",
+          xlab="Gross Purchase (In Crores)",
+          col="darkmagenta"
+)
 
-#df = tibble::tibble(df)
+text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))
 
 #Plot
-hist(gross_purchase_crores,
-     main="Gross Purchase (In Crores)",
-     xlab="Gross Purchase (In Crores)"
-    )
+#hist(dateP, gross_purchase_crores,
+     
 
 #ggplot(aes(date, gross_purchase_crores)) +
 #geom_histogram()
