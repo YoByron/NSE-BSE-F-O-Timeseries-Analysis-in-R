@@ -3,7 +3,9 @@
 #haldar@kth.se
 ####################################################################################
 # Package names
-packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", "reshape2", "hablar", "dplyr", "tidyverse", "scales")
+packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", 
+              "reshape2", "hablar", "dplyr", "tidyverse", "scales"
+              "padr")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -26,21 +28,23 @@ fdii = fdii()
 date = fdii[3:20,1]
 date <- gsub("-", "", date)                          # Applying gsub function
 date = as.Date(date, "%d%b%y")
+date=pad(date)
 
-gross_purchase_crores = fdii[3:20,2]
-gross_purchase_crores = factor(gross_purchase_crores)
-gross_purchase_crores <- gsub(",","", gross_purchase_crores)                   # Applying gsub function
+
+net_FII = fdii[3:20,2]
+net_FII = factor(net_FII)
+net_FII <- gsub(",","", net_FII)                   # Applying gsub function
 options(digits=7)
-gross_purchase_crores=as.double(gross_purchase_crores)
+net_FII=as.double(net_FII)
 
+fdii_main <- data.frame(date,net_FII)
 
-df <- data.frame(date,gross_purchase_crores)
 
 # plot the data using ggplot
-ggplot(data = df,
-       aes(x = date, y = gross_purchase_crores)) +
+ggplot(data = df[which(date$prop>0)],
+       aes(x = date, y = net_FII)) +
        geom_bar(stat = "identity", fill = "purple") +
-       scale_x_date(date_labels="%b %d",date_breaks  ="1 day") +
+       scale_x_date(date_labels="%b %d",date_breaks  ="1 day") 
        labs(x = "Date",
             y = "Gross Purchase (Crores)",
             title = "Gross Purchase (Crores)",
