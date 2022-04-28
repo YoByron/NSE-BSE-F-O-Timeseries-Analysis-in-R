@@ -3,7 +3,7 @@
 #haldar@kth.se
 ####################################################################################
 # Package names
-packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", "reshape2", "hablar", "dplyr")
+packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", "reshape2", "hablar", "dplyr", "tidyverse")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -22,16 +22,17 @@ rm(list=ls())
 
 fdii = fdii()
 
-date = fdii[3:20,1]
-date=factor(date)
+date = fdii[[2]][3]
+date <- gsub(",", "", date)                          # Applying gsub function
+date=as.double(date)
 
-gross_purchase_crores = fdii[3:20,2]
-gross_purchase_crores = factor(gross_purchase_crores)
+gross_purchase_crores = fdii[[3:20]][2]
+#gross_purchase_crores = factor(gross_purchase_crores)
 
-df <- data.frame(
-  date,
-  gross_purchase_crores
-)
+#df <- data.frame(
+#  date,
+#  gross_purchase_crores
+#)
 
 #sapply(df, class)
 
@@ -39,17 +40,19 @@ df <- data.frame(
 #df
 #sapply(df, class)
 
-df %>% 
-  convert(double(date, gross_purchase_crores))
+#df %>% 
+#  convert(double(date, gross_purchase_crores))
 
 
 #gross_purchase_crores = fdii[3:20,2]
 #gross_purchase_crores = factor(gross_purchase_crores)
 
-date= df[,1]
-gross_purchase_crores=df[,2]
+#date= df[,1]
+#gross_purchase_crores=df[,2]
   
-plot(date,gross_purchase_crores)
+#plot(date,gross_purchase_crores)
+
+#df = tibble::tibble(df)
 
 #Plot
 #hist(gross_purchase_crores,
