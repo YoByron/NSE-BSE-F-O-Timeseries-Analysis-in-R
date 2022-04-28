@@ -28,7 +28,6 @@ fdii = fdii()
 date = fdii[3:20,1]
 date <- gsub("-", "", date)                          # Applying gsub function
 date = as.Date(date, "%d%b%y")
-date=pad(date)
 
 
 net_FII = fdii[3:20,4]
@@ -47,7 +46,7 @@ fdii_main <- data.frame(date,net_FII,net_DII)
 
 
 # plot the data using ggplot
-ggplot(data = df,
+ggplot(fdii_main,
        aes(x = date, y = net_FII)) +
        geom_bar(stat = "identity", fill = "purple") +
        scale_x_date(date_labels="%b %d",date_breaks  ="1 day") 
