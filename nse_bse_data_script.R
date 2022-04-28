@@ -40,14 +40,16 @@ df <- data.frame(
 #sapply(df, class)
 
 df %>% 
-  convert(num(date, gross_purchase_crores))
+  convert(double(date, gross_purchase_crores))
 
 
 #gross_purchase_crores = fdii[3:20,2]
 #gross_purchase_crores = factor(gross_purchase_crores)
 
-
-#plot(date,gross_purchase_crores)
+date= df[,1]
+gross_purchase_crores=df[,2]
+  
+plot(date,gross_purchase_crores)
 
 #Plot
 #hist(gross_purchase_crores,
