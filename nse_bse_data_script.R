@@ -46,6 +46,7 @@ df <- data.frame(date, gross_purchase_crores)
 # plot the data using ggplot
 ggplot(data = df, aes(x = date, y = gross_purchase_crores)) +
   geom_bar(stat = "identity", fill = "purple") +
+  scale_x_date(date_breaks  ="1 day") +
   labs(x = "Date",
        y = "Gross Purchase (Crores)",
        title = "Gross Purchase (Crores)",
