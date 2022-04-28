@@ -32,14 +32,17 @@ date = fdii[3:20,1]
 date=factor(date)
 gross_purchase_crores = fdii[3:20,2]
 gross_purchase_crores = factor(gross_purchase_crores)
-gross_purchase_crores = as.numeric(gross_purchase_crores)
+#gross_purchase_crores = as.numeric(gross_purchase_crores)
+plot(date,gross_purchase_crores)
 
 #Plot
-hist(gross_purchase_crores)
+#hist(gross_purchase_crores,
+     #main="Maximum daily temperature at La Guardia Airport",
+     #xlab="Gross Purchase (In Crores)"
+    # )
 
 #ggplot(aes(date, gross_purchase_crores)) +
 #geom_histogram()
-
 #plot.default(date,gross_purchase_crores,axes=TRUE, xlab = "Date", ylab= "Gross Purchase in Crores")
 #geom_histogram()
 
