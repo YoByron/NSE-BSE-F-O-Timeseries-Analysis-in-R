@@ -18,6 +18,7 @@ invisible(lapply(packages, library, character.only = TRUE))
 
 # Clear Workspace 
 rm(list=ls()) 
+cat("\014")
 #####################################################################################
 
 # Actual Code Starts here
@@ -47,11 +48,11 @@ fdii_main <- data.frame(date,net_FII,net_DII)
 
 # plot the data using ggplot
 ggplot(fdii_main,
-       aes(x = date, y = net_FII)) +
+       aes(x = date, y = net_FII+net_DII)) +
        geom_bar(stat = "identity", fill = "purple") +
        scale_x_date(date_labels="%b %d",date_breaks  ="1 day") 
        labs(x = "Date",
-            y = "Gross Purchase (Crores)",
-            title = "Gross Purchase (Crores)",
-            subtitle = "FII"
+            y = "FII and DII",
+            title = "Gross Activity (Crores)",
+            subtitle = "FII+DII"
        )
