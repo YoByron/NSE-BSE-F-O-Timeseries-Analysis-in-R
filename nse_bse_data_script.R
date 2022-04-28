@@ -46,19 +46,27 @@ net_DII=as.double(net_DII)
 fdii_main <- data.frame(date,net_FII,net_DII)
 
 
+
 p <- ggplot(fdii_main,
-       aes(x = date, y = net_FII)) +
-       geom_bar(stat = "identity", fill = "steelblue") +
-       geom_text(aes(label=net_FII+net_DII), 
-                 vjust=1.6, 
-                 color="white", 
-                 size=3.5)+
-       scale_x_date(date_labels="%b %d",date_breaks  ="1 day") +
-       labs(x = "Date",
-           y = "Gross Purchase (Crores)",
-           title = "Gross Purchase (Crores)",
-           subtitle = "FII+DII",
-           theme_minimal(),
-     )
-# Horizontal bar plot
-p + coord_flip()
+            aes(x = date, y = net_FII)) +
+            geom_bar(stat = "identity", fill = "steelblue") +
+            geom_text(aes(label=net_FII+net_DII), 
+            vjust=0.006, 
+            size=3.5,
+            color="white")+
+            scale_x_date(date_labels="%b %d",date_breaks  ="1 day") +
+            labs(x = "Date",
+            y = "Gross Purchase (Crores)",
+            title = "Gross Purchase (Crores)",
+            subtitle = "FII+DII",
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank()
+)
+
+p+theme_classic()
+
+p+ geom_bar(aes(fill = net_FII > 0), stat = "identity") + 
+  scale_fill_manual(
+  guide = "none", 
+  breaks = c(TRUE, FALSE), 
+  values=c("green", "red"))
