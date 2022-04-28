@@ -70,3 +70,16 @@ p+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
   guide = "none", 
   breaks = c(TRUE, FALSE), 
   values=c("green", "red"))
+
+#####################################################################################
+#FO Bhavcopy Today (updated every evening)
+fobhavtoday = fobhavtoday()
+
+#####################################################################################
+nseindex = nseindex()
+nseindex_name = nseindex[1:55,1]
+nseindex_change = nseindex[1:55,4]
+
+library(utils)
+answer<-winDialog(nseindex_name,nseindex_change,"%")
+#if (answer=='YES') {print('good!')} else {print('sorry')}
