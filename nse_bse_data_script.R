@@ -19,6 +19,7 @@ rm(list=ls())
 #####################################################################################
 
 # Actual Code Starts here
+options(stringsAsFactors = FALSE)
 
 fdii = fdii()
 
@@ -39,6 +40,16 @@ h <- hist(gross_purchase_crores,
 )
 
 text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))
+
+df <- data.frame(date, gross_purchase_crores)
+
+# plot the data using ggplot
+ggplot(data = df, aes(x = date, y = gross_purchase_crores)) +
+  geom_bar(stat = "identity", fill = "purple") +
+  labs(x = "Date",
+       y = "Gross Purchase (Crores)",
+       title = "Gross Purchase (Crores)",
+       subtitle = "FII")
 
 #Plot
 #hist(dateP, gross_purchase_crores,
