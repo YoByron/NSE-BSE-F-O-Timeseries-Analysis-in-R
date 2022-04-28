@@ -31,13 +31,19 @@ date = as.Date(date, "%d%b%y")
 date=pad(date)
 
 
-net_FII = fdii[3:20,2]
+net_FII = fdii[3:20,4]
 net_FII = factor(net_FII)
 net_FII <- gsub(",","", net_FII)                   # Applying gsub function
 options(digits=7)
 net_FII=as.double(net_FII)
 
-fdii_main <- data.frame(date,net_FII)
+net_DII = fdii[3:20,7]
+net_DII = factor(net_DII)
+net_DII <- gsub(",","", net_DII)                   # Applying gsub function
+options(digits=7)
+net_DII=as.double(net_DII)
+
+fdii_main <- data.frame(date,net_FII,net_DII)
 
 
 # plot the data using ggplot
