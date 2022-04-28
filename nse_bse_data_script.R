@@ -58,7 +58,7 @@ p <- ggplot(fdii_main,
             labs(x = "Date",
             title = "Gross Purchase (Crores)",
             y = "Gross Purchase (Crores)",
-            subtitle = paste("Last updated",Sys.Date()),
+            subtitle = paste("Last updated",Sys.time()),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank()
 )
