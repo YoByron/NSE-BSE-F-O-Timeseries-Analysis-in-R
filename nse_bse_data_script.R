@@ -5,7 +5,7 @@
 # Package names
 packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", 
               "reshape2", "hablar", "dplyr", "tidyverse", "scales",
-              "padr")
+              "padr", "tcltk", "svDialogs","utils")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -71,15 +71,16 @@ p+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
   breaks = c(TRUE, FALSE), 
   values=c("green", "red"))
 
+rm(p)
+rm(date)
+rm(fdii)
+rm(fdii_main)
 #####################################################################################
 #FO Bhavcopy Today (updated every evening)
-fobhavtoday = fobhavtoday()
+#fobhavtoday = fobhavtoday()
 
 #####################################################################################
+#NSE Indices today
 nseindex = nseindex()
 nseindex_name = nseindex[1:55,1]
 nseindex_change = nseindex[1:55,4]
-
-library(utils)
-answer<-winDialog(nseindex_name,nseindex_change,"%")
-#if (answer=='YES') {print('good!')} else {print('sorry')}
