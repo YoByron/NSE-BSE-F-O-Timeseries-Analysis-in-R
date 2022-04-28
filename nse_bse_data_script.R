@@ -5,7 +5,7 @@
 # Package names
 packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", 
               "reshape2", "hablar", "dplyr", "tidyverse", "scales",
-              "padr", "tcltk", "svDialogs","utils")
+              "padr", "tcltk", "svDialogs","utils", "quantmod", "broom", "magrittr")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -77,6 +77,12 @@ rm(p)
 rm(date)
 rm(fdii)
 rm(fdii_main)
+
+#####################################################################################
+#FO Bhavcopy Hist. (1 Jan 2016 Onwards)
+Hist_date=01072021
+#fobhavhist = fobhav(Hist_date)
+
 #####################################################################################
 #FO Bhavcopy Today (updated every evening)
 #fobhavtoday = fobhavtoday()
@@ -92,3 +98,6 @@ nseindex_change = nseindex[1:55,4]
 # ggplot(data = tsla_stock_metrics, aes(x = date, y = close_price)) +
 #geom_line()
 
+#####################################################################################
+#NSE PreOpen
+nsepreopen = nseopen(x = "all")
