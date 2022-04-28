@@ -39,6 +39,8 @@ df <- data.frame(
 #df
 #sapply(df, class)
 
+df %>% 
+  convert(num(date, gross_purchase_crores))
 
 
 #gross_purchase_crores = fdii[3:20,2]
