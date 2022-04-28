@@ -47,12 +47,16 @@ fdii_main <- data.frame(date,net_FII,net_DII)
 
 
 # plot the data using ggplot
-ggplot(fdii_main,
+p <- ggplot(fdii_main,
        aes(x = date, y = net_FII+net_DII)) +
-       geom_bar(stat = "identity", fill = "purple") +
+       geom_bar(stat = "identity", colour = "black", fill = "steelblue") +
+       geom_text(aes(label=net_FII+net_DII), vjust=-1.6, color="white", size=3.5)+
        scale_x_date(date_labels="%b %d",date_breaks  ="1 day") 
        labs(x = "Date",
             y = "FII and DII",
             title = "Gross Activity (Crores)",
             subtitle = "FII+DII"
-       )
+            #theme_minimal()
+            )
+# Horizontal bar plot
+#p + coord_flip()
