@@ -23,13 +23,9 @@ rm(list=ls())
 fdii = fdii()
 
 date = fdii[3:20,1]
-#date <- gsub(",", "", date)                          # Applying gsub function
-#date=as.double(date)
-
-dateP= as.POSIXct(date, format="dd-MM-yyyy")
-
-#gross_purchase_crores = fdii[[3:20]][2]
-#gross_purchase_crores = factor(gross_purchase_crores)
+date <- gsub("-", "", date)                          # Applying gsub function
+dateP = as.Date(date, "%d%b%y")
+dateP_format= format(dateP, "%dd-%MM-%YY")
 
 #df <- data.frame(
 #  date,
