@@ -56,14 +56,14 @@ p <- ggplot(fdii_main,
             color="white")+
             scale_x_date(date_labels="%b %d",date_breaks  ="1 day") +
             labs(x = "Date",
-            y = "Gross Purchase (Crores)",
             title = "Gross Purchase (Crores)",
-            subtitle = "FII+DII",
+            y = "Gross Purchase (Crores)",
+            subtitle = paste("Last updated",Sys.Date()),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank()
 )
 
-p+theme_classic()
+p+ theme_classic()
 
 p+ geom_bar(aes(fill = net_FII > 0), stat = "identity") + 
   scale_fill_manual(
@@ -71,6 +71,8 @@ p+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
   breaks = c(TRUE, FALSE), 
   values=c("green", "red"))
 
+#####################################################################################
+#Remove unnecessary variables
 rm(p)
 rm(date)
 rm(fdii)
@@ -84,3 +86,9 @@ rm(fdii_main)
 nseindex = nseindex()
 nseindex_name = nseindex[1:55,1]
 nseindex_change = nseindex[1:55,4]
+
+
+#Stock price chart 
+# ggplot(data = tsla_stock_metrics, aes(x = date, y = close_price)) +
+#geom_line()
+
