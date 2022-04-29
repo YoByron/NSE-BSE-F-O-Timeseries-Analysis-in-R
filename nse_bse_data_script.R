@@ -5,7 +5,8 @@
 # Package names
 packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", 
               "reshape2", "hablar", "dplyr", "tidyverse", "scales",
-              "padr", "tcltk", "svDialogs","utils", "quantmod", "broom", "magrittr")
+              "padr", "tcltk", "svDialogs","utils", "quantmod",
+              "broom", "magrittr","diffr", "diffobj")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -56,7 +57,7 @@ p <- ggplot(fdii_main,
             color="white")+
             scale_x_date(date_labels="%b %d",date_breaks  ="1 day") +
             labs(x = "Date",
-            title = "Gross Purchase (Crores)",
+            title = "Gross Purchase FII+DII (Crores)",
             y = "Gross Purchase (Crores)",
             subtitle = paste("Last updated",Sys.time()),
             panel.grid.major = element_blank(),
@@ -80,12 +81,12 @@ rm(fdii_main)
 
 #####################################################################################
 #FO Bhavcopy Hist. (1 Jan 2016 Onwards)
-Hist_date=01072021
-#fobhavhist = fobhav(Hist_date)
+Hist_date=28042022
+fobhavhist = fobhav(Hist_date)
 
 #####################################################################################
 #FO Bhavcopy Today (updated every evening)
-#fobhavtoday = fobhavtoday()
+fobhavtoday = fobhavtoday()
 
 #####################################################################################
 #NSE Indices today
