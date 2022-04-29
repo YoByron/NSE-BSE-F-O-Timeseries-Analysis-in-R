@@ -155,3 +155,6 @@ p1+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
 # #Heatmap
 # #nsetree = nsetree()
 # #nsetreefo = nsetree("fo")
+
+# IF US VIX FALLS BELOW 25 = positivity, less voilatility
+# Any Change in OI with highest volume, acts as support/resistance
