@@ -25,27 +25,47 @@ invisible(lapply(packages, library, character.only = TRUE))
 api_key="MB7IR06HYB54IUJG"
 av_api_key(api_key)
 
-# Clear Workspace 
+#Remove unnecessary variables
+rm(installed_packages)
+rm(packages)
+
+#Clear Workspace
 rm(list=ls()) 
 cat("\014")
 
-cat("\014") #Clear Workspace
-
+#####################################################################################
 #Option Strategy Builder
-# R program to illustrate
-# taking Option input from the user
-# using braces
-{
-  cebuyprice = scan("Enter Buy Price : ")
-  #var2 = readline("Enter 2nd number : ");
-  #var3 = readline("Enter 3rd number : ");
-  #var4 = readline("Enter 4th number : ");
-}
 
-#cebuyprice=34.33
+#CE Buy Price
+#cebuyprice = scan(prompt="Input CE Buy Price: ")
+cebuyprice = 36.5
 
-# converting each value
-cebuyprice = as.numeric(cebuyprice)
+cebuytriggerprice = cebuyprice*0.5
+cebuySLprice = cebuyprice/2 - 0.1
+cebuyLogic <- cebuytriggerprice >= cebuySLprice
 
-# print the sum of the 4 number
-print("D",cebuyprice)
+print("#########NIFTY Buy CE Stoploss#########")
+if (cebuyLogic==TRUE) {
+  print(paste("SL price",
+              cebuySLprice,"and the Trigger price",
+              cebuytriggerprice,
+              "for CE Buy of",cebuyprice))
+  } 
+
+#CE Sell Price
+#cesellprice = scan(prompt="Input CE Sell Price: ")
+
+cesellprice = 42
+
+cesellSLprice = cesellprice*2 + 0.1
+ceselltriggerprice = cesellprice*2
+cesellLogic <- ceselltriggerprice <= cesellSLprice
+
+print("#########NIFTY Sell CE Stoploss#########")
+if (cesellLogic==TRUE) {
+  print(paste("SL price",
+              cesellSLprice,
+              "and the Trigger price",
+              ceselltriggerprice,
+              "for CE Sell of",cesellprice))
+} 
