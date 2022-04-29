@@ -6,7 +6,7 @@
 packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", 
               "reshape2", "hablar", "dplyr", "tidyverse", "scales",
               "padr", "tcltk", "svDialogs","utils", "quantmod",
-              "broom", "magrittr","diffr", "diffobj")
+              "broom", "magrittr","diffr", "diffobj","alphavantager")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -16,6 +16,7 @@ if (any(installed_packages == FALSE)) {
 
 # Packages loading
 invisible(lapply(packages, library, character.only = TRUE))
+av_api_key("MB7IR06HYB54IUJG")
 
 # Clear Workspace 
 rm(list=ls()) 
@@ -101,9 +102,9 @@ nseindex = nseindex()
 
 #####################################################################################
 #NSE PreOpen
-nsepreopen = nseopen(x = "all")
-nseopen_fo = nseopen("fo")
-nselive = nselive()
+nsepreopen = suppressWarnings(nseopen(x = "all"))
+nseopen_fo = suppressWarnings(nseopen("fo"))
+nselive = suppressWarnings(nselive())
 
 #####################################################################################
 #Heatmap
