@@ -101,9 +101,9 @@ nseindex = nseindex()
 
 #####################################################################################
 #NSE PreOpen
-nsepreopen = gsub("-", "", nseopen(x = "all"))
-nseopen_fo = gsub("-", "", nseopen("fo"))
-nselive = gsub("-", "", nselive())
+nsepreopen = nseopen(x = "all")
+nseopen_fo = nseopen("fo")
+nselive = nselive()
 
 #####################################################################################
 #Heatmap
