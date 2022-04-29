@@ -29,61 +29,82 @@ av_api_key(api_key)
 rm(list=ls()) 
 cat("\014")
 #####################################################################################
-
-# Actual Code Starts here
-options(stringsAsFactors = FALSE)
-
-fdii = fdii()
-
-date = fdii[3:20,1]
-date <- gsub("-", "", date)                          # Applying gsub function
-date = as.Date(date, "%d%b%y")
-
-
-net_FII = fdii[3:20,4]
-net_FII = factor(net_FII)
-net_FII <- gsub(",","", net_FII)                   # Applying gsub function
-options(digits=7)
-net_FII=as.double(net_FII)
-
-net_DII = fdii[3:20,7]
-net_DII = factor(net_DII)
-net_DII <- gsub(",","", net_DII)                   # Applying gsub function
-options(digits=7)
-net_DII=as.double(net_DII)
-
-fdii_main <- data.frame(date,net_FII,net_DII)
-
-p <- ggplot(fdii_main,
-            aes(x = date, y = net_FII)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  geom_text(aes(label=net_FII+net_DII), 
-            vjust=0.006, 
-            size=3.5,
-            color="white")+
-  scale_x_date(date_labels="%b %d",date_breaks  ="1 day") +
-  labs(x = "Date",
-       title = "Gross Purchase FII+DII (Crores)",
-       y = "Gross Purchase (Crores)",
-       subtitle = paste("Last updated",Sys.time()),
-       panel.grid.major = element_blank(),
-       panel.grid.minor = element_blank()
-  )
-
-p+ theme_classic()
-
-p+ geom_bar(aes(fill = net_FII > 0), stat = "identity") + 
-  scale_fill_manual(
-    guide = "none", 
-    breaks = c(TRUE, FALSE), 
-    values=c("green", "red"))
+# 
+# # Actual Code Starts here
+# options(stringsAsFactors = FALSE)
+# 
+# fdii = fdii()
+# 
+# date = fdii[3:20,1]
+# date <- gsub("-", "", date)                          # Applying gsub function
+# date = as.Date(date, "%d%b%y")
+# 
+# 
+# net_FII = fdii[3:20,4]
+# net_FII = factor(net_FII)
+# net_FII <- gsub(",","", net_FII)                   # Applying gsub function
+# options(digits=7)
+# net_FII=as.double(net_FII)
+# 
+# net_DII = fdii[3:20,7]
+# net_DII = factor(net_DII)
+# net_DII <- gsub(",","", net_DII)                   # Applying gsub function
+# options(digits=7)
+# net_DII=as.double(net_DII)
+# 
+# fdii_main <- data.frame(date,net_FII,net_DII)
+# 
+# p <- ggplot(fdii_main,
+#             aes(x = date, y = net_FII)) +
+#   geom_bar(stat = "identity", fill = "steelblue") +
+#   geom_text(aes(label=net_FII+net_DII), 
+#             vjust=0.006, 
+#             size=3.5,
+#             color="white")+
+#   scale_x_date(date_labels="%b %d",date_breaks  ="1 day") +
+#   labs(x = "Date",
+#        title = "Gross Purchase FII+DII (Crores)",
+#        y = "Gross Purchase (Crores)",
+#        subtitle = paste("Last updated",Sys.time()),
+#        panel.grid.major = element_blank(),
+#        panel.grid.minor = element_blank()
+#   )
+# 
+# p+ theme_classic()
+# 
+# p+ geom_bar(aes(fill = net_FII > 0), stat = "identity") + 
+#   scale_fill_manual(
+#     guide = "none", 
+#     breaks = c(TRUE, FALSE), 
+#     values=c("green", "red"))
+# 
+# # #####################################################################################
+# 
+# # #Remove unnecessary variables
+# rm(date)
+# rm(fdii)
+# rm(fdii_main)
 
 # #####################################################################################
-# #Remove unnecessary variables
-rm(date)
-rm(fdii)
-rm(fdii_main)
- 
+
+cat("\014") #Clear Workspace
+
+#Option Strategy Builder
+# R program to illustrate
+# taking input from the user
+
+# taking input using readline()
+# this command will prompt you
+# to input a desired value
+var = readline();
+
+# convert the inputted value to integer
+var = as.integer(var);
+
+# print the value
+print(var)
+
+
 # #####################################################################################
 # #FO Bhavcopy Hist. (1 Jan 2016 Onwards)
 # # Hist_date=28042022
