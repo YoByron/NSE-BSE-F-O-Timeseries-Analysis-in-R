@@ -48,17 +48,14 @@ p+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
     breaks = c(TRUE, FALSE),
     values=c("green", "red"))
 
-# #####################################################################################
+#####################################################################################
 
-# # #Remove unnecessary variables
+#Remove unnecessary variables
 rm(date)
 rm(fdii)
 rm(fdii_main)
 
-#####################################################################################
-
-
-#####################################################################################
+###################################################################################
 # FO Bhavcopy Hist. (1 Jan 2016 Onwards)
 Hist_date=28042022
 fobhavhist = fobhav(Hist_date)
@@ -75,8 +72,8 @@ nseindex_change = nseindex[1:55,4]
 
 
 #Stock price chart
-ggplot(data = tsla_stock_metrics, aes(x = date, y = close_price)) +
-geom_line()
+#ggplot(data = tsla_stock_metrics, aes(x = date, y = close_price)) +
+# geom_line()
 
 ####################################################################################
 #NSE PreOpen
@@ -85,20 +82,18 @@ nseopen_fo = suppressWarnings(nseopen("fo"))
 nselive = suppressWarnings(nselive())
 
 ####################################################################################
-Heatmap
-nsetree = nsetree()
-nsetreefo = nsetree("fo")
+#Heatmap
+#nsetree = nsetree()
+#nsetreefo = nsetree("fo")
 
 #####################################################################################
 #Intraday data (15 min)
 time_series_intraday <- av_get(symbol     = "IBM",
                                av_fun     = "TIME_SERIES_INTRADAY",
                                interval   = "15min")
-outputsize = "full")
 
 #####################################################################################
-#Crypto
-# Functions --------------------------------------------------------------
+#Crypto Functions
 {
   # Pull hourly data
   get_crypto_hourly <- function(symbol, av_fun, interval) {
@@ -107,7 +102,7 @@ outputsize = "full")
                    outputsize='full')
     return(data)
   }
-
+  
   # Pull daily data
   get_crypto_daily <- function(symbol, av_fun, market) {
     data <- av_get(symbol=symbol, av_fun = av_fun,
@@ -121,48 +116,48 @@ outputsize = "full")
              close = close__usd____5)
     return(data)
   }
-
+  
   # Plot interactive candlestick plot
   hourly_candle <- function(df) {
     df_c <- df %>%
       plot_ly(x=~timestamp, type='candlestick',
               open=~open, close=~close,
               high=~high, low=~low)
-
+    
     df_c <- df_c %>%
       layout(xaxis=list(rangeslider(list(visible=F))))
-
+    
     df_vol <- df %>%
       plot_ly(x=~timestamp, type='bar',
               y=~volume)
-
+    
     fig <- subplot(df_c, df_vol, nrows=2)
     fig
   }
-
-
+  
+  
   daily_line <- function(df) {
     df_daily_l <- df %>%
       ggplot(aes(x=timestamp, y=close)) +
       geom_line(color='orange') +
       theme_minimal()
-
+    
     df_daily_vol <- df %>%
       ggplot(aes(x=timestamp, y=volume)) +
       geom_col() +
       theme_minimal()
-
+    
     plt <- ggarrange(df_daily_l, df_daily_vol, nrow=2)
     plt
   }
-
+  
   # interval - '60min', daily, weekly, monthly
   # time-period - number of past data points
   # series_type - close, open, ...
   sma <- function(df, time) {
     TTR::SMA(df$close, time)
   }
-
+  
 }
 
 

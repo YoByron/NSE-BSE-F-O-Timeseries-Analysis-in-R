@@ -69,3 +69,4 @@ if (cesellLogic==TRUE) {
               ceselltriggerprice,
               "for CE Sell of",cesellprice))
 } 
+
