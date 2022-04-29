@@ -2,7 +2,7 @@
 
 Features incorporated so far : 
 1. NSE/BSE Timeseries in R 
-2. Bhavcopy,
+2. Bhavcopy
 3. Bhavcopy F&O
 4. FII/DII Plot based on ggplot2
 5. Crypto data 
