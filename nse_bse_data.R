@@ -131,8 +131,14 @@ p1+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
 # fobhavhist = fobhav(Hist_date)
 # bhavhist = bhav(Hist_date)
 # ############################################################
-# #FO Bhavcopy Today (updated every evening)
-# fobhavtoday = fobhavtoday()
+#FO Bhavcopy Today (updated every evening)
+fobhavtoday = fobhavtoday()
+
+# Indices Data
+fo_indices <- data.frame(fobhavtoday)
+head(dnow,4) ## default is 6
+
+
 # 
 # ############################################################
 # #NSE Indices today
