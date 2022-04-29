@@ -2,6 +2,7 @@
 #Dhruv Haldar
 #haldar@kth.se
 ####################################################################################
+
 # Package names
 packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", 
               "reshape2", "hablar", "dplyr", 
@@ -53,8 +54,6 @@ net_DII=as.double(net_DII)
 
 fdii_main <- data.frame(date,net_FII,net_DII)
 
-
-
 p <- ggplot(fdii_main,
             aes(x = date, y = net_FII)) +
   geom_bar(stat = "identity", fill = "steelblue") +
@@ -81,11 +80,10 @@ p+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
 
 # #####################################################################################
 # #Remove unnecessary variables
-# # rm(p)
-# # rm(date)
-# # rm(fdii)
-# # rm(fdii_main)
-# 
+rm(date)
+rm(fdii)
+rm(fdii_main)
+ 
 # #####################################################################################
 # #FO Bhavcopy Hist. (1 Jan 2016 Onwards)
 # # Hist_date=28042022
