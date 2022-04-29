@@ -4,7 +4,7 @@
 ############################################################
 
 # Package names
-packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", 
+packages <- c("ggplot2", "readxl", "nser", "lattice", 
               "reshape2", "hablar", "dplyr", 
               "tidyquant","tidyverse", "scales",
               "padr", "tcltk", "svDialogs","utils", 
@@ -14,7 +14,9 @@ packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice",
               ,"plotly","ggpubr",
               "derivmkts","TTR",
               "optionstrat","knitr",
-              "rmarkdown")
+              "rmarkdown","nse2r",
+              "shiny","shinyBS","shinycssloaders",
+              "shinythemes")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -132,12 +134,13 @@ p1+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
 # bhavhist = bhav(Hist_date)
 # ############################################################
 #FO Bhavcopy Today (updated every evening)
-fobhavtoday = fobhavtoday()
+#fobhavtoday = fobhavtoday()
 
 # Indices Data
-fo_indices <- data.frame(fobhavtoday)
-head(dnow,4) ## default is 6
+#fo_indices = fobhavtoday[1:19,]
 
+#Option Chain
+#fo_oi <- head(read.csv("https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY.csv"))
 
 # 
 # ############################################################
@@ -164,4 +167,6 @@ nseipo = nseipo() #ipo
 #nsetreefo = nsetree("fo")
 
 # IF US VIX FALLS BELOW 25 = positivity, less voilatility
-# Any Change in OI with highest volume, acts as support/resistance  
+# Any Change in OI with highest volume, acts as support/resistance 
+
+#tseries package get.hist.quote("IBM")
