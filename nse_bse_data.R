@@ -14,7 +14,9 @@ packages <- c("ggplot2", "readxl", "nser", "lattice",
               ,"plotly","ggpubr",
               "derivmkts","TTR",
               "optionstrat","knitr",
-              "rmarkdown","nse2r",
+              "rmarkdown",
+              "reticulate",
+              "Miniconda","nse2r",
               "shiny","shinyBS","shinycssloaders",
               "shinythemes")
 
@@ -134,10 +136,10 @@ p1+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
 # bhavhist = bhav(Hist_date)
 # ############################################################
 #FO Bhavcopy Today (updated every evening)
-#fobhavtoday = fobhavtoday()
+fobhavtoday = fobhavtoday()
 
 # Indices Data
-#fo_indices = fobhavtoday[1:19,]
+fo_indices = fobhavtoday[1:19,]
 
 #Option Chain
 #fo_oi <- head(read.csv("https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY.csv"))
@@ -145,10 +147,12 @@ p1+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
 # ############################################################
 #NSE Markets
 options(warn=-1) #supress coercion warnings, fix later
-nsepreopen = nseopen(x = "all") #preopen
+nsepreopen = nse_preopen_nifty(clean_names = TRUE) #preopen NIFTY
+nsepreopenbk = nse_preopen_nifty_bank(clean_names = TRUE) #preopen NIFTYBK
 nseopen_fo = nseopen("fo") #FO stocks
 nselive = nselive() #Nifty stocks
 nseipo = nseipo() #ipo
+
 # ############################################################
 # Heatmap
 # #nsetree = nsetree()
@@ -161,16 +165,15 @@ nseipo = nseipo() #ipo
 # nseindex_change = nseindex[1:55,4]
 nseindex = nse_index_quote(clean_names = TRUE)
 
-
 #Stock symbol list
 nsestockcode = nse_stock_code(clean_names = TRUE)
 
 #Stock price
-stock_code="ACC"
+stock_code="HDFCBANK"
 stock_price = nse_stock_quote(stock_code, source = c("yahoo", "rediff"))
 
 print(paste(stock_code,"is trading at",
-            stock_price,"at NSE","last updated",Sys.time()))
+            stock_price,"INR at NSE",", last updated",Sys.time()))
 
 #52 Week high
 nseyearhigh = nse_stock_year_high(clean_names = TRUE)
@@ -178,6 +181,13 @@ nseyearhigh = nse_stock_year_high(clean_names = TRUE)
 nseyearlow = nse_stock_year_low(clean_names = TRUE)
 #Most Traded Stocks
 nsemosttrader = nse_stock_most_traded(clean_names = TRUE)
+#Top Gainers
+nsetopgainers = nse_stock_top_gainers(clean_names = TRUE)
+#Top Losers
+nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
+
+## Historical F&O
+py_install("jugaad-data",pip=TRUE)
 
 # #ggplot(data = tsla_stock_metrics, aes(x = date, y = close_price)) +
 # # geom_line()
