@@ -4,7 +4,8 @@
 ####################################################################################
 # Package names
 packages <- c("ggplot2", "readxl", "dplyr", "nser", "lattice", 
-              "reshape2", "hablar", "dplyr", "tidyverse", "scales",
+              "reshape2", "hablar", "dplyr", 
+              "tidyquant","tidyverse", "scales",
               "padr", "tcltk", "svDialogs","utils", 
               "quantmod","broom", "magrittr",
               "diffr", "diffobj","alphavantager"
