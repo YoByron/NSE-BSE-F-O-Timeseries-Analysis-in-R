@@ -83,16 +83,16 @@ rm(fdii_main)
 #FO Bhavcopy Hist. (1 Jan 2016 Onwards)
 Hist_date=28042022
 fobhavhist = fobhav(Hist_date)
-
+bhavhist = bhav(Hist_date)
 #####################################################################################
 #FO Bhavcopy Today (updated every evening)
-fobhavtoday = fobhavtoday()
+#fobhavtoday = fobhavtoday()
 
 #####################################################################################
 #NSE Indices today
 nseindex = nseindex()
-nseindex_name = nseindex[1:55,1]
-nseindex_change = nseindex[1:55,4]
+#nseindex_name = nseindex[1:55,1]
+#nseindex_change = nseindex[1:55,4]
 
 
 #Stock price chart 
@@ -101,4 +101,11 @@ nseindex_change = nseindex[1:55,4]
 
 #####################################################################################
 #NSE PreOpen
-nsepreopen = nseopen(x = "all")
+nsepreopen = gsub("-", "", nseopen(x = "all"))
+nseopen_fo = gsub("-", "", nseopen("fo"))
+nselive = gsub("-", "", nselive())
+
+#####################################################################################
+#Heatmap
+#nsetree = nsetree()
+#nsetreefo = nsetree("fo") 
