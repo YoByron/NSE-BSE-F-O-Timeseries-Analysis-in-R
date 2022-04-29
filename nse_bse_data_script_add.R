@@ -1,4 +1,4 @@
-####################################################################################
+############################################################
 
 # Actual Code Starts here
 options(stringsAsFactors = FALSE)
@@ -48,23 +48,23 @@ p+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
     breaks = c(TRUE, FALSE),
     values=c("green", "red"))
 
-#####################################################################################
+############################################################
 
 #Remove unnecessary variables
 rm(date)
 rm(fdii)
 rm(fdii_main)
 
-###################################################################################
+############################################################
 # FO Bhavcopy Hist. (1 Jan 2016 Onwards)
 Hist_date=28042022
 fobhavhist = fobhav(Hist_date)
 bhavhist = bhav(Hist_date)
-#####################################################################################
+############################################################
 #FO Bhavcopy Today (updated every evening)
 fobhavtoday = fobhavtoday()
 
-#####################################################################################
+############################################################
 #NSE Indices today
 nseindex = nseindex()
 nseindex_name = nseindex[1:55,1]
@@ -75,24 +75,24 @@ nseindex_change = nseindex[1:55,4]
 #ggplot(data = tsla_stock_metrics, aes(x = date, y = close_price)) +
 # geom_line()
 
-####################################################################################
+############################################################
 #NSE PreOpen
 nsepreopen = suppressWarnings(nseopen(x = "all"))
 nseopen_fo = suppressWarnings(nseopen("fo"))
 nselive = suppressWarnings(nselive())
 
-####################################################################################
+############################################################
 #Heatmap
 #nsetree = nsetree()
 #nsetreefo = nsetree("fo")
 
-#####################################################################################
+############################################################
 #Intraday data (15 min)
 time_series_intraday <- av_get(symbol     = "IBM",
                                av_fun     = "TIME_SERIES_INTRADAY",
                                interval   = "15min")
 
-#####################################################################################
+############################################################
 #Crypto Functions
 {
   # Pull hourly data
