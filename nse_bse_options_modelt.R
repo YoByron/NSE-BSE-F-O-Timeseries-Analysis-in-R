@@ -301,3 +301,8 @@ results <- binomial_option(type='call',
                            sigma=0.15, 
                            T=1, 
                            r=0.1, X=100, S=110, N=5)
+
+
+
+
+
