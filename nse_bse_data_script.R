@@ -38,8 +38,7 @@ cat("\014")
 
 #CE Buy Price
 #cebuyprice = scan(prompt="Input CE Buy Price: ")
-cebuyprice = 36.5
-
+CE_buy_stoploss <- function(cebuyprice) {
 cebuytriggerprice = cebuyprice*0.5
 cebuySLprice = cebuyprice/2 - 0.1
 cebuyLogic <- cebuytriggerprice >= cebuySLprice
@@ -51,12 +50,10 @@ if (cebuyLogic==TRUE) {
               cebuytriggerprice,
               "for CE Buy of",cebuyprice))
   } 
-
+}
 #CE Sell Price
 #cesellprice = scan(prompt="Input CE Sell Price: ")
-
-cesellprice = 42
-
+CE_sell_stoploss <- function(cesellprice) {
 cesellSLprice = cesellprice*2 + 0.1
 ceselltriggerprice = cesellprice*2
 cesellLogic <- ceselltriggerprice <= cesellSLprice
@@ -69,7 +66,7 @@ if (cesellLogic==TRUE) {
               ceselltriggerprice,
               "for CE Sell of",cesellprice))
 } 
-
+}
 # Option strategy 1 : Bull Call Spread Code
 
 BullCallSpread <- function(seq,k_low,k_high,premium_low,
@@ -148,12 +145,22 @@ geom_line(aes(y = payoffLongPut, color="LongPut"))+
 ggtitle("Long Straddle Payoff")  
 }
 
+#Option Stoploss
+#Buy CE
+cebuyprice = 36.5
+CE_buy_stoploss(cebuyprice)
+
+#Buy PE
+cesellprice = 42
+CE_sell_stoploss(cesellprice)
+
 #Option strategy 1 : Bull Call Spread DATA
 prices <- seq(400, 550,1) # Vector of prices
 k_low = 450  # Low Strike price for call
 k_high = 500 # High Strike Price for call 
 premium_low = 10
 premium_high = 1
+
 BullCallSpread(seq,k_low,k_high,premium_low,
                premium_high) #function
 
