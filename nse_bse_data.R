@@ -142,30 +142,45 @@ p1+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
 #Option Chain
 #fo_oi <- head(read.csv("https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY.csv"))
 
-# 
 # ############################################################
-# #NSE Indices today
-# nseindex = nseindex()
-# nseindex_name = nseindex[1:55,1]
-# nseindex_change = nseindex[1:55,4]
-# 
-# 
-# #Stock price chart
-# #ggplot(data = tsla_stock_metrics, aes(x = date, y = close_price)) +
-# # geom_line()
-# 
-# ############################################################
-#NSE
+#NSE Markets
 options(warn=-1) #supress coercion warnings, fix later
 nsepreopen = nseopen(x = "all") #preopen
 nseopen_fo = nseopen("fo") #FO stocks
 nselive = nselive() #Nifty stocks
 nseipo = nseipo() #ipo
 # ############################################################
-# #Heatmap
+# Heatmap
 # #nsetree = nsetree()
 #nsetreefo = nsetree("fo")
 
+# ############################################################
+# NSE Indices today
+# nseindex = nseindex()
+# nseindex_name = nseindex[1:55,1]
+# nseindex_change = nseindex[1:55,4]
+nseindex = nse_index_quote(clean_names = TRUE)
+
+
+#Stock symbol list
+nsestockcode = nse_stock_code(clean_names = TRUE)
+
+#Stock price
+stock_code="ACC"
+stock_price = nse_stock_quote(stock_code, source = c("yahoo", "rediff"))
+
+print(paste(stock_code,"is trading at",
+            stock_price,"at NSE","last updated",Sys.time()))
+
+#52 Week high
+nseyearhigh = nse_stock_year_high(clean_names = TRUE)
+#52 Week low
+nseyearlow = nse_stock_year_low(clean_names = TRUE)
+#Most Traded Stocks
+nsemosttrader = nse_stock_most_traded(clean_names = TRUE)
+
+# #ggplot(data = tsla_stock_metrics, aes(x = date, y = close_price)) +
+# # geom_line()
 # IF US VIX FALLS BELOW 25 = positivity, less voilatility
 # Any Change in OI with highest volume, acts as support/resistance 
 
