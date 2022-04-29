@@ -85,7 +85,7 @@ p <- ggplot(fdii_main,
        panel.grid.minor = element_blank()
   )
 
-p+ theme_classic()
+p+ theme(legend.position="none")
 
 p+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
   scale_fill_manual(
@@ -146,15 +146,16 @@ p1+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
 # # geom_line()
 # 
 # ############################################################
-# #NSE PreOpen
-# nsepreopen = suppressWarnings(nseopen(x = "all"))
-# nseopen_fo = suppressWarnings(nseopen("fo"))
-# nselive = suppressWarnings(nselive())
-# 
+#NSE
+options(warn=-1) #supress coercion warnings, fix later
+nsepreopen = nseopen(x = "all") #preopen
+nseopen_fo = nseopen("fo") #FO stocks
+nselive = nselive() #Nifty stocks
+nseipo = nseipo() #ipo
 # ############################################################
 # #Heatmap
 # #nsetree = nsetree()
-# #nsetreefo = nsetree("fo")
+#nsetreefo = nsetree("fo")
 
 # IF US VIX FALLS BELOW 25 = positivity, less voilatility
-# Any Change in OI with highest volume, acts as support/resistance
+# Any Change in OI with highest volume, acts as support/resistance  
