@@ -1,5 +1,5 @@
 Features incorporated so far :
-1 NSE/BSE Timeseries in R
+1 NSE/BSE Timeseries in R //
 2 bhavcopy
 3 bhavcopy F&O
 4 FII/DII Plot
