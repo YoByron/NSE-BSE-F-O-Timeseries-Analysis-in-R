@@ -1,4 +1,4 @@
-NSE-BSE-F-O-Timeseries-Analysis-in-R
+# NSE-BSE-F-O-Timeseries-Analysis-in-R
 
 Features incorporated so far : NSE/BSE Timeseries in R , bhavcopy, bhavcopy F&O, FII/DII Plot, Crypto data and candlestick charts.
 
