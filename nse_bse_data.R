@@ -7,7 +7,9 @@
 packages <- c("ggplot2", "readxl", "nser", "lattice", 
               "reshape2", "hablar", "dplyr", 
               "tidyquant","tidyverse", "scales",
-              "padr", "tcltk", "svDialogs","utils", 
+              "padr", "tcltk",
+              "purrr",
+              "svDialogs","utils", 
               "quantmod","broom", "magrittr",
               "diffr", "diffobj",
               "alphavantager"
@@ -34,8 +36,8 @@ api_key="MB7IR06HYB54IUJG"
 av_api_key(api_key)
 
 #Remove unnecessary variables
-rm(installed_packages)
-rm(packages)
+#rm(installed_packages)
+#rm(packages)
 
 #Clear Workspace
 rm(list=ls()) 
@@ -134,12 +136,18 @@ p1+ geom_bar(aes(fill = net_FII > 0), stat = "identity") +
 # Hist_date=28042022
 # fobhavhist = fobhav(Hist_date)
 # bhavhist = bhav(Hist_date)
+
 # ############################################################
-#FO Bhavcopy Today (updated every evening)
-fobhavtoday = fobhavtoday()
+get_data <- function(get_data) {
+#FO Bhavcopy Today (updated every evening,not working in weekend)
+fobhavtoday <-- fobhavtoday()
 
 # Indices Data
 fo_indices = fobhavtoday[1:19,]
+}
+
+get_data2 <- possibly(get_data, otherwise = NA)
+
 
 #Option Chain
 #fo_oi <- head(read.csv("https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY.csv"))
@@ -180,7 +188,7 @@ nseyearhigh = nse_stock_year_high(clean_names = TRUE)
 #52 Week low
 nseyearlow = nse_stock_year_low(clean_names = TRUE)
 #Most Traded Stocks
-nsemosttrader = nse_stock_most_traded(clean_names = TRUE)
+nsemosttraded = nse_stock_most_traded(clean_names = TRUE)
 #Top Gainers
 nsetopgainers = nse_stock_top_gainers(clean_names = TRUE)
 #Top Losers
@@ -189,9 +197,15 @@ nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
 ## Historical F&O
 py_install("jugaad-data",pip=TRUE)
 
+py_run_string("from jugaad_data.nse import NSELive")
+py_run_string("n = NSELive()")
+py_run_string("q = n.stock_quote('HDFC')")
+NSE_Jugaad_data_FO <- py_run_string("print(q['priceInfo'])")
+
 # #ggplot(data = tsla_stock_metrics, aes(x = date, y = close_price)) +
 # # geom_line()
 # IF US VIX FALLS BELOW 25 = positivity, less voilatility
 # Any Change in OI with highest volume, acts as support/resistance 
 
 #tseries package get.hist.quote("IBM")
+#Code end

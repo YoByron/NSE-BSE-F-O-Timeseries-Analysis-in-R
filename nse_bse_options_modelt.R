@@ -138,7 +138,7 @@ results <- data.frame(cbind(prices,
 ggplot(results, aes(x=prices)) + 
 geom_line(aes(y = payoffLongCall, color = "LongCall")) + 
 geom_line(aes(y = payoffLongPut, color="LongPut"))+
-    geom_line(aes(y=payoff, color = 'Payoff')) +
+    geom_line(aes(y=payoff, color = 'Payoff'), size=1.5) +
     scale_colour_manual("", 
                         breaks = c("LongCall",
                                    "LongPut", 
@@ -301,8 +301,6 @@ results <- binomial_option(type='call',
                            sigma=0.15, 
                            T=1, 
                            r=0.1, X=100, S=110, N=5)
-
-
 
 
 
