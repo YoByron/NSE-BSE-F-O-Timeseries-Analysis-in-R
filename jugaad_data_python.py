@@ -47,3 +47,4 @@ with open("{}-{}.csv".format(symbol, today), "w") as fp:
     w = csv.writer(fp)
     w.writerow(["Time", "Price"])
     w.writerows(d)
+#EOL
