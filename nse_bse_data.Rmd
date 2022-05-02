@@ -29,8 +29,9 @@ plot(pressure)
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 ```{r data_code, echo=FALSE}
+
 # Package names
-packages <- c("ggplot2", "readxl", "nser", "lattice", 
+pacman::p_load("ggplot2", "readxl", "nser", "lattice", 
               "reshape2", "hablar", "dplyr", 
               "tidyquant","tidyverse", "scales",
               "padr", "tcltk",
@@ -48,15 +49,6 @@ packages <- c("ggplot2", "readxl", "nser", "lattice",
               "shiny","shinyBS","shinycssloaders",
               "shinythemes",
               "rmarkdown")
-
-# Install packages not yet installed
-installed_packages <- packages %in% rownames(installed.packages())
-if (any(installed_packages == FALSE)) {
-  install.packages(packages[!installed_packages])
-}
-
-# Packages loading
-invisible(lapply(packages, library, character.only = TRUE))
 
 # Alpha Vantage API key
 api_key="MB7IR06HYB54IUJG"

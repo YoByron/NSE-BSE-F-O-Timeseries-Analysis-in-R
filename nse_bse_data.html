@@ -393,116 +393,22 @@ chunk like this:</p>
 <p>Note that the <code>echo = FALSE</code> parameter was added to the
 code chunk to prevent printing of the R code that generated the
 plot.</p>
-</div>
-<div id="package-names" class="section level1">
-<h1>Package names</h1>
-<p>packages &lt;- c(“ggplot2”, “readxl”, “nser”, “lattice”, “reshape2”,
-“hablar”, “dplyr”, “tidyquant”,“tidyverse”, “scales”, “padr”, “tcltk”,
-“purrr”, “svDialogs”,“utils”, “quantmod”,“broom”, “magrittr”, “diffr”,
-“diffobj”, “alphavantager” ,“plotly”,“ggpubr”, “derivmkts”,“TTR”,
-“optionstrat”,“knitr”, “rmarkdown”, “reticulate”, “Miniconda”,“nse2r”,
-“shiny”,“shinyBS”,“shinycssloaders”, “shinythemes”, “rmarkdown”)</p>
-</div>
-<div id="install-packages-not-yet-installed" class="section level1">
-<h1>Install packages not yet installed</h1>
-<p>installed_packages &lt;- packages %in% rownames(installed.packages())
-if (any(installed_packages == FALSE)) {
-install.packages(packages[!installed_packages]) }</p>
-</div>
-<div id="packages-loading" class="section level1">
-<h1>Packages loading</h1>
-<p>invisible(lapply(packages, library, character.only = TRUE))</p>
-</div>
-<div id="alpha-vantage-api-key" class="section level1">
-<h1>Alpha Vantage API key</h1>
-<p>api_key=“MB7IR06HYB54IUJG” av_api_key(api_key)</p>
-<p>#Remove unnecessary variables rm(installed_packages)
-#rm(packages)</p>
-<p>#Clear Workspace rm(list=ls()) cat(“\014”)</p>
-</div>
-<div id="clear-all-plots" class="section level1">
-<h1>Clear all plots</h1>
-<p>try(dev.off(dev.list()[“RStudioGD”]),silent=TRUE)
-try(dev.off(),silent=TRUE)</p>
-<p>options(stringsAsFactors = FALSE)</p>
-<p>netFIIDIIfn &lt;- function(fdii) #function { date = fdii[3:20,1] date
-&lt;- gsub(“-”, ““, date) # Applying gsub function date =
-as.Date(date,”%d%b%y”)</p>
-<p>net_FII = fdii[3:20,4] net_FII = factor(net_FII) net_FII &lt;-
-gsub(“,”,““, net_FII) # Applying gsub function options(digits=7)
-net_FII=as.double(net_FII)</p>
-<p>net_DII = fdii[3:20,7] net_DII = factor(net_DII) net_DII &lt;-
-gsub(“,”,““, net_DII) # Applying gsub function options(digits=7)
-net_DII=as.double(net_DII)</p>
-<p>fdii_main &lt;- data.frame(date,net_FII,net_DII)</p>
-<p>#netFII+netDII</p>
-<p>p &lt;- ggplot(fdii_main, aes(x = date, y = net_FII+net_DII)) +
-geom_text(aes(label=net_FII+net_DII), vjust=0.006, size=3.5,
-color=“white”)+ scale_x_date(date_labels=“%b %d”,date_breaks =“1 day”) +
-labs(x = “Date”, title = “Gross Purchase FII+DII (Crores)”, y = “Gross
-Purchase (Crores)”, subtitle = paste(“Last updated”,Sys.time()),
-panel.grid.major = element_blank(), panel.grid.minor = element_blank()
-)</p>
-<p>p+ theme(legend.position=“none”)</p>
-<p>p+ geom_bar(aes(fill = net_FII+net_DII &gt; 0), stat = “identity”) +
-scale_fill_manual( guide = “none”, breaks = c(TRUE, FALSE),
-values=c(“green”, “red”))</p>
-<p>}</p>
-</div>
-<div id="remove-unnecessary-variables" class="section level1">
-<h1>#Remove unnecessary variables</h1>
-</div>
-<div id="rmdate" class="section level1">
-<h1>rm(date)</h1>
-</div>
-<div id="rmfdii" class="section level1">
-<h1>rm(fdii)</h1>
-</div>
-<div id="rmfdii_main" class="section level1">
-<h1>rm(fdii_main)</h1>
-<p>data_bhavtoday_nser &lt;- function() #function { get_data &lt;-
-function(get_data) { #FO Bhavcopy Today (updated every evening,not
-working in weekend) fobhavtoday &lt;– fobhavtoday()</p>
-<p>#Indices Data fo_indices = fobhavtoday[1:19,] } get_data2 &lt;-
-possibly(get_data, otherwise = NA) }</p>
-</div>
-<div id="fo-bhavcopy-hist.-1-jan-2016-onwards" class="section level1">
-<h1>FO Bhavcopy Hist. (1 Jan 2016 Onwards)</h1>
-</div>
-<div id="hist_date28042022" class="section level1">
-<h1>Hist_date=28042022</h1>
-<p>data_bhavtoday_nser &lt;- function() #function { fobhavhist =
-fobhav(Hist_date) bhavhist = bhav(Hist_date) }</p>
-<p>#Option Chain test #fo_oi &lt;- head(read.csv(“<a href="https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY.csv" class="uri">https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY.csv</a>”))</p>
-<p>#NSE Markets markets_today_nser &lt;- function() #function {
-library(nse2r) options(warn=-1) #supress coercion warnings, fix later
-nsepreopen = nse_preopen_nifty(clean_names = TRUE) #preopen NIFTY
-nsepreopenbk = nse_preopen_nifty_bank(clean_names = TRUE) #preopen
-NIFTYBK nseopen_fo = nseopen(“fo”) #FO stocks nselive = nselive() #Nifty
-stocks nseipo = nseipo() #ipo }</p>
-</div>
-<div id="heatmap" class="section level1">
-<h1>Heatmap</h1>
-<p>markets_heatmap &lt;- function() #function { nsetree = nsetree() }
-fo_heatmap &lt;- function() #function { nsetreefo = nsetree(“fo”) }</p>
-</div>
-<div id="nse-indices-today" class="section level1">
-<h1>NSE Indices today</h1>
-<p>cashmarkets_stocks &lt;- function() #function { nseindex = nseindex()
-nseindex_name = nseindex[1:55,1] nseindex_change = nseindex[1:55,4]
-nseindex = nse_index_quote(clean_names = TRUE)</p>
-<p>#Stock symbol list nsestockcode = nse_stock_code(clean_names =
-TRUE)</p>
-<p>#Stock price stock_code=“SCHAEFFLER” stock_price =
-nse_stock_quote(stock_code, source = c(“yahoo”, “rediff”))
-print(paste(stock_code,“is trading at”, stock_price,“INR at NSE”,“, last
-updated”,Sys.time()))</p>
-<p>#52 Week high nseyearhigh = nse_stock_year_high(clean_names = TRUE)
-#52 Week low nseyearlow = nse_stock_year_low(clean_names = TRUE) #Most
-Traded Stocks nsemosttraded = nse_stock_most_traded(clean_names = TRUE)
-#Top Gainers nsetopgainers = nse_stock_top_gainers(clean_names = TRUE)
-#Top Losers nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
-}</p>
+<pre><code>## Warning: package &#39;Miniconda&#39; is not available for this version of R
+## 
+## A version of this package for your version of R might be available elsewhere,
+## see the ideas at
+## https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages</code></pre>
+<pre><code>## Warning: unable to access index for repository http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.2:
+##   cannot open URL &#39;http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.2/PACKAGES&#39;</code></pre>
+<pre><code>## Warning in p_install(package, character.only = TRUE, ...):</code></pre>
+<pre><code>## Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
+## logical.return = TRUE, : there is no package called &#39;Miniconda&#39;</code></pre>
+<pre><code>## Warning in pacman::p_load(&quot;ggplot2&quot;, &quot;readxl&quot;, &quot;nser&quot;, &quot;lattice&quot;, &quot;reshape2&quot;, : Failed to install/load:
+## Miniconda</code></pre>
+<pre><code>## Warning in rm(installed_packages): object &#39;installed_packages&#39; not found</code></pre>
+<div style="page-break-after: always;"></div>
+<pre><code>## null device 
+##           1</code></pre>
 </div>
 
 
