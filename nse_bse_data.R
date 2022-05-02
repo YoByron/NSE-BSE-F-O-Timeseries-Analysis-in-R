@@ -40,7 +40,11 @@ packages <- function()
   av_api_key(api_key)
   }
 
-reticulate::source_python('~/GitHub/NSE-BSE-Real-Time-prices/jugaad_data_python.py')
+python_script_jd <- function(){ #function python-reticulate
+  #Install "pandas" using pip or anaconda
+  reticulate::source_python('~/GitHub/NSE-BSE-Real-Time-prices/jugaad_data_python.py')
+  
+  }
 
 clear <- function()
 {#Remove unnecessary variables
@@ -55,7 +59,8 @@ clear <- function()
   try(dev.off(dev.list()["RStudioGD"]),silent=TRUE)
   try(dev.off(),silent=TRUE)
   
-  options(stringsAsFactors = FALSE)}
+  options(stringsAsFactors = FALSE)
+  }
 
 
 netFIIDIIfn <- function(fdii) #function
@@ -184,17 +189,24 @@ cashmarkets_stocks <- function() #function
   nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
 }
 
-jugaad_data <- function(symbol) #function python-reticulate
-{ #Install "pandas" using pip or anaconda
+jugaad_data_clean <- function(symbol) #function python-reticulate
+{ rm(datetime)
+  rm(fetch_data)
+  rm(h)
+  rm(r)
+  rm(s)
+  rm(Session)
+  rm(chart_data_url)
+  rm(page_url)
 }
   
 
 ##Data & Function Calls
 clear()
-packages()
 symbol="UPL" #fix in python file
-jugaad_data()
 
+packages()
+python_script_jd()
 #fdii = fdii()
 #netFIIDIIfn(fdii)
 #fo_heatmap()
@@ -202,4 +214,6 @@ jugaad_data()
 #markets_today_nser()
 #data_bhavtoday_nser()
 #cashmarkets_stocks()
+
+jugaad_data_clean()
 #EOC
