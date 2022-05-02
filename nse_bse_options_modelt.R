@@ -189,12 +189,12 @@ ggplot2::ggplot(call_long, aes(x=s, y=value)) +
 ########################Data starts here########################
 #Option Stoploss
 #Buy CE
-cebuyprice = 36.5
-CE_buy_stoploss(cebuyprice)
+cebuyprice = 16.4
+#CE_buy_stoploss(cebuyprice)
 
-#Buy PE
-cesellprice = 42
-CE_sell_stoploss(cesellprice)
+#Sell PE
+cesellprice = 64
+#CE_sell_stoploss(cesellprice)
 
 #Option strategy 1 : Bull Call Spread DATA
 prices <- seq(400, 550,1) # Vector of prices
@@ -233,6 +233,7 @@ Option_greeks2(s,k,v,r,tt,d,S)
 # Provides functions to calculate the option premium and option
 # greeks of European-style options.
 
+#####Binomial Pricing Model######################
 
 #Binomial Option Pricing Model in R
 build_stock_tree <- function(S, sigma, delta_t, N) {
@@ -301,6 +302,15 @@ results <- binomial_option(type='call',
                            sigma=0.15, 
                            T=1, 
                            r=0.1, X=100, S=110, N=5)
-
-
-
+print(results)
+                         
+#Short straddle in volatile markets ,2 weeks
+#Step 1 add call and put premium at ATM spot price 361 CE + 325.75 PE 
+#Step 2 market goes up by 686,75, you're not going 
+#to lose anything by expiry
+#Step 3 next week market shot up, closed all weekly options
+# 21500 straddle shifted to 22000
+# market was bullish, sold put weekly options
+# shifted 22000 straddle to 22500
+# market was bullish, sold put weekly options
+# closed weekly options, and shifted short straddle to 22500
