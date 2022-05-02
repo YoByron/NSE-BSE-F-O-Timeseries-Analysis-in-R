@@ -11,3 +11,8 @@ bhavcopy_fo_save(date(2020,1,1), "/path/to/directory")
 from jugaad_data.nse import stock_df
 df = stock_df(symbol="SBIN", from_date=date(2020,1,1),
             to_date=date(2020,1,30), series="EQ")
+
+#Live stock quotes
+n = NSELive()
+q = n.stock_quote("HDFC")
+print(q['priceInfo'])

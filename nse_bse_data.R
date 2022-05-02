@@ -183,9 +183,9 @@ cashmarkets_stocks <- function() #function
 jugaad_data <- function() #function python-reticulate
 {
   #py_install("jugaad-data",pip=TRUE)
-  jugaad_data_nse <- import("jugaad-data",convert = TRUE,
-                            delay_load = FALSE)
-  source_python("jugaad_data_python.py")
+  source_python("D:/Users/dhruv/Documents/GitHub/
+                NSE-BSE-Real-Time-prices/
+                jugaad_data_python.py")
   
   ## Historical F&O
   
