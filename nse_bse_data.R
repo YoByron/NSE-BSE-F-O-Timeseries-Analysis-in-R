@@ -3,52 +3,56 @@
 #haldar@kth.se
 ############################################################
 
-# Package names
-packages <- c("ggplot2", "readxl", "nser", "lattice", 
-              "reshape2", "hablar", "dplyr", 
-              "tidyquant","tidyverse", "scales",
-              "padr", "tcltk",
-              "purrr",
-              "svDialogs","utils", 
-              "quantmod","broom", "magrittr",
-              "diffr", "diffobj",
-              "alphavantager"
-              ,"plotly","ggpubr",
-              "derivmkts","TTR",
-              "optionstrat","knitr",
-              "rmarkdown",
-              "reticulate",
-              "Miniconda","nse2r",
-              "shiny","shinyBS","shinycssloaders",
-              "shinythemes",
-              "rmarkdown")
+packages <- function()
+{# Package names
+  packages <- c("ggplot2", "readxl", "nser", "lattice", 
+                "reshape2", "hablar", "dplyr", 
+                "tidyquant","tidyverse", "scales",
+                "padr", "tcltk",
+                "purrr",
+                "svDialogs","utils", 
+                "quantmod","broom", "magrittr",
+                "diffr", "diffobj",
+                "alphavantager"
+                ,"plotly","ggpubr",
+                "derivmkts","TTR",
+                "optionstrat","knitr",
+                "rmarkdown",
+                "reticulate",
+                "nse2r",
+                "shiny","shinyBS","shinycssloaders",
+                "shinythemes",
+                "rmarkdown")
+  
+  # Install packages not yet installed
+  installed_packages <- packages %in% rownames(installed.packages())
+  if (any(installed_packages == FALSE)) {
+    install.packages(packages[!installed_packages])
+  }
+  
+  # Packages loading
+  invisible(lapply(packages, library, character.only = TRUE))
+  
+  # Alpha Vantage API key
+  api_key="MB7IR06HYB54IUJG"
+  av_api_key(api_key)
+  }
 
-# Install packages not yet installed
-installed_packages <- packages %in% rownames(installed.packages())
-if (any(installed_packages == FALSE)) {
-  install.packages(packages[!installed_packages])
-}
+clear <- function()
+{#Remove unnecessary variables
+  rm(installed_packages)
+  #rm(packages)
+  
+  #Clear Workspace
+  rm(list=ls()) 
+  cat("\014")
+  
+  # Clear all plots
+  try(dev.off(dev.list()["RStudioGD"]),silent=TRUE)
+  try(dev.off(),silent=TRUE)
+  
+  options(stringsAsFactors = FALSE)}
 
-# Packages loading
-invisible(lapply(packages, library, character.only = TRUE))
-
-# Alpha Vantage API key
-api_key="MB7IR06HYB54IUJG"
-av_api_key(api_key)
-
-#Remove unnecessary variables
-rm(installed_packages)
-#rm(packages)
-
-#Clear Workspace
-rm(list=ls()) 
-cat("\014")
-
-# Clear all plots
-try(dev.off(dev.list()["RStudioGD"]),silent=TRUE)
-try(dev.off(),silent=TRUE)
-
-options(stringsAsFactors = FALSE)
 
 netFIIDIIfn <- function(fdii) #function
 {
@@ -124,10 +128,6 @@ data_bhavtoday_nser <- function() #function
   bhavhist = bhav(Hist_date)
 }
 
-
-#Option Chain test
-#fo_oi <- head(read.csv("https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY.csv"))
-
 #NSE Markets
 markets_today_nser <- function() #function
 {
@@ -192,15 +192,9 @@ pqr <- py_run_string("bhavcopy_fo_save(date(2020,1,1)")
 
 #NSE_Jugaad_data_FO <- py_run_string("print(q['priceInfo'])")
 
-# #ggplot(data = tsla_stock_metrics, aes(x = date, y = close_price)) +
-# # geom_line()
-# IF US VIX FALLS BELOW 25 = positivity, less voilatility
-# Any Change in OI with highest volume, acts as support/resistance 
-
-#tseries package get.hist.quote("IBM")
-#Code end
-
 ##Data & Function Calls
+clear()
+packages()
 #fdii = fdii()
 #netFIIDIIfn(fdii)
 #fo_heatmap()
@@ -208,3 +202,26 @@ pqr <- py_run_string("bhavcopy_fo_save(date(2020,1,1)")
 #markets_today_nser()
 #data_bhavtoday_nser()
 #cashmarkets_stocks()
+
+
+
+
+
+
+
+
+
+
+
+#Notes
+#Option Chain test
+#fo_oi <- head(read.csv("https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY.csv"))
+
+
+# #ggplot(data = tsla_stock_metrics, aes(x = date, y = close_price)) +
+# # geom_line()
+# IF US VIX FALLS BELOW 25 = positivity, less voilatility
+# Any Change in OI with highest volume, acts as support/resistance 
+
+#tseries package get.hist.quote("IBM")
+#Code end
