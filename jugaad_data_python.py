@@ -1,7 +1,5 @@
-#system("pip install pandas")
 from datetime import date
-from jugaad_data.nse import bhavcopy_save, bhavcopy_fo_save
-
+from jugaad_data.nse import NSELive bhavcopy_save, bhavcopy_fo_save
 pwd = pwd()
 # Download bhavcopy
 bhavcopy_save(date(2020,1,1), "$pwd")

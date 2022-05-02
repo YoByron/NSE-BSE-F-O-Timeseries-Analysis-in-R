@@ -182,19 +182,14 @@ cashmarkets_stocks <- function() #function
 
 jugaad_data <- function() #function python-reticulate
 {
+  #py_install("jugaad-data",pip=TRUE)
+  jugaad_data_nse <- import("jugaad-data",convert = TRUE,
+                            delay_load = FALSE)
+  source_python("jugaad_data_python.py")
   
   ## Historical F&O
-  py_install("jugaad-data",pip=TRUE)
-  py_run_string("from datetime import date")
-  py_run_string("from jugaad_data.nse 
-              import NSELive bhavcopy_save, bhavcopy_fo_save")
   
-  #py_run_string("n = NSELive()")
-  #py_run_string("q = n.stock_quote('HDFC')")
-  pqr <- py_run_string("bhavcopy_fo_save(date(2020,1,1)")
-  
-  #NSE_Jugaad_data_FO <- py_run_string("print(q['priceInfo'])")
-  }
+}
 
 
 ##Data & Function Calls
