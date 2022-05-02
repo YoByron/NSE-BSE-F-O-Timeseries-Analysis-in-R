@@ -1,12 +1,17 @@
-virtualenv_install(packages = "matplotlib")
-virtualenv_install(packages = "pandas")
+import sys # must be done before
+try:
+     __file__
+except NameError: 
+    __file__ = sys.argv[0
+    
+#from datetime 
 from datetime import datetime
 from requests import Session
 
 #import click
 import csv
 import pandas as pd
-import matplotlib as plt
+#import matplotlib as plt
 import numpy as np
 
 page_url = "https://www.nseindia.com/get-quotes/equity?symbol=LT"
@@ -21,24 +26,24 @@ h = {"user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, l
 s.headers.update(h)
 r = s.get(page_url)
 
-symbol="SBIN"
+symbol=r.symbol
 
 def fetch_data(symbol):
     data = {"index": symbol + "EQN"}
     r = s.get(chart_data_url, params=data)
     data = r.json()['grapthData']
-    return [[datetime.utcfromtimestamp(d[0]/1000),d[1]] for d in data]
-
-d = fetch_data(symbol)
-
-today = datetime.now().date()
-df = pd.DataFrame(d)
-df.columns = ['Time', "Price"]
-df.index = df['Time'].dt.time
-df['Price'].plot(figsize=(12,6), grid=True)
+    return [[datetime.fromtimestamp(d[0]/1000),d[1]] for d in data]
+    d = fetch_data(symbol)
+    today = datetime.now().date()
+    df = pd.DataFrame(d)
+    df.columns = ['Time', "Price"]
+    df.index = df['Time'].dt.time
+    return df
+#df['Price'].plot(figsize=(12,6), grid=True)
 
 with open("{}-{}.csv".format(symbol, today), "w") as fp:
+    d = fetch_data(symbol)
+    today = datetime.now().date()
     w = csv.writer(fp)
     w.writerow(["Time", "Price"])
     w.writerows(d)
-

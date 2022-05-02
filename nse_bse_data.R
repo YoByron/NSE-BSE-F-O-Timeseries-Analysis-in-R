@@ -183,10 +183,10 @@ cashmarkets_stocks <- function() #function
   nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
 }
 
-jugaad_data <- function() #function python-reticulate
-{ 
-  py_run_file("jugaad_data_python.py")
-  read.csv(path_to_csv_file)
+jugaad_data <- function(symbol) #function python-reticulate
+{ symbol <- symbol
+  #Install "pandas" using pip or anaconda
+  reticulate::source_python('~/GitHub/NSE-BSE-Real-Time-prices/jugaad_data_python.py')
 }
   
 
@@ -194,7 +194,9 @@ jugaad_data <- function() #function python-reticulate
 ##Data & Function Calls
 clear()
 packages()
-jugaad_data()
+symbol="HDFCBANK"
+jugaad_data(symbol)
+
 #fdii = fdii()
 #netFIIDIIfn(fdii)
 #fo_heatmap()
@@ -224,7 +226,6 @@ jugaad_data()
 # Any Change in OI with highest volume, acts as support/resistance 
 
 #tseries package get.hist.quote("IBM")
-#Code end
 
 #py_install("jugaad-data",pip=TRUE)
 #source_python("D:/Users/dhruv/Documents/GitHub/
@@ -241,3 +242,5 @@ jugaad_data()
 # data_python.csv")
 
 #py_run_file("jugaad_data_python.py")
+#Code end
+
