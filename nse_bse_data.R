@@ -47,13 +47,13 @@ python_script_jd <- function(){ #function python-reticulate
   }
 
 clear <- function()
-{#Remove unnecessary variables
-  #rm(installed_packages)
-  #rm(packages)
+{ # Remove unnecessary variables
+  # rm(installed_packages)
+  # rm(packages)
   
   #Clear Workspace
   rm(list=ls()) 
-  #cat("\014")
+  cat("\014")
   
   # Clear all plots
   try(dev.off(dev.list()["RStudioGD"]),silent=TRUE)
@@ -189,21 +189,9 @@ cashmarkets_stocks <- function() #function
   nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
 }
 
-jugaad_data_clean <- function(symbol) #function python-reticulate
-{ rm(datetime)
-  rm(fetch_data)
-  rm(h)
-  rm(r)
-  rm(s)
-  rm(Session)
-  rm(chart_data_url)
-  rm(page_url)
-}
-  
-
 ##Data & Function Calls
 clear()
-symbol="UPL" #fix in python file
+symbol="MARUTI" #fix in python file
 
 packages()
 python_script_jd()
@@ -214,6 +202,4 @@ python_script_jd()
 #markets_today_nser()
 #data_bhavtoday_nser()
 #cashmarkets_stocks()
-
-jugaad_data_clean()
 #EOC

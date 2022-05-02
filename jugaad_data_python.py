@@ -16,7 +16,7 @@ h = {"user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, l
 s.headers.update(h)
 r = s.get(page_url)
 
-symbol="UPL"
+symbol="MARUTI"
 
 def fetch_data(symbol):
     data = {"index": symbol + "EQN"}
