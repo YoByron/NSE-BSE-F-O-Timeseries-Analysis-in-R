@@ -2,7 +2,6 @@
 #Dhruv Haldar
 #haldar@kth.se
 ############################################################
-
 packages <- function()
 {# Package names
   packages <- c("ggplot2", "readxl", "nser", "lattice", 
@@ -40,6 +39,8 @@ packages <- function()
   api_key="MB7IR06HYB54IUJG"
   av_api_key(api_key)
   }
+
+reticulate::source_python('~/GitHub/NSE-BSE-Real-Time-prices/jugaad_data_python.py')
 
 clear <- function()
 {#Remove unnecessary variables
@@ -183,13 +184,10 @@ cashmarkets_stocks <- function() #function
   nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
 }
 
-jugaad_data <- function() #function python-reticulate
+jugaad_data <- function(symbol) #function python-reticulate
 { #Install "pandas" using pip or anaconda
-  reticulate::source_python('~/GitHub/NSE-BSE-Real-Time-prices/jugaad_data_python.py')
-  df <- d[1,]
 }
   
-
 
 ##Data & Function Calls
 clear()
