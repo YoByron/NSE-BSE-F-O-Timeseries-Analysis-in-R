@@ -180,21 +180,27 @@ cashmarkets_stocks <- function() #function
   nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
 }
 
-## Historical F&O
-py_install("jugaad-data",pip=TRUE)
-py_run_string("from datetime import date")
-py_run_string("from jugaad_data.nse 
+jugaad_data <- function() #function python-reticulate
+{
+  
+  ## Historical F&O
+  py_install("jugaad-data",pip=TRUE)
+  py_run_string("from datetime import date")
+  py_run_string("from jugaad_data.nse 
               import NSELive bhavcopy_save, bhavcopy_fo_save")
+  
+  #py_run_string("n = NSELive()")
+  #py_run_string("q = n.stock_quote('HDFC')")
+  pqr <- py_run_string("bhavcopy_fo_save(date(2020,1,1)")
+  
+  #NSE_Jugaad_data_FO <- py_run_string("print(q['priceInfo'])")
+  }
 
-#py_run_string("n = NSELive()")
-#py_run_string("q = n.stock_quote('HDFC')")
-pqr <- py_run_string("bhavcopy_fo_save(date(2020,1,1)")
-
-#NSE_Jugaad_data_FO <- py_run_string("print(q['priceInfo'])")
 
 ##Data & Function Calls
 clear()
 packages()
+jugaad_data()
 #fdii = fdii()
 #netFIIDIIfn(fdii)
 #fo_heatmap()
