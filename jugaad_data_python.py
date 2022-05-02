@@ -1,4 +1,5 @@
-# pip install pandas
+virtualenv_install(packages = "matplotlib")
+virtualenv_install(packages = "pandas")
 from datetime import datetime
 from requests import Session
 
@@ -20,7 +21,7 @@ h = {"user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, l
 s.headers.update(h)
 r = s.get(page_url)
 
-symbol="LT"
+symbol="SBIN"
 
 def fetch_data(symbol):
     data = {"index": symbol + "EQN"}
