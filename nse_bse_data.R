@@ -194,7 +194,7 @@ jugaad_data <- function(symbol) #function python-reticulate
 ##Data & Function Calls
 clear()
 packages()
-symbol="HDFCBANK"
+symbol="UPL"
 jugaad_data(symbol)
 
 #fdii = fdii()
