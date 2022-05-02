@@ -48,7 +48,7 @@ clear <- function()
   
   #Clear Workspace
   rm(list=ls()) 
-  cat("\014")
+  #cat("\014")
   
   # Clear all plots
   try(dev.off(dev.list()["RStudioGD"]),silent=TRUE)
@@ -183,10 +183,10 @@ cashmarkets_stocks <- function() #function
   nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
 }
 
-jugaad_data <- function(symbol) #function python-reticulate
-{ symbol <- symbol
-  #Install "pandas" using pip or anaconda
+jugaad_data <- function() #function python-reticulate
+{ #Install "pandas" using pip or anaconda
   reticulate::source_python('~/GitHub/NSE-BSE-Real-Time-prices/jugaad_data_python.py')
+  df <- d[1,]
 }
   
 
@@ -194,8 +194,8 @@ jugaad_data <- function(symbol) #function python-reticulate
 ##Data & Function Calls
 clear()
 packages()
-symbol="UPL"
-jugaad_data(symbol)
+symbol="UPL" #fix in python file
+jugaad_data()
 
 #fdii = fdii()
 #netFIIDIIfn(fdii)
@@ -204,43 +204,4 @@ jugaad_data(symbol)
 #markets_today_nser()
 #data_bhavtoday_nser()
 #cashmarkets_stocks()
-
-
-
-
-
-
-
-
-
-
-
-#Notes
-#Option Chain test
-#fo_oi <- head(read.csv("https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY.csv"))
-
-
-# #ggplot(data = tsla_stock_metrics, aes(x = date, y = close_price)) +
-# # geom_line()
-# IF US VIX FALLS BELOW 25 = positivity, less voilatility
-# Any Change in OI with highest volume, acts as support/resistance 
-
-#tseries package get.hist.quote("IBM")
-
-#py_install("jugaad-data",pip=TRUE)
-#source_python("D:/Users/dhruv/Documents/GitHub/
-#NSE-BSE-Real-Time-prices/
-#jugaad_data_python.py")
-
-## Historical F&O
-
-
-##Chart Data
-#source_python("jugaad_data_python.
-#py")
-#jugaad_data_python <- read_jugaad_data_python("jugaad_
-# data_python.csv")
-
-#py_run_file("jugaad_data_python.py")
-#Code end
-
+#EOC
