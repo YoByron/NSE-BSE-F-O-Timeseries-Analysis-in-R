@@ -189,31 +189,21 @@ jugaad_data <- function() #function
   date_df= df[1:12625,1]
   price_df= df[1:12625,2]
   dateprice_df <- data.frame(date_df,price_df)
-  
-  fig <- plot_ly(dateprice_df, type = 'scatter', mode = 'lines')%>%
-    add_trace(x = ~Date, y = 'symbol', name = 'symbol')%>%
-    layout(showlegend = F)
-  options(warn = -1)
-  
-  fig <- fig %>%
-    layout(
-      xaxis = list(zerolinecolor = '#ffff',
-                   zerolinewidth = 2,
-                   gridcolor = 'ffff'),
-      yaxis = list(zerolinecolor = '#ffff',
-                   zerolinewidth = 2,
-                   gridcolor = 'ffff'),
-      plot_bgcolor='#e5ecf6', width = 900)
-  
-  
-  fig
-}
+  }
 
-##Data & Function Calls
+eco_data <- function() #function
+{ 
+  reticulate::source_python('~/GitHub/NSE-BSE-Real-Time-prices/rbi_data.py')
+  rbi()
+  }
+
+##Data 
 clear()
 symbol="MARUTI" #fix in python file
 
+#Function Calls
 packages()
+eco_data()
 python_script_jd()
 jugaad_data()
 #fdii = fdii()

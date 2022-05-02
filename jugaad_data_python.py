@@ -16,8 +16,6 @@ h = {"user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, l
 s.headers.update(h)
 r = s.get(page_url)
 
-symbol="MARUTI"
-
 def fetch_data(symbol):
     data = {"index": symbol + "EQN"}
     r = s.get(chart_data_url, params=data)
@@ -29,16 +27,4 @@ d = fetch_data("MARUTI")
 df = pd.DataFrame(d)
 df.columns = ['Time', "Price"]
 df.index = df['Time'].dt.time
-
-del(d)
-del(h)
-del(s)
-del(chart_data_url)
-del(datetime)
-del(page_url)
-del(Session)
-del(r)
-del(click)
-del(csv)
-del(pd)
-del(fetch_data)
+df['Price'].plot(figsize=(12,6), grid=True)
