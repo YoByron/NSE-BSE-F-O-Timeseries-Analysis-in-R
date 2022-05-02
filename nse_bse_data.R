@@ -7,14 +7,17 @@ packages <- function()
 {# Package names
   packages <- c("ggplot2", "readxl", "nser", "lattice", 
                 "reshape2", "hablar", "dplyr", 
-                "tidyquant","tidyverse", "scales",
+                "tidyquant","tidyverse", 
+                "httr","RCurl",
+                "scales",
                 "padr", "tcltk",
                 "purrr",
                 "svDialogs","utils", 
                 "quantmod","broom", "magrittr",
                 "diffr", "diffobj",
                 "alphavantager"
-                ,"plotly","ggpubr",
+                ,"plotly",
+                "ggpubr",
                 "derivmkts","TTR",
                 "optionstrat","knitr",
                 "rmarkdown",
@@ -40,7 +43,7 @@ packages <- function()
 
 clear <- function()
 {#Remove unnecessary variables
-  rm(installed_packages)
+  #rm(installed_packages)
   #rm(packages)
   
   #Clear Workspace
@@ -181,15 +184,52 @@ cashmarkets_stocks <- function() #function
 }
 
 jugaad_data <- function() #function python-reticulate
-{
-  #py_install("jugaad-data",pip=TRUE)
-  source_python("D:/Users/dhruv/Documents/GitHub/
-                NSE-BSE-Real-Time-prices/
-                jugaad_data_python.py")
-  
-  ## Historical F&O
-  
+{ 
+  repl_python()
+  { 
+    symbol="SBIN"
+    # pip install pandas
+    from datetime import datetime
+    from requests import Session
+    
+    #import click
+    import csv
+    import pandas as pd
+    import matplotlib as plt
+    import numpy as np
+    
+    page_url = "https://www.nseindia.com/get-quotes/equity?symbol=LT"
+    chart_data_url = "https://www.nseindia.com/api/chart-databyindex"
+    
+    s = Session()
+    h = {"user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
+      "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+      "accept-encoding": "gzip, deflate, br",
+      "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+    }
+    s.headers.update(h)
+    r = s.get(page_url)
+    
+    def fetch_data(symbol):
+      data = {"index": symbol + "EQN"}
+    r = s.get(chart_data_url, params=data)
+    data = r.json()['grapthData']
+    return [[datetime.utcfromtimestamp(d[0]/1000),d[1]] for d in data]
+    
+    d = fetch_data(symbol)
+    
+    today = datetime.now().date()
+    df = pd.DataFrame(d)
+    df.columns = ['Time', "Price"]
+    df.index = df['Time'].dt.time
+    df['Price'].plot(figsize=(12,6), grid=True)
+    
+    with open("{}-{}.csv".format(symbol, today), "w") as fp:
+      w = csv.writer(fp)
+    w.writerow(["Time", "Price"])
+    w.writerows(d)
 }
+  
 
 
 ##Data & Function Calls
@@ -226,3 +266,19 @@ jugaad_data()
 
 #tseries package get.hist.quote("IBM")
 #Code end
+
+#py_install("jugaad-data",pip=TRUE)
+#source_python("D:/Users/dhruv/Documents/GitHub/
+#NSE-BSE-Real-Time-prices/
+#jugaad_data_python.py")
+
+## Historical F&O
+
+
+##Chart Data
+#source_python("jugaad_data_python.
+#py")
+#jugaad_data_python <- read_jugaad_data_python("jugaad_
+# data_python.csv")
+
+#py_run_file("jugaad_data_python.py")
