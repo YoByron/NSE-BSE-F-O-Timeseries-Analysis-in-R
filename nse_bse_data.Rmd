@@ -1,4 +1,4 @@
 ```{r, include=FALSE}
-source("nse_baw_data.R", local = knitr::knit_global())
+#source("nse_baw_data.R", local = knitr::knit_global())
 # or sys.source("your-script.R", envir = knitr::knit_global())
 ```
