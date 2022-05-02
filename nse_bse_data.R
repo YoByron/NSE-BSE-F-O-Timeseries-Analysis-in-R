@@ -111,11 +111,6 @@ p+ geom_bar(aes(fill = net_FII+net_DII > 0), stat = "identity") +
                             
 }
 
-# #Remove unnecessary variables
-# rm(date)
-# rm(fdii)
-# rm(fdii_main)
-
 data_bhavtoday_nser <- function() #function
 {
   get_data <- function(get_data) 
@@ -189,12 +184,38 @@ cashmarkets_stocks <- function() #function
   nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
 }
 
+jugaad_data <- function() #function
+{ 
+  date_df= df[1:12625,1]
+  price_df= df[1:12625,2]
+  dateprice_df <- data.frame(date_df,price_df)
+  
+  fig <- plot_ly(dateprice_df, type = 'scatter', mode = 'lines')%>%
+    add_trace(x = ~Date, y = 'symbol', name = 'symbol')%>%
+    layout(showlegend = F)
+  options(warn = -1)
+  
+  fig <- fig %>%
+    layout(
+      xaxis = list(zerolinecolor = '#ffff',
+                   zerolinewidth = 2,
+                   gridcolor = 'ffff'),
+      yaxis = list(zerolinecolor = '#ffff',
+                   zerolinewidth = 2,
+                   gridcolor = 'ffff'),
+      plot_bgcolor='#e5ecf6', width = 900)
+  
+  
+  fig
+}
+
 ##Data & Function Calls
 clear()
 symbol="MARUTI" #fix in python file
 
 packages()
 python_script_jd()
+jugaad_data()
 #fdii = fdii()
 #netFIIDIIfn(fdii)
 #fo_heatmap()
@@ -203,3 +224,4 @@ python_script_jd()
 #data_bhavtoday_nser()
 #cashmarkets_stocks()
 #EOC
+
