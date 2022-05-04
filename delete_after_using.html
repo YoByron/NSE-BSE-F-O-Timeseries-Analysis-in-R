@@ -12,7 +12,7 @@
 
 <meta name="date" content="2022-05-04" />
 
-<title>delete_after_using</title>
+<title>Color text with a Lua filter</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -362,7 +362,7 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">delete_after_using</h1>
+<h1 class="title toc-ignore">Color text with a Lua filter</h1>
 <h4 class="date">2022-05-04</h4>
 
 </div>
@@ -393,6 +393,14 @@ chunk like this:</p>
 <p>Note that the <code>echo = FALSE</code> parameter was added to the
 code chunk to prevent printing of the R code that generated the
 plot.</p>
+<p>First, we define a Lua filter and write it to the file
+<code>color-text.lua</code>.</p>
+<p>Now we can test the filter with some text in brackets with the
+<code>color</code> attribute, e.g.,</p>
+<blockquote>
+<p>Roses are <span color="red">red and <strong>bold</strong></span> and
+violets are <span color="blue">blue</span>.</p>
+</blockquote>
 </div>
 
 
