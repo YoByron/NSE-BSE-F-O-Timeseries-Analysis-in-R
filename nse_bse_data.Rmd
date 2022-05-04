@@ -1,6 +1,221 @@
+---
+title: "nse_bse_data"
+output: html_document
+date: "`r Sys.Date()`"
+---
 
+### FII & DII TRADING ACTIVITY
 
-```{r, include=FALSE}
-#source("nse_baw_data.R", local = knitr::knit_global())
+```{r fiidii, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+#source("nse_bse_data.R", local = knitr::knit_global())
 # or sys.source("your-script.R", envir = knitr::knit_global())
+packages <- function()
+{# Package names
+packages <- c("ggplot2", "readxl", "nser", "lattice", 
+                "reshape2", 
+                #"hablar", 
+                "dplyr", 
+                #"tidyquant",
+                "tidyverse", 
+                "scales",
+                "padr",
+                #"purrr",
+                #"svDialogs",
+                "utils", 
+                "quantmod","broom", "magrittr",
+                "diffr", 
+                #"diffobj",
+                "alphavantager","plotly",
+                "ggpubr",
+                #"derivmkts",
+                #"TTR",
+                "optionstrat",
+                #"knitr",
+                #"rmarkdown",
+                "nse2r"
+                )
+  
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+    install.packages(packages[!installed_packages])
+  }
+  
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
+  
+# Alpha Vantage API key
+api_key="MB7IR06HYB54IUJG"
+av_api_key(api_key)
+  }
+
+netFIIDIIfn <- function(fdii) #function
+{
+date = fdii[3:20,1]
+date <- gsub("-", "", date)                        # Applying gsub function
+date = as.Date(date, "%d%b%y")
+
+
+net_FII = fdii[3:20,4]
+net_FII = factor(net_FII)
+net_FII <- gsub(",","", net_FII)                   # Applying gsub function
+options(digits=7)
+net_FII=as.double(net_FII)
+
+net_DII = fdii[3:20,7]
+net_DII = factor(net_DII)
+net_DII <- gsub(",","", net_DII)                   # Applying gsub function
+options(digits=7)
+net_DII=as.double(net_DII)
+
+fdii_main <- data.frame(date,net_FII,net_DII)
+
+#netFII+netDII
+
+p <- ggplot(fdii_main,
+            aes(x = date, y = net_FII+net_DII)) +
+  geom_text(aes(label=net_FII+net_DII),
+            vjust=0.006,
+            size=3.5,
+            color="white")+
+  scale_x_date(date_labels="%b %d",date_breaks  ="1 day") +
+  labs(x = "Date",
+       title = "Gross Purchase FII+DII (Crores)",
+       y = "Gross Purchase (Crores)",
+       subtitle = paste("Last updated",Sys.time()),
+       panel.grid.major = element_blank(),
+       panel.grid.minor = element_blank()
+  )
+
+p+ theme(legend.position="none")
+
+p+ geom_bar(aes(fill = net_FII+net_DII > 0), stat = "identity") +
+  scale_fill_manual(
+    guide = "none",
+    breaks = c(TRUE, FALSE),
+    values=c("green", "red"))}
+
+
+data_bhavtoday_nser <- function() #function
+{
+  get_data <- function(get_data) 
+    {
+#FO Bhavcopy Today (updated every evening,not working in weekend)
+    fobhavtoday <-- fobhavtoday()
+
+#Indices Data
+    fo_indices = fobhavtoday[1:19,]
+    }
+  get_data2 <- possibly(get_data, otherwise = NA)
+}
+
+# FO Bhavcopy Hist. (1 Jan 2016 Onwards)
+# Hist_date=28042022
+data_bhavtoday_nser <- function() #function
+{
+  fobhavhist = fobhav(Hist_date)
+  bhavhist = bhav(Hist_date)
+}
+
+# Heatmap
+markets_heatmap <- function() #function
+{
+  nsetree = nsetree()
+}
+fo_heatmap <- function() #function
+{
+  nsetreefo = nsetree("fo")
+}
+
+# NSE Indices today
+cashmarkets_stocks <- function() #function
+{
+  nseindex = nseindex()
+  nseindex_name = nseindex[1:55,1]
+  nseindex_change = nseindex[1:55,4]
+  nseindex = nse_index_quote(clean_names = TRUE)
+
+#Stock symbol list
+  nsestockcode = nse_stock_code(clean_names = TRUE)
+
+#Stock price
+  stock_code="SCHAEFFLER"
+  stock_price = nse_stock_quote(stock_code, source = c("yahoo",
+                                                       "rediff"))
+  print(paste(stock_code,"is trading at",
+            stock_price,"INR at NSE",", last updated",Sys.time()))
+
+#52 Week high
+  nseyearhigh = nse_stock_year_high(clean_names = TRUE)
+#52 Week low
+  nseyearlow = nse_stock_year_low(clean_names = TRUE)
+#Most Traded Stocks
+  nsemosttraded = nse_stock_most_traded(clean_names = TRUE)
+#Top Gainers
+  nsetopgainers = nse_stock_top_gainers(clean_names = TRUE)
+#Top Losers
+  nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
+}
+
+jugaad_data <- function() #function
+{ 
+  #date_df= df[1:12625,1]
+  #price_df= df[1:12625,2]
+  #dateprice_df <- data.frame(date_df,price_df)
+  }
+
+##Data 
+#symbol="MARUTI" #fix in python file
+
+#Function Calls
+packages()
+fdii = fdii()
+netFIIDIIfn(fdii)
+#fo_heatmap()
+#markets_heatmap()
+#data_bhavtoday_nser()
+#cashmarkets_stocks()
+#EOC
 ```
+
+## Preopen NSE FO Markets
+### NSE FO Top Gainers
+```{r nse_fo_top_gainers, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+
+#NSE Markets
+#library(nse2r)
+options(warn=-1) #supress coercion warnings, fix later
+  #nseopen_fo = nseopen("fo") #FO stocks
+knitr::kable(nse_fo_top_gainers(clean_names = TRUE))
+```
+
+### NSE FO Top Losers
+```{r nse_fo_top_losers, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+knitr::kable(nse_fo_top_losers(clean_names = TRUE))
+```
+
+```{r nse_preopen_nifty, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+## Preopen NSE Indices
+#knitr::kable(nse_preopen_nifty(clean_names = TRUE)) #preopen NIFTY
+#knitr::kable(nse_preopen_nifty_bank(clean_names = TRUE)) #preopen NIFTYBK
+```
+
+## NSE IPO  
+```{r nse_cash_mrkt, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+#knitr::kable(nselive()) #Nifty stocks
+knitr::kable(nseipo()) #ipo
+```  
+
+## RBI Current Data
+```{python, include=TRUE, echo=FALSE, tidy=TRUE}
+def rbi():
+  from jugaad_data.rbi import RBI
+  r = RBI()
+  print(r.current_rates())
+rbi()
+```
+
+## NSE FO Heatmap
+```{r nse_fo_heatmp, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+nsetree("fo")
+```  

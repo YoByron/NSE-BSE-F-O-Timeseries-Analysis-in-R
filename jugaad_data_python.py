@@ -1,8 +1,8 @@
 from datetime import datetime
 from requests import Session
 import pandas as pd
-import click
-import csv
+#import click
+#mport csv
 
 page_url = "https://www.nseindia.com/get-quotes/equity?symbol=LT"
 chart_data_url = "https://www.nseindia.com/api/chart-databyindex"
@@ -27,4 +27,5 @@ d = fetch_data("MARUTI")
 df = pd.DataFrame(d)
 df.columns = ['Time', "Price"]
 df.index = df['Time'].dt.time
-df['Price'].plot(figsize=(12,6), grid=True)
+#return df
+#df['Price'].plot(figsize=(12,6), grid=True)

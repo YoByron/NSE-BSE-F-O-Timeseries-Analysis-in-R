@@ -4,7 +4,7 @@
 ############################################################
 packages <- function()
 {# Package names
-  packages <- c("ggplot2", "readxl", "nser", "lattice", 
+packages <- c("ggplot2", "readxl", "nser", "lattice", 
                 "reshape2", "hablar", "dplyr", 
                 "tidyquant","tidyverse", 
                 "httr","RCurl",
@@ -26,42 +26,19 @@ packages <- function()
                 "shinythemes",
                 "rmarkdown")
   
-  # Install packages not yet installed
-  installed_packages <- packages %in% rownames(installed.packages())
-  if (any(installed_packages == FALSE)) {
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
     install.packages(packages[!installed_packages])
   }
   
-  # Packages loading
-  invisible(lapply(packages, library, character.only = TRUE))
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
   
-  # Alpha Vantage API key
-  api_key="MB7IR06HYB54IUJG"
-  av_api_key(api_key)
+# Alpha Vantage API key
+api_key="MB7IR06HYB54IUJG"
+av_api_key(api_key)
   }
-
-python_script_jd <- function(){ #function python-reticulate
-  #Install "pandas" using pip or anaconda
-  reticulate::source_python('~/GitHub/NSE-BSE-Real-Time-prices/jugaad_data_python.py')
-  
-  }
-
-clear <- function()
-{ # Remove unnecessary variables
-  # rm(installed_packages)
-  # rm(packages)
-  
-  #Clear Workspace
-  rm(list=ls()) 
-  cat("\014")
-  
-  # Clear all plots
-  try(dev.off(dev.list()["RStudioGD"]),silent=TRUE)
-  try(dev.off(),silent=TRUE)
-  
-  options(stringsAsFactors = FALSE)
-  }
-
 
 netFIIDIIfn <- function(fdii) #function
 {
@@ -186,32 +163,21 @@ cashmarkets_stocks <- function() #function
 
 jugaad_data <- function() #function
 { 
-  date_df= df[1:12625,1]
-  price_df= df[1:12625,2]
-  dateprice_df <- data.frame(date_df,price_df)
-  }
-
-eco_data <- function() #function
-{ 
-  reticulate::source_python('~/GitHub/NSE-BSE-Real-Time-prices/rbi_data.py')
-  rbi()
+  #date_df= df[1:12625,1]
+  #price_df= df[1:12625,2]
+  #dateprice_df <- data.frame(date_df,price_df)
   }
 
 ##Data 
-clear()
-symbol="MARUTI" #fix in python file
+#symbol="MARUTI" #fix in python file
 
 #Function Calls
 packages()
-eco_data()
-python_script_jd()
-jugaad_data()
-#fdii = fdii()
-#netFIIDIIfn(fdii)
+fdii = fdii()
+netFIIDIIfn(fdii)
 #fo_heatmap()
 #markets_heatmap()
 #markets_today_nser()
 #data_bhavtoday_nser()
 #cashmarkets_stocks()
 #EOC
-
