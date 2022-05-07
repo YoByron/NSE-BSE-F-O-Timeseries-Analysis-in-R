@@ -88,6 +88,8 @@ exogenous_features = ["High_mean_lag3", "High_std_lag3", "Low_mean_lag3", "Low_s
                       "month", "week", "day", "day_of_week"]
 
 #!pip install pmdarima
+#!pip install lightgbm
+#!pip install fbprophet
 
 import lightgbm as lgb
 import numpy as np
