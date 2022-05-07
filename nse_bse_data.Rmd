@@ -202,25 +202,49 @@ library(kableExtra)
 knitr::kable(nse_fo_top_gainers(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
                 , full_width = F
-                ,font_size = 12)
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "100%", height = "600px")
+#fixed_header = list(enabled = T, background = "green")
 ```
 
 ###   <span style='color: #FFA1A1'> NSE FO Top Losers
-```{r nse_fo_top_losers, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+```{r nse_fo_top_losers, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 knitr::kable(nse_fo_top_losers(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
                 , full_width = F
-                ,font_size = 12)
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "100%", height = "600px")
 ```
 
 ##  <span style='color: #FCC780'> NSE Indices (Preopen Nifty, Nifty Bank disabled)
-```{r nse_preopen_nifty, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
-#knitr::kable(nse_preopen_nifty(clean_names = TRUE)) #preopen NIFTY
-#knitr::kable(nse_preopen_nifty_bank(clean_names = TRUE)) #preopen NIFTYBK
+### Preopen Nifty
+```{r nse_preopen_nifty, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
+knitr::kable(nse_preopen_nifty(clean_names = TRUE))%>% #preopen NIFTY
+  kable_styling(bootstrap_options = "condensed",
+                , full_width = F
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "100%", height = "600px")
+``` 
+### Preopen Nifty Bank
+```{r nse_preopen_niftybk, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+knitr::kable(nse_preopen_nifty_bank(clean_names = TRUE))%>% #preopen 
+  kable_styling(bootstrap_options = "condensed",
+                , full_width = F
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "100%", height = "50%")
+``` 
+### NSE Index
+```{r nse_index, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_index_quote(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
                 , full_width = F
-                ,font_size = 12)
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "50%", height = "50%")
 ```
 
 ## <span style='color: #FCC780'> Most Traded Stocks
@@ -228,7 +252,9 @@ knitr::kable(nse_index_quote(clean_names = TRUE))%>%
 knitr::kable(nse_stock_most_traded(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
                 , full_width = F
-                ,font_size = 12)
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "80%", height = "50%")
 ```
 
 ## <span style='color: #FCC780'>NSE IPO  
@@ -237,7 +263,9 @@ knitr::kable(nse_stock_most_traded(clean_names = TRUE))%>%
 knitr::kable(nseipo())%>%
   kable_styling(bootstrap_options = "condensed",
                 , full_width = F
-                ,font_size = 12) #ipo
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "80%", height = "50%")
 ```
 
 ## <span style='color: #FCC780'>NSE Cash Market
@@ -246,22 +274,30 @@ print("52 Week high")
 knitr::kable(nse_stock_year_high(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
                 , full_width = F
-                ,font_size = 12)
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "100%", height = "600px")
 print("52 Week low")
 knitr::kable(nse_stock_year_low(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
                 , full_width = F
-                ,font_size = 12)
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "100%", height = "600px")
 print("Top Gainers")
 knitr::kable(nse_stock_top_gainers(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
                 , full_width = F
-                ,font_size = 12)
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "100%", height = "600px")
 print("Top Losers")
 knitr::kable(nse_stock_top_losers(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
                 , full_width = F
-                ,font_size = 12)
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "100%", height = "600px")
 ```  
 
 ## <span style='color: #FCC780'>RBI Current Data
