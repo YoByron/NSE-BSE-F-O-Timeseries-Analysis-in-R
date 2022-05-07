@@ -23,7 +23,9 @@ packages <- c("ggplot2", "readxl", "nser", "lattice",
                 #"purrr",
                 #"svDialogs",
                 "utils", 
-                "quantmod","broom", "magrittr",
+                "quantmod",
+              "broom", 
+              #"magrittr",
                 "diffr", 
                 #"diffobj",
                 "alphavantager","plotly",
@@ -33,6 +35,8 @@ packages <- c("ggplot2", "readxl", "nser", "lattice",
                 "optionstrat",
                 #"knitr",
                 #"rmarkdown",
+              "PerformanceAnalytics",
+              "dygraphs",
                 "nse2r"
                 )
   
@@ -201,10 +205,27 @@ knitr::kable(nse_fo_top_losers(clean_names = TRUE))
 knitr::kable(nse_index_quote(clean_names = TRUE))
 ```
 
+## Most Traded Stocks
+```{r nse_most_traded, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+knitr::kable(nse_stock_most_traded(clean_names = TRUE))
+```
+
 ## NSE IPO  
-```{r nse_cash_mrkt, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+```{r nse_ipo, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 #knitr::kable(nselive()) #Nifty stocks
 knitr::kable(nseipo()) #ipo
+```
+
+## NSE Cash Market
+```{r nse_cash_mrkt, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+print("52 Week high")
+knitr::kable(nse_stock_year_high(clean_names = TRUE))
+print("52 Week low")
+knitr::kable(nse_stock_year_low(clean_names = TRUE))
+print("Top Gainers")
+knitr::kable(nse_stock_top_gainers(clean_names = TRUE))
+print("Top Losers")
+knitr::kable(nse_stock_top_losers(clean_names = TRUE))
 ```  
 
 ## RBI Current Data
@@ -255,4 +276,64 @@ df.index = df['Time'].dt.time
 df['Price'].plot(figsize=(12,6), grid=True)
 
 #print(df)
+```
+```{r stock_portfolio, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+monthly_returns <- function(ticker, base_year)
+{
+  # Obtain stock price data from Yahoo! Finance
+  stock <- getSymbols(ticker, src = "yahoo", auto.assign = FALSE) 
+  # Remove missing values
+  stock <- na.omit(stock)
+  # Keep only adjusted closing stock prices
+  stock <- stock[, 6]
+  
+  # Confine our observations to begin at the base year and end at the last available trading day
+  horizon <- paste0(as.character(base_year), "/", as.character(Sys.Date()))
+  stock <- stock[horizon]
+  
+  # Calculate monthly arithmetic returns
+  data <- periodReturn(stock, period = "monthly", type = "arithmetic")
+  
+  # Assign to the global environment to be accessible
+  assign(ticker, data, envir = .GlobalEnv)
+}
+
+# Call our function for each stock
+monthly_returns("SBUX", 2015)
+monthly_returns("CCL", 2015)
+monthly_returns("AAPL", 2015)
+
+# Get S&P 500 Data
+monthly_returns("SPY", 2015)
+
+# Merge all the data and rename columns
+returns <- merge.xts(SBUX, CCL, AAPL, SPY)
+colnames(returns) <- c("SBUX", "CCL", "AAPL", "SP500")
+
+# Produce interactive chart of stock returns
+dygraph(returns, main = "Starbucks vs. Carnival vs. Apple vs. S&P 500") %>%
+  dyAxis("y", label = "Return", valueRange = c(-1,0.5)) %>%
+  dyRangeSelector(dateWindow = c("2015-01-01", "2020-07-01")) %>%
+  dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) 
+
+# Print last 5 rows of the data, rounded to 4 decimal places
+round(tail(returns, n = 5), 4)
+
+# Assign weights
+wts <- c(1/3, 1/3, 1/3)
+
+# Construct a portfolio using our returns object and weights
+# Only select first three columns to isolate our individual stock data
+portfolio_returns <- Return.portfolio(R = returns[,1:3], weights = wts, wealth.index = TRUE)
+
+# Then isolate our S&P 500 data
+benchmark_returns <- Return.portfolio(R = returns[,4], wealth.index = TRUE)
+
+# Merge the two
+comp <- merge.xts(portfolio_returns, benchmark_returns)
+colnames(comp) <- c("Portfolio", "Benchmark")
+
+# Build an interactive graph to compare performance
+dygraph(comp, main = "Portfolio Performance vs. Benchmark") %>%
+  dyAxis("y", label = "Amount ($)")
 ```

@@ -1,0 +1,126 @@
+---
+title:  "Analyzing Stock Market Data Using R and Quantmod"
+author: "Christian Kincaid"
+date: "June 4, 2020"
+output:
+  html_document: default
+  html_notebook: default
+  pdf_document: default
+---
+
+### Introduction
+ 
+
+### **Preparing the Data**
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(quantmod); library(ggplot2); library(dygraphs); options(scipen = 999)
+
+print("R is a powerful tool which can be used to perform robust analysis of financial data. This document demonstrates how to use R to import financial data, calculate returns over various time horizons, and measure a portfolio's risk.")
+
+print("Here, we load all necessary packages, import data for the Wilshire 5000 index from FRED, remove any missing values, and confine our observations to the period between 1980 and 2020. Then we plot the data as an interactive time series object using the dygraphs package.")
+
+wilsh <- getSymbols("WILL5000IND", src = "FRED", auto.assign = FALSE)
+wilsh <- na.omit(wilsh)
+wilsh <- wilsh["1980-01-02/2020-06-01"]
+
+colnames(wilsh) <- "Index Value"
+tail(wilsh)
+
+dygraph(wilsh, main = "Wilshire 5000 Performance") %>%
+  dyAxis("y")
+```
+
+
+The code chunk below calculates daily logarithmic and discrete returns of our Wilshire 5000 data and prints the most recent observations of each. For daily observations, the two returns are almost identical. For longer time periods, the difference is greater. Going forward, it is preferable to use log returns due to the more symmetric shape of the distribution.
+```{r, message = FALSE}
+log_ret <- diff(log(wilsh))[-1]
+disc_ret <- exp(log_ret) - 1
+
+colnames(log_ret) <- "TR"
+colnames(disc_ret) <- "TR"
+
+tail(log_ret)
+tail(disc_ret)
+```
+
+
+Let's take a look at some of our summary statistics for the daily log returns of the Wilshire 5000.
+```{r, message = FALSE}
+mu.d <- mean(log_ret)
+median.d <- median(log_ret)
+sigma.d <- sd(log_ret)
+
+cat(" Mean:", round(mu.d, 6), "\n",
+    "Median:", round(median.d, 6), "\n",
+    "Standard Deviation:", round(sigma.d, 6))
+```
+
+Since our returns are stored as **xts** objects, we can apply built-in functions to calculate weekly, monthly, quarterly, and yearly returns. We can always convert easily between log and discrete returns. We do so below and graph yearly discrete returns using another interactive time series.
+```{r}
+log_ret.w <- apply.weekly(log_ret, FUN = sum)
+log_ret.m <- apply.monthly(log_ret, FUN = sum)
+log_ret.q <- apply.quarterly(log_ret, FUN = sum)
+log_ret.y <- apply.yearly(log_ret, FUN = sum)
+
+disc_ret.y <- exp(log_ret.y) - 1 # Convert yearly log returns to yearly discrete returns (conventionally reported)
+
+dygraph(disc_ret.y, main = "Wilshire 5000 Index") %>%
+  dyAxis("y", label = "Yearly Discrete Return")
+
+```
+
+### **Measuring Volatility: Value at Risk and Expected Shortfall**
+
+Let's say you have a portfolio that mirrors the Wilshire 5000: You hold a well-diversified collection of U.S. equities. How would you go about asssessing the risk of that portfolio? One way you could quantify risk is by looking at the standard deviation, which tells you how much returns vary over a given time period. We have already calculated the standard deviation of daily log returns. Now we can do it for longer time horizons:
+```{r}
+sigma.w <- sd(log_ret.w)
+sigma.m <- sd(log_ret.m)
+sigma.q <- sd(log_ret.q)
+sigma.y <- sd(log_ret.y)
+
+cat(" Weekly Standard Deviation:", round(sigma.w, 6), "\n", 
+    "Monthly Standard Deviation:", round(sigma.m, 6), "\n", 
+    "Quarterly Standard Deviation:", round(sigma.q, 6), "\n",
+    "Yearly Standard Deviation:", round(sigma.y, 6))
+```
+Our results are unsurprising: the standard deviation of returns rises as the time horizon increases. This means that although log returns of the Wilshire 5000 are not very volatile over short periods of time (days, weeks), they vary quite a bit over the course of a month or longer. 
+
+While we now have some sense of how volatile our portfolio is over different time horizons, this does does not tell us how much of your portfolio you could lose on any given day, month, year, etc. To measure that, we can incorporate two concepts into our analysis: Value at Risk (VaR) and Expected Shortfall (ES).
+
+**Value at Risk** is the amount that a portfolio may lose for a given probability (1 - $\alpha$) over a specified period of time. Our probability, $\alpha$, is usually set at 0.05 or 0.01, corresponding to confidence levels of 95% and 99%, respectively. VaR essentially tells us: What is the worst return our portfolio could experience 95% (or 99%) of the time? Visually, VaR at the 95% confidence level for our data looks like this: 
+
+```{r, message = FALSE, warning=FALSE}
+log_ret_plot <- ggplot(data = log_ret, aes(x = log_ret$TR)) +
+  geom_density(color = "darkblue", fill = "lightblue", size = 1.2) +
+  ggtitle("Daily Log Returns of the Wilshire 5000") +
+  geom_vline(xintercept = quantile(x = as.vector(log_ret), probs = 0.05), color = "red", size = 1.2, linetype = "longdash") +
+  xlab("Total Return") +
+  theme_minimal()
+log_ret_plot
+```
+
+We are concerned with the left tail of the distribution -- extremely negative returns. If we are finding the VaR at a 95% confidence level, we are finding the return at the 5% quantile of the distribution -- meaning that 95% of observed returns fall to the right of that value. Conversely, it also means 5% of observed returns are *worse* than that return. Expected Shortfall, also known as Conditional Value at Risk (CVAR), is a related idea. **Expected Shortfall** is the average of all the returns to the left of the VaR. In this case, ES is the average of the worst 5% of returns. ES is viewed by many to be superior to VaR because it takes into account the worst possible outcomes. There are many sophisticated ways to calculate VaR and ES using R, but the simplest way is to use the empirical distribution as follows:
+```{r}
+VaR <- quantile(x = as.vector(log_ret), probs = 0.05) # 95% confidence
+ES <- mean(log_ret[log_ret < VaR])
+
+cat(" 95% Confidence:", "\n", "VaR:", round(VaR, 6), "\n", "ES:", round(ES, 6))
+```
+
+### **Interpreting our Results**
+What do our above results tell us? Our VaR of -0.016, or -1.6%, indicates that 95% of daily log returns of the Wilshire 5000 are to the right of (better than) that return, while 5% are even more negative. In other words, based on our empirical distribution, we are 95% confident that our portfolio will not experience a log return of worse than -1.6% on any given trading day. Our ES of -0.0265, or -2.65%, is the average of the worst 5% of outcomes in our empirical distributions. This gives us a sense of the "tail risk" of our portfolio.
+
+If we invested $10,000 in this portfolio, you could use the VaR and ES we calculated to find the VaR and ES of the daily change in the assets of the portfolio at 95% confidence. This requires that we use discrete returns.
+```{r}
+VaR_portfolio <- 10000 * (exp(VaR) - 1)
+ES_portfolio <- 10000 * (exp(ES) - 1)
+
+cat(round(VaR_portfolio, 2))
+cat(round(ES_portfolio, 2))
+```
+
+
+
+Note that we are *not* assuming anything about the shape of our distribution. For example, we did not assume that our log returns are distributed normally or try to fit a student-t distribution to the data. These approaches require more sophisticated statistical methods beyond the scope of this document. We are simply using the empirical distribution to discern how much our Wilshire 5000 may lose on any given trading day based on about 40 years of history. This same approach can be applied to longer periods of time and portfolios composed of other kinds of assets, including bonds, individual equities, and derivatives. We will explore these topics in future documents.
