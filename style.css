@@ -1,0 +1,31 @@
+/* Get a fancy font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+
+@font-face {
+    font-family: 'NHaasGroteskTXPro-65Md'; /*a name to be used later*/
+    src: url('css files/NHaasGroteskTXPro-65Md.ttf'); /*URL to font*/
+}
+
+body {
+  background-color: #0b3d91;
+  color: white; /* text color */
+  line-height: 1.5;
+  border: 1px solid #ccc;
+}
+
+h1 {
+  font-family: 'NHaasGroteskTXPro-65Md', sans-serif;
+}
+
+h2 {
+  font-family: 'NHaasGroteskTXPro-65Md', sans-serif;
+}
+
+h3 {
+  font-family: 'NHaasGroteskTXPro-65Md', sans-serif;
+}
+
+/* Make text visible on inputs */
+.shiny-input-container {
+  color: #474747;
+}
