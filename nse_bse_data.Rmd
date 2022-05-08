@@ -162,17 +162,20 @@ bnf_highestoi_CE = highest_oi_CE(10,100,bnf_nearest,url_bnf)
 # Finding Highest OI in Put Option In Bank Nifty
 bnf_highestoi_PE = highest_oi_PE(10,100,bnf_nearest,url_bnf)
 
-print(strCyan(str("Major Resistance in Nifty:")) + str(nf_highestoi_PE))
-print(strPurple(str("Major Support in Bank Nifty:")) + str(bnf_highestoi_CE))
-print(strPurple(str("Major Resistance in Bank Nifty:")) + str(bnf_highestoi_PE))
 ```
 ```{r include=FALSE}
 library(reticulate)
 ```
 
-# Major Support in Nifty: `r py$nf_highestoi_CE`
+### Major Support in Nifty: `r py$nf_highestoi_CE`
 
-## <span style='color: #1d7874'> FII & DII TRADING ACTIVITY
+### Major Resistance in Nifty: `r py$nf_highestoi_PE`
+
+### Major Support in BankNifty: `r py$bnf_highestoi_CE`
+
+### Major Resistance in BankNifty: `r py$bnf_highestoi_PE`
+
+### <span style='color: #1d7874'> FII & DII TRADING ACTIVITY
 
 ```{r fiidii, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
 packages <- function()
@@ -510,8 +513,6 @@ nifty_pe = get_index_pe_history(symbol="NIFTY",
 ## NIFTY PE
 
 ```{r nifty_pe_r, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
-library(reticulate)
-#py_available(TRUE)
 pythonr <- py$nifty_pe
 knitr::kable(pythonr)%>%
   kable_styling(bootstrap_options = "condensed",
@@ -530,14 +531,13 @@ rbi = r.current_rates()
 ```
 
 ```{r rbidata_r, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='hold', tidy=TRUE}
-library(reticulate)
-
 python_rbi_value <- py$rbi
 python_rbi_value[8:11] <- NULL
 python_rbi_value[22:23] <- NULL
 python_rbi_value <- unlist(python_rbi_value)
 
-knitr::kable(python_rbi_value)%>%
+knitr::kable(python_rbi_value,
+             col.names = c("Values"))%>%
   kable_styling(bootstrap_options = "condensed",
                 , full_width = T
                 ,font_size = 12,
@@ -644,9 +644,9 @@ dygraph(comp, main = "Portfolio Performance vs. Benchmark") %>%
   dyAxis("y", label = "Amount ($)")
 ```
 
-# Implement later <https://stackoverflow.com/questions/32906263/how-to-knit-pdf-from-rmd-script-by-clicking-an-executable-r-file>
+## Implement later <https://stackoverflow.com/questions/32906263/how-to-knit-pdf-from-rmd-script-by-clicking-an-executable-r-file>
 
-## NSE Fundamentals
+## NSE Fundamentals do later
 
 ```{r nsefundamentals, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
 get.nse.ratios <- function(index.nse = 'NIFTY 50', date.start = as.Date('2001-01-01'), date.end = as.Date(Sys.time())){
