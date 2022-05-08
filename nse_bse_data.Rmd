@@ -8,7 +8,7 @@ author: "Dhruv Haldar (haldar@kth.se)"
 geometry: margin=2cm
 ---
 
-## <span style='color: #1d7874'>NSE Option Chain.
+## <span style='color: #1d7874'>Option Chain
 
 ```{python optionschain_p, echo=FALSE, ,echo=FALSE, error=FALSE, message=FALSE, warning=FALSE,tidy=TRUE}
 
@@ -138,11 +138,11 @@ def highest_oi_PE(num,step,nearest,url):
                 strike = strike + step
     return max_oi_strike
 
-set_header()
-print('\033c')
-print_hr()
+#set_header()
+#print('\033c')
+#print_hr()
 #print_header("Nifty",nf_ul,nf_nearest)
-print_hr()
+#print_hr()
 print_oi(10,50,nf_nearest,url_nf)
 print_hr()
 #print_header("Bank Nifty",bnf_ul,bnf_nearest)
@@ -163,22 +163,29 @@ bnf_highestoi_CE = highest_oi_CE(10,100,bnf_nearest,url_bnf)
 bnf_highestoi_PE = highest_oi_PE(10,100,bnf_nearest,url_bnf)
 
 ```
+
 ```{r include=FALSE}
 library(reticulate)
 ```
-## Nifty `r py$nf_ul` `py$nf_nearest`
 
-## BankNifty `r py$bnf_ul` `py$bnf_nearest`
 
-### Major Support in Nifty: `r py$nf_highestoi_CE`
+```{r oi_p, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
 
-### Major Resistance in Nifty: `r py$nf_highestoi_PE`
+```                
+## Option Technical Analysis {#option-technical-analysis}
 
-### Major Support in BankNifty: `r py$bnf_highestoi_CE`
+| Option Property            | Value                   |
+|----------------------------|-------------------------|
+| Nifty Last Price           | `r factor(py$nf_ul)`    |
+| Nifty Nearest Strike       | `r py$nf_nearest`       |
+| Nifty Major Support        | `r py$nf_highestoi_CE`  |
+| Nifty Major Resistance     | `r py$nf_highestoi_PE`  |
+| BankNifty Last Price       | `r factor(py$bnf_ul)`   |
+| BankNifty Nearest Strike   | `r py$bnf_nearest`      |
+| BankNifty Major Support    | `r py$bnf_highestoi_CE` |
+| Banknifty Major Resistance | `r py$bnf_highestoi_PE` |
 
-### Major Resistance in BankNifty: `r py$bnf_highestoi_PE`
-
-### <span style='color: #1d7874'> FII & DII TRADING ACTIVITY
+### <span style='color: #1d7874'> FII & DII Trading Activity
 
 ```{r fiidii, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
 packages <- function()
@@ -434,7 +441,7 @@ knitr::kable(nse_index_quote(clean_names = TRUE))%>%
 scroll_box(width = "50%", height = "200px")
 ```
 
-## <span style='color: #1d7874'> Most Traded Stocks
+## <span style='color: #1d7874'> Most Traded Stocks {#span-stylecolor-1d7874-most-traded-stocks}
 
 ```{r nse_most_traded, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_most_traded(clean_names = TRUE))%>%
@@ -585,6 +592,8 @@ df.columns = ['Time', "Price"]
 df.index = df['Time'].dt.time
 df['Price'].plot(figsize=(12,6), grid=True)
 ```
+
+## Stock Portfolio
 
 ```{r stock_portfolio, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
 monthly_returns <- function(ticker, base_year)
