@@ -1,5 +1,5 @@
 ---
-title: "Markets Data"
+title: "Markets - Data"
 output: 
   html_document:
     css: "style.css"
@@ -7,10 +7,10 @@ date: "`r Sys.Date()`"
 author: "Dhruv Haldar (haldar@kth.se)"
 geometry: margin=2cm
 ---
+## <span style='color: #1d7874'>Option Data
+### Option Chain
 
-## <span style='color: #1d7874'>Option Chain
-
-```{python optionschain_p, echo=FALSE, ,echo=FALSE, error=FALSE, message=FALSE, warning=FALSE,tidy=TRUE}
+```{python optionschain_p, echo=FALSE, ,echo=FALSE, error=FALSE, message=FALSE, warning=FALSE,tidy=TRUE, include=TRUE}
 
 # Python program to print
 # colored text and background
@@ -73,10 +73,8 @@ def set_header():
     for index in data["data"]:
         if index["index"]=="NIFTY 50":
             nf_ul = index["last"]
-            print("nifty")
         if index["index"]=="NIFTY BANK":
             bnf_ul = index["last"]
-            print("banknifty")
     bnf_nearest=nearest_strike_bnf(bnf_ul)
     nf_nearest=nearest_strike_nf(nf_ul)
 
@@ -138,17 +136,17 @@ def highest_oi_PE(num,step,nearest,url):
                 strike = strike + step
     return max_oi_strike
 
-#set_header()
+set_header()
 #print('\033c')
 #print_hr()
-#print_header("Nifty",nf_ul,nf_nearest)
+print("Nifty")
 #print_hr()
 print_oi(10,50,nf_nearest,url_nf)
-print_hr()
-#print_header("Bank Nifty",bnf_ul,bnf_nearest)
-print_hr()
+#print_hr()
+print("Bank Nifty")
+#print_hr()
 print_oi(10,100,bnf_nearest,url_bnf)
-print_hr()
+#print_hr()
 
 # Finding Highest OI in Call Option In Nifty
 nf_highestoi_CE = highest_oi_CE(10,50,nf_nearest,url_nf)
@@ -172,7 +170,7 @@ library(reticulate)
 ```{r oi_p, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
 
 ```                
-## Option Technical Analysis {#option-technical-analysis}
+## Option Chain Technical Analysis {#option-technical-analysis}
 
 | Option Property            | Value                   |
 |----------------------------|-------------------------|
