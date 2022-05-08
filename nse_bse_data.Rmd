@@ -12,11 +12,6 @@ geometry: margin=2cm
 
 ```{python optionschain_p, echo=FALSE, ,echo=FALSE, error=FALSE, message=FALSE, warning=FALSE,tidy=TRUE}
 
-# Libraries
-import requests
-import json
-import math
-
 # Python program to print
 # colored text and background
 def strRed(skk):         return "\033[91m {}\033[00m".format(skk)
@@ -28,6 +23,11 @@ def strCyan(skk):        return "\033[96m {}\033[00m".format(skk)
 def strLightGray(skk):   return "\033[97m {}\033[00m".format(skk)
 def strBlack(skk):       return "\033[98m {}\033[00m".format(skk)
 def strBold(skk):        return "\033[1m {}\033[0m".format(skk)
+
+# Libraries
+import requests
+import json
+import math
 
 # Method to get nearest strikes
 def round_nearest(x,num=50): return int(math.ceil(float(x)/num)*num)
@@ -102,7 +102,7 @@ def print_oi(num,step,nearest,url):
                 print(data["records"]["expiryDates"][0] + " " + str(item["strikePrice"]) + " CE " + "[ " + strBold(str(item["CE"]["openInterest"]).rjust(10," ")) + " ]" + " PE " + "[ " + strBold(str(item["PE"]["openInterest"]).rjust(10," ")) + " ]")
                 strike = strike + step
 
-# Finding highest Open Interest of People's in CE based on CE data         
+# Finding highest Open Interest of People in CE based on CE data         
 def highest_oi_CE(num,step,nearest,url):
     strike = nearest - (step*num)
     start_strike = nearest - (step*num)
@@ -120,7 +120,7 @@ def highest_oi_CE(num,step,nearest,url):
                 strike = strike + step
     return max_oi_strike
 
-# Finding highest Open Interest of People's in PE based on PE data 
+# Finding highest Open Interest of People in PE based on PE data 
 def highest_oi_PE(num,step,nearest,url):
     strike = nearest - (step*num)
     start_strike = nearest - (step*num)
@@ -141,11 +141,11 @@ def highest_oi_PE(num,step,nearest,url):
 set_header()
 print('\033c')
 print_hr()
-print_header("Nifty",nf_ul,nf_nearest)
+#print_header("Nifty",nf_ul,nf_nearest)
 print_hr()
 print_oi(10,50,nf_nearest,url_nf)
 print_hr()
-print_header("Bank Nifty",bnf_ul,bnf_nearest)
+#print_header("Bank Nifty",bnf_ul,bnf_nearest)
 print_hr()
 print_oi(10,100,bnf_nearest,url_bnf)
 print_hr()
@@ -166,6 +166,9 @@ bnf_highestoi_PE = highest_oi_PE(10,100,bnf_nearest,url_bnf)
 ```{r include=FALSE}
 library(reticulate)
 ```
+## Nifty `r py$nf_ul` `py$nf_nearest`
+
+## BankNifty `r py$bnf_ul` `py$bnf_nearest`
 
 ### Major Support in Nifty: `r py$nf_highestoi_CE`
 
@@ -545,9 +548,13 @@ knitr::kable(python_rbi_value,
 scroll_box(width = "310px", height = "600px")
 ```
 
-## <span style='color: #1d7874'>Stock Price Chart
+```{r jugaad-data_r, include=TRUE, echo=FALSE, tidy=TRUE}
+py$symbol <- "INFY"
+```
 
-```{python jugaad-data, include=TRUE, echo=FALSE, tidy=TRUE}
+## <span style='color: #1d7874'> `r py$symbol` Stock Price Chart
+
+```{python jugaad-data_p, include=TRUE, echo=FALSE, tidy=TRUE}
 
 from datetime import datetime
 from requests import Session
@@ -572,15 +579,11 @@ def fetch_data(symbol):
     r = s.get(chart_data_url, params=data)
     data = r.json()['grapthData']
     return [[datetime.utcfromtimestamp(d[0]/1000),d[1]] for d in data]
-symbol="SJVN"
 d = fetch_data('SJVN')
-print(symbol)
 df = pd.DataFrame(d)
 df.columns = ['Time', "Price"]
 df.index = df['Time'].dt.time
 df['Price'].plot(figsize=(12,6), grid=True)
-
-#print(df)
 ```
 
 ```{r stock_portfolio, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
