@@ -586,3 +586,46 @@ dygraph(comp, main = "Portfolio Performance vs. Benchmark") %>%
 ```
 
 # Implement later https://stackoverflow.com/questions/32906263/how-to-knit-pdf-from-rmd-script-by-clicking-an-executable-r-file
+
+## NSE Fundamentals
+```{r nsefundamentals, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+get.nse.ratios <- function(index.nse = 'NIFTY 50', date.start = as.Date('2001-01-01'), date.end = as.Date(Sys.time())){
+  # url.base <- 'https://www1.nseindia.com/products/content/equities/indices/historical_pepb.htm'
+  index.nse <- gsub(' ', '%20', index.nse)
+  
+  # Split Date range into acceptable range
+  max.history.constraint <- 100
+  dates.start <- seq.Date(date.start, date.end, by = max.history.constraint)
+  data.master <- data.frame()
+  # Loop over sub-periods to extract data
+  for(fromDate in dates.start){
+    toDate <- min(fromDate+(max.history.constraint - 1), as.Date(Sys.Date()))
+    
+    cat(sprintf('Fetching data from %s to %s \n', as.Date(fromDate), as.Date(toDate)))
+    # browser()
+    # Reformat dates
+    fromDate <- format.Date(as.Date(fromDate), '%d-%m-%Y')
+    toDate <- format.Date(as.Date(toDate), '%d-%m-%Y')
+    
+    # Infer url for sub-period
+    url.sub <- sprintf("https://www1.nseindia.com/products/dynaContent/equities/indices/historical_pepb.jsp?indexName=%s&fromDate=%s&toDate=%s&yield1=undefined&yield2=undefined&yield3=undefined&yield4=all", index.nse, fromDate, toDate)
+    
+    # Scrape table from inferred url
+    data.sub <- rvest::html_table(xml2::read_html(url.sub))[[1]]
+    
+    # Clean the table
+    names.columns <- unname(unlist(data.sub[2,]))
+    data.clean <- data.sub[3:(nrow(data.sub)-1),]
+    colnames(data.clean) <- names.columns
+    data.clean$Date <- as.Date(data.clean$Date, format = '%d-%b-%Y')
+    cols.num <- names(which(sapply(data.clean, class) == 'character'))
+    data.clean[cols.num] <- sapply(data.clean[cols.num],as.numeric)
+    
+    # Append to master data
+    data.master <- rbind(data.master, data.clean)
+
+  }
+  
+  data.master
+}
+```
