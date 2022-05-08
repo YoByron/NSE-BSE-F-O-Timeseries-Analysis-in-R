@@ -25,6 +25,17 @@ h3 {
   font-family: 'NHaasGroteskTXPro-65Md', sans-serif;
 }
 
+table {
+  margin: auto;
+  border-top: 2px solid #666;
+  border-bottom: 2px solid #666;
+}
+table thead th { border-bottom: 1px solid #ddd; }
+th, td { padding: 5px; }
+thead, tfoot, tr:nth-child(even) { background: #fbebdd; }
+thead, tfoot, tr:nth-child(odd) { background: #fbebdd; }
+
+
 /* Make text visible on inputs */
 .shiny-input-container {
   color: #474747;
