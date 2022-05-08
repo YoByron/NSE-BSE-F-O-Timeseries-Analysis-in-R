@@ -27,13 +27,13 @@ h3 {
 
 table {
   margin: auto;
-  border-top: 2px solid #666;
-  border-bottom: 2px solid #666;
+  border-top: 2px solid #6610f2;
+  border-bottom: 2px solid #6610f2;
 }
-table thead th { border-bottom: 1px solid #ddd; }
-th, td { padding: 5px; }
-thead, tfoot, tr:nth-child(even) { background: #fbebdd; }
-thead, tfoot, tr:nth-child(odd) { background: #fbebdd; }
+table thead th { border-bottom: 2px solid #d11149; }
+th, td { padding: 10px; }
+thead, tfoot, tr:nth-child(even) { background: #eee; }
+thead, tfoot, tr:nth-child(odd) { background: #ddd; }
 
 
 /* Make text visible on inputs */
