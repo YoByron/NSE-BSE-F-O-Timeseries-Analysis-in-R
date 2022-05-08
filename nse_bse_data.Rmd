@@ -475,6 +475,30 @@ knitr::kable(nse_stock_top_losers(clean_names = TRUE))%>%
 scroll_box(width = "100%", height = "600px")
 ```  
 
+## Python nify pe script
+```{python nifty_pe, include=TRUE, echo=FALSE, tidy=TRUE}
+#pip install nsepy
+from datetime import date
+# Index P/E ratio history
+from nsepy import get_index_pe_history
+nifty_pe = get_index_pe_history(symbol="NIFTY",
+                                start=date(2015,1,1),
+                                end=date(2015,1,10))
+```
+
+## NIFTY PE
+```{r pythoncall, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+library(reticulate)
+py_available(TRUE)
+pythonr <- py$nifty_pe
+knitr::kable(pythonr)%>%
+  kable_styling(bootstrap_options = "condensed",
+                , full_width = F
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "10%", height = "10%")
+```
+
 ## <span style='color: #1d7874'>RBI Current Data
 ```{python rbi, include=TRUE, echo=FALSE, tidy=TRUE}
 def rbi():
@@ -629,3 +653,5 @@ get.nse.ratios <- function(index.nse = 'NIFTY 50', date.start = as.Date('2001-01
   data.master
 }
 ```
+
+
