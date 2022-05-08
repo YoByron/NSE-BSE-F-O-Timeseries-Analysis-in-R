@@ -413,7 +413,7 @@ knitr::kable(nse_index_quote(clean_names = TRUE))%>%
                 , full_width = F
                 ,font_size = 12,
                 fixed_thead = T)%>%
-scroll_box(width = "50%", height = "50%")
+scroll_box(width = "50%", height = "200px")
 ```
 
 ## <span style='color: #1d7874'> Most Traded Stocks
@@ -446,6 +446,7 @@ knitr::kable(nse_stock_year_high(clean_names = TRUE))%>%
                 fixed_thead = T)%>%
 scroll_box(width = "100%", height = "600px")
 ```
+
 ### 52 Week low
 ```{r 52wklow, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_year_low(clean_names = TRUE))%>%
@@ -455,6 +456,7 @@ knitr::kable(nse_stock_year_low(clean_names = TRUE))%>%
                 fixed_thead = T)%>%
 scroll_box(width = "100%", height = "600px")
 ```
+
 ### Top Gainers
 ```{r topgainers, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_top_gainers(clean_names = TRUE))%>%
@@ -462,8 +464,9 @@ knitr::kable(nse_stock_top_gainers(clean_names = TRUE))%>%
                 , full_width = F
                 ,font_size = 12,
                 fixed_thead = T)%>%
-scroll_box(width = "100%", height = "600px")
+scroll_box(width = "100%", height = "400px")
 ```  
+
 ### Top Losers
 ```{r toplosers, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_top_losers(clean_names = TRUE))%>%
@@ -471,7 +474,7 @@ knitr::kable(nse_stock_top_losers(clean_names = TRUE))%>%
                 , full_width = F
                 ,font_size = 12,
                 fixed_thead = T)%>%
-scroll_box(width = "100%", height = "600px")
+scroll_box(width = "100%", height = "400px")
 ```  
 
 ```{python nifty_pe, include=TRUE, echo=FALSE, tidy=TRUE}
@@ -499,17 +502,29 @@ knitr::kable(pythonr)%>%
 
 ## <span style='color: #1d7874'>RBI Current Data
 ```{python rbi, include=TRUE, echo=FALSE, tidy=TRUE}
-def rbi():
-  from jugaad_data.rbi import RBI
-  r = RBI()
-  print(r.current_rates())
-rbi()
+from jugaad_data.rbi import RBI
+r = RBI()
+rbi = r.current_rates()
+print(rbi)
+```
+```{r rbi_data, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='hold', tidy=TRUE}
+
+library(reticulate)
+#py_available(TRUE)
+python_rbi <- py$rbi
+knitr::kable(python_rbi)%>%
+  kable_styling(bootstrap_options = "condensed",
+                , full_width = F
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "80%", height = "30%")
 ```
 
 ## <span style='color: #1d7874'>NSE FO Heatmap (disabled)
 ```{r nse_fo_heatmp, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='hold', tidy=TRUE}
 #nsetree("fo")
-```  
+``` 
+
 ## <span style='color: #1d7874'>Stock Price Chart
 ```{python jugaad-data, include=TRUE, echo=FALSE, tidy=TRUE}
 
