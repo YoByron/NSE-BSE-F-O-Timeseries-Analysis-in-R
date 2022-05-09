@@ -514,20 +514,21 @@ from datetime import date
 # Index P/E ratio history
 from nsepy import get_index_pe_history
 nifty_pe = get_index_pe_history(symbol="NIFTY",
-                                start=date(2015,1,1),
-                                end=date(2015,1,10))
+                                start=date(2022,1,1),
+                                end=date(2022,5,9))
 ```
 
 ## NIFTY PE
 
 ```{r nifty_pe_r, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 pythonr <- py$nifty_pe
-knitr::kable(pythonr)%>%
-  kable_styling(bootstrap_options = "condensed",
-                , full_width = F
-                ,font_size = 12,
-                fixed_thead = T)%>%
-scroll_box(width = "170px", height = "350px")
+ggplot(pythonr)
+# knitr::kable(pythonr)%>%
+#   kable_styling(bootstrap_options = "condensed",
+#                 , full_width = F
+#                 ,font_size = 12,
+#                 fixed_thead = T)%>%
+# scroll_box(width = "170px", height = "350px")
 ```
 
 ## <span style='color: #1d7874'>RBI Current Data
@@ -593,7 +594,7 @@ df['Price'].plot(figsize=(12,6), grid=True)
 
 ```
 ## R version
-```{r jugaad-data_r, include=FALSE, echo=FALSE, tidy=TRUE}
+```{r jugaad-data_r, echo=FALSE, tidy=TRUE}
 ## Visualize
 library(reticulate)
 library(tidyverse)
