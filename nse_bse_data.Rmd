@@ -553,13 +553,13 @@ knitr::kable(python_rbi_value,
 scroll_box(width = "310px", height = "600px")
 ```
 
-```{r jugaad-data-sym_r, include=TRUE, echo=FALSE, tidy=TRUE}
+```{r , include=TRUE, echo=FALSE, tidy=TRUE}
 py$symbol <- "INFY"
 ```
 
 ## <span style='color: #1d7874'> `r py$symbol` Stock Price Chart
 
-```{python jugaad-data_p, include=TRUE, echo=FALSE, tidy=TRUE}
+```{python , include=TRUE, echo=FALSE, tidy=TRUE}
 
 from datetime import datetime
 from requests import Session
@@ -578,19 +578,21 @@ h = {"user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, l
     }
 s.headers.update(h)
 r = s.get(page_url)
+#symbol = "INFY"
 
 def fetch_data(symbol):
     data = {"index": symbol + "EQN"}
     r = s.get(chart_data_url, params=data)
     data = r.json()['grapthData']
     return [[datetime.utcfromtimestamp(d[0]/1000),d[1]] for d in data]
-d = fetch_data('SJVN')
+d = fetch_data(symbol)
 df = pd.DataFrame(d)
 df.columns = ['Time', "Price"]
 df.index = df['Time'].dt.time
-#df['Price'].plot(figsize=(12,6), grid=True)
+df['Price'].plot(figsize=(12,6), grid=True)
 
 ```
+## R version
 ```{r jugaad-data_r, include=FALSE, echo=FALSE, tidy=TRUE}
 ## Visualize
 library(reticulate)
