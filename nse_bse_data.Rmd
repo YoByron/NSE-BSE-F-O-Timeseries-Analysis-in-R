@@ -603,11 +603,10 @@ pydf_date <- py$df[1:1752,1]
 pydf_price <- py$df[1:1752,2]
 pydf <- data.frame(pydf_date,pydf_price)
 
-title = paste(py$symbol,"Line Chart")
 pydf %>%
     ggplot(aes(x = pydf_date, y = pydf_price)) +
     geom_line() +
-    labs(title = title, y = "Closing Price", x = "") + 
+    labs(title = paste(py$symbol,"Line Chart"), y = "Closing Price", x = "") + 
     theme_tq()
 ```
 
