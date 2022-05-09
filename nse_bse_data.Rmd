@@ -7,7 +7,7 @@ date: "`r Sys.Date()`"
 author: "Dhruv Haldar (haldar@kth.se)"
 geometry: margin=2cm
 ---
-## <span style='color: #1d7874'>Option Data
+## <span style='color: #bf6900'>Option Data
 ### Option Chain
 
 ```{python optionschain_p, error=FALSE, message=FALSE, warning=FALSE, ,echo=FALSE, include=FALSE, tidy=TRUE}
@@ -183,7 +183,7 @@ library(reticulate)
 | BankNifty Major Support    | `r py$bnf_highestoi_CE` |
 | Banknifty Major Resistance | `r py$bnf_highestoi_PE` |
 
-### <span style='color: #1d7874'> FII & DII Trading Activity
+### <span style='color: #bf6900'> FII & DII Trading Activity
 
 ```{r fiidii, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
 packages <- function()
@@ -266,11 +266,7 @@ p <- ggplot(fdii_main,aes(x = date, y = net_FII+net_DII))
 #scale_x_date(date_labels="%b %d",
 #               date_breaks  ="1 day")  
 
-#labs(x = "Date", title = "Gross Purchase FII+DII (Crores)",
-#       y = "Gross Purchase (Crores)",subtitle = paste("Last #updated",Sys.time())) 
-
-p + geom_bar(aes(fill = net_FII), stat = "identity") +  theme(legend.position = "right")
-
+p + geom_bar(aes(fill = net_FII), stat = "identity") + theme_dark() + labs(x = "Date", y = "Gross Purchase (Crores)",subtitle = paste("Last updated",Sys.time())) + geom_text(aes(label=net_FII+net_DII),colour='#D2CCA1') + guides(x = guide_axis(n.dodge = 2))  
 }
 ```
 
@@ -344,7 +340,7 @@ fdii = fdii()
 netFIIDIIfn(fdii)
 ```
 
-## <span style='color: #1d7874'>Preopen NSE FO Markets
+## <span style='color: #bf6900'>Preopen NSE FO Markets
 
 ### <span style='color: #73C1C6'> NSE FO Top Gainers
 
@@ -363,7 +359,7 @@ knitr::kable(nse_fo_top_gainers(clean_names = TRUE))%>%
 scroll_box(width = "100%", height = "600px")
 ```
 
-### <span style='color: #FC5130'> NSE FO Top Losers
+### <span style='color: #e83151'> NSE FO Top Losers
 
 ```{r nse_fo_top_losers, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 knitr::kable(nse_fo_top_losers(clean_names = TRUE))%>%
@@ -374,7 +370,7 @@ knitr::kable(nse_fo_top_losers(clean_names = TRUE))%>%
 scroll_box(width = "100%", height = "600px")
 ```
 
-## <span style='color: #1d7874'> NSE Indices
+## <span style='color: #bf6900'> NSE Indices
 
 ### Preopen Nifty
 
@@ -409,7 +405,7 @@ knitr::kable(nse_index_quote(clean_names = TRUE))%>%
 scroll_box(width = "50%", height = "200px")
 ```
 
-## <span style='color: #1d7874'> Most Traded Stocks {#span-stylecolor-1d7874-most-traded-stocks}
+## <span style='color: #bf6900'> Most Traded Stocks {#span-stylecolor-bf6900-most-traded-stocks}
 
 ```{r nse_most_traded, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_most_traded(clean_names = TRUE))%>%
@@ -420,7 +416,7 @@ knitr::kable(nse_stock_most_traded(clean_names = TRUE))%>%
 scroll_box(width = "80%", height = "50%")
 ```
 
-## <span style='color: #1d7874'>NSE IPO
+## <span style='color: #bf6900'>NSE IPO
 
 ```{r nse_ipo, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 #knitr::kable(nselive()) #Nifty stocks
@@ -431,7 +427,7 @@ knitr::kable(nseipo())%>%
                 fixed_thead = T)
 ```
 
-## <span style='color: #1d7874'>NSE Cash Market
+## <span style='color: #bf6900'>NSE Cash Market
 
 ### 52 Week high
 
@@ -500,7 +496,7 @@ knitr::kable(pythonr)%>%
 scroll_box(width = "170px", height = "350px")
 ```
 
-## <span style='color: #1d7874'>RBI Current Data
+## <span style='color: #bf6900'>RBI Current Data
 
 ```{python rbidata_python, include=TRUE, echo=FALSE, tidy=TRUE}
 from jugaad_data.rbi import RBI
@@ -527,7 +523,7 @@ scroll_box(width = "310px", height = "600px")
 py$symbol <- "INFY"
 ```
 
-## <span style='color: #1d7874'> `r py$symbol` Stock Price Chart
+## <span style='color: #bf6900'> `r py$symbol` Stock Price Chart
 
 ```{python , include=TRUE, echo=FALSE, tidy=TRUE}
 
