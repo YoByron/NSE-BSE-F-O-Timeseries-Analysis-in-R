@@ -187,7 +187,8 @@ library(reticulate)
 
 ```{r fiidii, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
 packages <- function()
-{# Package names
+{
+  # Package names
 packages <- c("ggplot2", 
               #"bslib",
               #"shiny",
@@ -257,34 +258,20 @@ fdii_main <- data.frame(date,net_FII,net_DII)
 
 #netFII+netDII
 fig.align = 'right'
-p <- ggplot(fdii_main,
-            aes(x = date, y = net_FII+net_DII)) +
-  geom_text(aes(label=net_FII+net_DII),
-            vjust=0.006,
-            size=3.5,
-            color="#DAF7A6")+
-  scale_x_date(date_labels="%b %d",date_breaks  ="1 day") +
-  labs(x = "Date",
-       title = "Gross Purchase FII+DII (Crores)",
-       y = "Gross Purchase (Crores)",
-       subtitle = paste("Last updated",Sys.time())
-  )
+p <- ggplot(fdii_main,aes(x = date, y = net_FII+net_DII)) 
 
-p+ theme(
-  panel.background = element_rect(fill = 'lightblue',
-                                colour = 'lightblue',
-                                size = 0.5, linetype = 'solid'),
-  panel.grid.major = element_line(size = 0.5, linetype = 'none',
-                                colour = 'green'), 
-  panel.grid.minor = element_line(size = 0.25, linetype = 'solid',
-                                colour = 'green')
-  )
+#geom_text(aes(label=net_FII+net_DII),nudge_x = 0,
+#            nudge_y = 0,angle=45,vjust=0.5) 
 
-p+ geom_bar(aes(fill = net_FII+net_DII > 0), stat = "identity") +
-  scale_fill_manual(
-    guide = "none",
-    breaks = c(TRUE, FALSE),
-    values=c("green", "red"))}
+#scale_x_date(date_labels="%b %d",
+#               date_breaks  ="1 day")  
+
+#labs(x = "Date", title = "Gross Purchase FII+DII (Crores)",
+#       y = "Gross Purchase (Crores)",subtitle = paste("Last #updated",Sys.time())) 
+
+p + geom_bar(aes(fill = net_FII), stat = "identity") +  theme(legend.position = "right")
+
+}
 ```
 
 ```{r nse_general, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
