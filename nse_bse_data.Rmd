@@ -10,7 +10,7 @@ geometry: margin=2cm
 ## <span style='color: #1d7874'>Option Data
 ### Option Chain
 
-```{python optionschain_p, echo=FALSE, ,echo=FALSE, error=FALSE, message=FALSE, warning=FALSE,tidy=TRUE, include=TRUE}
+```{python optionschain_p, error=FALSE, message=FALSE, warning=FALSE, ,echo=FALSE, include=FALSE, tidy=TRUE}
 
 # Python program to print
 # colored text and background
@@ -271,13 +271,13 @@ p <- ggplot(fdii_main,
   )
 
 p+ theme(
-  panel.background = element_rect(fill = "lightblue",
-                                colour = "lightblue",
-                                size = 0.5, linetype = "solid"),
-  panel.grid.major = element_line(size = 0.5, linetype = 'solid',
-                                colour = "white"), 
+  panel.background = element_rect(fill = 'lightblue',
+                                colour = 'lightblue',
+                                size = 0.5, linetype = 'solid'),
+  panel.grid.major = element_line(size = 0.5, linetype = 'none',
+                                colour = 'green'), 
   panel.grid.minor = element_line(size = 0.25, linetype = 'solid',
-                                colour = "white")
+                                colour = 'green')
   )
 
 p+ geom_bar(aes(fill = net_FII+net_DII > 0), stat = "identity") +
@@ -351,27 +351,10 @@ cashmarkets_stocks <- function() #function
   nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
 }
 
-jugaad_data <- function() #function
-{ 
-  #date_df= df[1:12625,1]
-  #price_df= df[1:12625,2]
-  #dateprice_df <- data.frame(date_df,price_df)
-  }
-
-##Data 
-#symbol="MARUTI" #fix in python file
-
-#enable other funtions later
-
 #Function Calls
 packages()
 fdii = fdii()
 netFIIDIIfn(fdii)
-#fo_heatmap()
-#markets_heatmap()
-#data_bhavtoday_nser()
-#cashmarkets_stocks()
-#EOC
 ```
 
 ## <span style='color: #1d7874'>Preopen NSE FO Markets
@@ -589,7 +572,7 @@ d = fetch_data(symbol)
 df = pd.DataFrame(d)
 df.columns = ['Time', "Price"]
 df.index = df['Time'].dt.time
-df['Price'].plot(figsize=(12,6), grid=True)
+#df['Price'].plot(figsize=(12,6), grid=True)
 
 ```
 ## R version
@@ -606,7 +589,7 @@ pydf <- data.frame(pydf_date,pydf_price)
 pydf %>%
     ggplot(aes(x = pydf_date, y = pydf_price)) +
     geom_line() +
-    labs(title = paste(py$symbol,"Line Chart"), y = "Closing Price", x = "") + 
+    labs(title = paste(py$symbol,"Line Chart"), y = "Closing Price", x = "Time") + 
     theme_tq()
 ```
 
