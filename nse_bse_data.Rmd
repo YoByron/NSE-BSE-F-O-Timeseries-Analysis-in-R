@@ -14,14 +14,6 @@ geometry: margin=2cm
 
 # Python program to print
 # colored text and background
-def strRed(skk):         return "\033[91m {}\033[00m".format(skk)
-def strGreen(skk):       return "\033[92m {}\033[00m".format(skk)
-def strYellow(skk):      return "\033[93m {}\033[00m".format(skk)
-def strLightPurple(skk): return "\033[94m {}\033[00m".format(skk)
-def strPurple(skk):      return "\033[95m {}\033[00m".format(skk)
-def strCyan(skk):        return "\033[96m {}\033[00m".format(skk)
-def strLightGray(skk):   return "\033[97m {}\033[00m".format(skk)
-def strBlack(skk):       return "\033[98m {}\033[00m".format(skk)
 def strBold(skk):        return "\033[1m {}\033[0m".format(skk)
 
 # Libraries
@@ -81,10 +73,10 @@ def set_header():
 # Showing Header in structured format with Last Price and Nearest Strike
 
 def print_header(index="",ul=0,nearest=0):
-    print(strPurple( index.ljust(12," ") + " => ")+ strLightPurple(" Last Price: ") + strBold(str(ul)) + strLightPurple(" Nearest Strike: ") + strBold(str(nearest)))
+    print(str( index.ljust(12," ") + " => ")+ str(" Last Price: ") + str(ul) + str(" Nearest Strike: ") + str(nearest))
 
 def print_hr():
-    print(strYellow("|".rjust(70,"-")))
+    print(str("|".rjust(70,"-")))
 
 # Fetching CE and PE data based on Nearest Expiry Date
 def print_oi(num,step,nearest,url):
@@ -96,8 +88,8 @@ def print_oi(num,step,nearest,url):
     for item in data['records']['data']:
         if item["expiryDate"] == currExpiryDate:
             if item["strikePrice"] == strike and item["strikePrice"] < start_strike+(step*num*2):
-                #print(strCyan(str(item["strikePrice"])) + strGreen(" CE ") + "[ " + strBold(str(item["CE"]["openInterest"]).rjust(10," ")) + " ]" + strRed(" PE ")+"[ " + strBold(str(item["PE"]["openInterest"]).rjust(10," ")) + " ]")
-                print(data["records"]["expiryDates"][0] + " " + str(item["strikePrice"]) + " CE " + "[ " + strBold(str(item["CE"]["openInterest"]).rjust(10," ")) + " ]" + " PE " + "[ " + strBold(str(item["PE"]["openInterest"]).rjust(10," ")) + " ]")
+                #print(str(str(item["strikePrice"])) + str(" CE ") + "[ " + strBold(str(item["CE"]["openInterest"]).rjust(10," ")) + " ]" + strRed(" PE ")+"[ " + strBold(str(item["PE"]["openInterest"]).rjust(10," ")) + " ]")
+                print(data["records"]["expiryDates"][0] + " " + str(item["strikePrice"]) + " CE " + "[ " + str(item["CE"]["openInterest"]).rjust(10," ") + " ]" + " PE " + "[ " + strBold(str(item["PE"]["openInterest"]).rjust(10," ")) + " ]")
                 strike = strike + step
 
 # Finding highest Open Interest of People in CE based on CE data         
@@ -176,12 +168,12 @@ library(reticulate)
 |----------------------------|-------------------------|
 | Nifty Last Price           | `r factor(py$nf_ul)`    |
 | Nifty Nearest Strike       | `r py$nf_nearest`       |
-| Nifty Major Support        | `r py$nf_highestoi_CE`  |
-| Nifty Major Resistance     | `r py$nf_highestoi_PE`  |
+| Nifty Major Support        | `r py$nf_highestoi_PE`  |
+| Nifty Major Resistance     | `r py$nf_highestoi_CE`  |
 | BankNifty Last Price       | `r factor(py$bnf_ul)`   |
 | BankNifty Nearest Strike   | `r py$bnf_nearest`      |
-| BankNifty Major Support    | `r py$bnf_highestoi_CE` |
-| Banknifty Major Resistance | `r py$bnf_highestoi_PE` |
+| BankNifty Major Support    | `r py$bnf_highestoi_PE` |
+| Banknifty Major Resistance | `r py$bnf_highestoi_CE` |
 
 ### <span style='color: #bf6900'> FII & DII Trading Activity
 
@@ -263,12 +255,53 @@ p <- ggplot(fdii_main,aes(x = date, y = net_FII+net_DII))
 #geom_text(aes(label=net_FII+net_DII),nudge_x = 0,
 #            nudge_y = 0,angle=45,vjust=0.5) 
 
-#scale_x_date(date_labels="%b %d",
-#               date_breaks  ="1 day")  
+#  
 
-p + geom_bar(aes(fill = net_FII), stat = "identity") + theme_dark() + labs(x = "Date", y = "Gross Purchase (Crores)",subtitle = paste("Last updated",Sys.time())) + geom_text(aes(label=net_FII+net_DII),colour='#D2CCA1') + guides(x = guide_axis(n.dodge = 2))  
+p + geom_bar(aes(fill = net_FII), stat = "identity") + theme_dark() + labs(x = "Date", y = "Gross Purchase (Crores)",subtitle = paste("Last updated",Sys.time())) + geom_text(aes(label=net_FII+net_DII),colour='#D2CCA1') + guides(x = guide_axis(n.dodge = 2)) + scale_x_date(date_labels="%b %d",date_breaks  ="1 day")  
 }
 ```
+
+```{r blackscholes, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
+BlackScholes <- function(S, K, r, T, sig, type){
+  
+  if(type=="C"){
+  d1 <- (log(S/K) + (r + sig^2/2)*T) / (sig*sqrt(T))
+  d2 <- d1 - sig*sqrt(T)
+  
+  value <- S*pnorm(d1) - K*exp(-r*T)*pnorm(d2)
+  return(value)}
+  
+  if(type=="P"){
+  d1 <- (log(S/K) + (r + sig^2/2)*T) / (sig*sqrt(T))
+  d2 <- d1 - sig*sqrt(T)
+  
+  value <-  (K*exp(-r*T)*pnorm(-d2) - S*pnorm(-d1))
+  return(value)}
+}
+
+call <- BlackScholes(110,100,0.04,1,0.2,"C")
+put <- BlackScholes(110,100,0.04,1,0.2,"P")
+
+print(call)
+print(put)
+```
+
+
+### Option Profitability Calculator
+
+### Option Strategy
+#### Strangle
+#### Bear Call Spread
+#### Bull Call Spread
+#### Bear Put Spread
+#### Bull Put Spread
+
+| Calculator                 | Value                       |
+|----------------------------|-----------------------------|
+| 50% Profit                 | `r print(0.05*30)`          |
+| 30% Loss                   | `r print(0.03*30)`          |
+| Profitability              | `r print(paste("45","%"))`  |
+
 
 ```{r nse_general, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
 data_bhavtoday_nser <- function() #function
@@ -386,12 +419,12 @@ scroll_box(width = "100%", height = "600px")
 ### Preopen Nifty Bank
 
 ```{r nse_preopen_niftybk, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
-knitr::kable(nse_preopen_nifty_bank(clean_names = TRUE))%>% #preopen 
-  kable_styling(bootstrap_options = "condensed",
-                , full_width = F
-                ,font_size = 12,
-                fixed_thead = T)%>%
-scroll_box(width = "100%", height = "50%")
+# knitr::kable(nse_preopen_nifty_bank(clean_names = TRUE))%>% #preopen 
+#   kable_styling(bootstrap_options = "condensed",
+#                 , full_width = F
+#                 ,font_size = 12,
+#                 fixed_thead = T)%>%
+# scroll_box(width = "100%", height = "50%")
 ```
 
 ### NSE Index
@@ -465,12 +498,12 @@ scroll_box(width = "100%", height = "400px")
 ### Top Losers
 
 ```{r toplosers, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
-knitr::kable(nse_stock_top_losers(clean_names = TRUE))%>%
-  kable_styling(bootstrap_options = "condensed",
-                , full_width = F
-                ,font_size = 12,
-                fixed_thead = T)%>%
-scroll_box(width = "100%", height = "400px")
+# knitr::kable(nse_stock_top_losers(clean_names = TRUE))%>%
+#   kable_styling(bootstrap_options = "condensed",
+#                 , full_width = F
+#                 ,font_size = 12,
+#                 fixed_thead = T)%>%
+# scroll_box(width = "100%", height = "400px")
 ```
 
 ```{python nifty_pe_python, include=TRUE, echo=FALSE, tidy=TRUE}
