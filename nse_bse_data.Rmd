@@ -11,6 +11,8 @@ geometry: margin=2cm
 ### Option Chain
 
 ```{python optionschain_p, error=FALSE, message=FALSE, warning=FALSE, ,echo=FALSE, include=FALSE, tidy=TRUE}
+#usethis::edit_r_profile()
+#To permanently change this, add a line like setRepositories(ind = c(1:6, 8)) to your Rprofile.site file.
 
 # Python program to print
 # colored text and background
@@ -178,18 +180,21 @@ library(reticulate)
 ### <span style='color: #bf6900'> FII & DII Trading Activity
 
 ```{r fiidii, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+#If having trouble in installing, copy and paste the lines in the console
 packages <- function()
 {
   # Package names
 packages <- c("ggplot2", 
-              #"bslib",
-              #"shiny",
+              "bslib",
+              "shiny",
               "readxl", "nser", "lattice", 
                 "reshape2", 
-                #"hablar", 
+                "hablar", 
                 "dplyr", 
-                #"tidyquant",
-                "tidyverse", 
+                "tidyquant",
+                "tidyverse",
+              "kableExtra",
+              "nsepy",
                 "scales",
                 "padr",
                 #"purrr",
@@ -197,17 +202,17 @@ packages <- c("ggplot2",
                 "utils", 
                 "quantmod",
               "broom", 
-              #"magrittr",
+              "magrittr",
                 "diffr", 
-                #"diffobj",
+                "diffobj",
                 "alphavantager",
                 "plotly",
                 "ggpubr",
-                #"derivmkts",
-                #"TTR",
+                "derivmkts",
+                "TTR",
                 "optionstrat",
-                #"knitr",
-                #"rmarkdown",
+                "knitr",
+                "rmarkdown",
               "PerformanceAnalytics",
               "dygraphs",
                 "nse2r"
@@ -369,8 +374,8 @@ cashmarkets_stocks <- function() #function
 
 #Function Calls
 packages()
-fdii = fdii()
-netFIIDIIfn(fdii)
+#fdii = fdii()
+#netFIIDIIfn(fdii)
 ```
 
 ## <span style='color: #bf6900'>Preopen NSE FO Markets
@@ -559,7 +564,8 @@ py$symbol <- "INFY"
 ## <span style='color: #bf6900'> `r py$symbol` Stock Price Chart
 
 ```{python , include=TRUE, echo=FALSE, tidy=TRUE}
-
+#pip install jugaad-data
+#pip install nsepy
 from datetime import datetime
 from requests import Session
 import pandas as pd
