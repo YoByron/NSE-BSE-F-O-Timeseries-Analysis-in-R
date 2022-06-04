@@ -1,0 +1,19 @@
+---
+title: "Untitled"
+output: html_document
+date: '2022-06-04'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+```{r}
+library(curl)
+req <- curl_fetch_memory("https://eu.httpbin.org/get?foo=123")
+str(req)
+parse_headers(req$headers)
+jsonlite::prettify(rawToChar(req$content))
+
+```

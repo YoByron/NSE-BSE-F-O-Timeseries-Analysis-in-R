@@ -7,7 +7,9 @@ date: "`r Sys.Date()`"
 author: "Dhruv Haldar (haldar@kth.se)"
 geometry: margin=2cm
 ---
+
 ## <span style='color: #bf6900'> Option Data
+
 ### Option Chain
 
 ```{r error=FALSE, message=FALSE, warning=FALSE, , echo=FALSE, include=FALSE}
@@ -173,16 +175,16 @@ bnf_highestoi_PE = highest_oi_PE(10,100,bnf_nearest,url_bnf)
 | BankNifty Major Support    | `r py$bnf_highestoi_PE` |
 | Banknifty Major Resistance | `r py$bnf_highestoi_CE` |
 
-### <span style='color: #bf6900'> FII & DII Trading Activity
-
 ```{r error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 packages <- function()
 {
   # Package names
 packages <- c("ggplot2", 
               #"bslib",
-              #"shiny",
-              "readxl", "nser", "lattice", 
+              "shiny",
+              "readxl", 
+              "nser", 
+              "lattice", 
                 "reshape2", 
                 #"hablar", 
                 "dplyr", 
@@ -190,6 +192,7 @@ packages <- c("ggplot2",
                 "tidyverse", 
                 "scales",
                 "padr",
+              "curl",
                 #"purrr",
                 #"svDialogs",
                 "utils", 
@@ -254,19 +257,25 @@ p + geom_bar(aes(fill = net_FII), stat = "identity") + theme_dark() + labs(x = "
 ### Option Profitability Calculator
 
 ### Option Strategy
+
 #### Strangle
+
 #### Bear Call Spread
+
 #### Bull Call Spread
+
 #### Bear Put Spread
+
 #### Bull Put Spread
 
-| Calculator                 | Value                       |
-|----------------------------|-----------------------------|
-| 50% Profit                 | `r print(0.05*30)`          |
-| 30% Loss                   | `r print(0.03*30)`          |
-| Profitability              | `r print(paste("45","%"))`  |
+| Calculator    | Value                      |
+|---------------|----------------------------|
+| 50% Profit    | `r print(0.05*30)`         |
+| 30% Loss      | `r print(0.03*30)`         |
+| Profitability | `r print(paste("45","%"))` |
 
 Black Scholes
+
 ```{r blackscholes, eval=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 BlackScholes <- function(S, K, r, T, sig, type){
   
@@ -291,6 +300,8 @@ put <- BlackScholes(110,100,0.04,1,0.2,"P")
 print(call)
 print(put)
 ```
+
+### <span style='color: #bf6900'> FII & DII Trading Activity
 
 ```{r echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 fdii <- function()
@@ -612,7 +623,9 @@ df.index = df['Time'].dt.time
 #df['Price'].plot(figsize=(12,6), grid=True)
 
 ```
+
 ## R version
+
 ```{r jugaad-data_r, echo=FALSE, tidy=TRUE, include=FALSE}
 ## Visualize
 library(reticulate)
