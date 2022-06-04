@@ -19,9 +19,6 @@ options(repos = r)
 ```
 
 ```{python optionschain_p, error=FALSE, message=FALSE, warning=FALSE, ,echo=FALSE, include=FALSE, tidy=TRUE}
-#usethis::edit_r_profile()
-#To permanently change this, add a line like setRepositories(ind = c(1:6, 8)) to your Rprofile.site file.
-
 # Python program to print
 # colored text and background
 def strBold(skk):        return "\033[1m {}\033[0m".format(skk)
@@ -202,7 +199,7 @@ packages <- c("ggplot2",
                 "tidyquant",
                 "tidyverse",
               "kableExtra",
-              "nsepy",
+              #"nsepy",
                 "scales",
                 "padr",
                 #"purrr",
@@ -272,6 +269,10 @@ p <- ggplot(fdii_main,aes(x = date, y = net_FII+net_DII))
 
 p + geom_bar(aes(fill = net_FII), stat = "identity") + theme_dark() + labs(x = "Date", y = "Gross Purchase (Crores)",subtitle = paste("Last updated",Sys.time())) + geom_text(aes(label=net_FII+net_DII),colour='#D2CCA1') + guides(x = guide_axis(n.dodge = 2)) + scale_x_date(date_labels="%b %d",date_breaks  ="1 day")  
 }
+#Function Calls
+packages()
+fdii = fdii()
+netFIIDIIfn(fdii)
 ```
 
 ```{r blackscholes, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
@@ -316,7 +317,7 @@ print(put)
 | Profitability              | `r print(paste("45","%"))`  |
 
 
-```{r nse_general, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+```{r nse_general, eval=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 #setrepositories()
 
 #no package called nser
@@ -392,10 +393,6 @@ cashmarkets_stocks <- function() #function
   nsetoplosers = nse_stock_top_losers(clean_names = TRUE)
 }
 
-#Function Calls
-packages()
-fdii = fdii()
-netFIIDIIfn(fdii)
 ```
 
 ## <span style='color: #bf6900'>Preopen NSE FO Markets
