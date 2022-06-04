@@ -9,6 +9,14 @@ geometry: margin=2cm
 ---
 ## <span style='color: #bf6900'>Option Data
 ### Option Chain
+<!-- install.packages("devtools") -->
+<!-- devtools::install_github("ramamet/nseR") -->
+
+```{r , echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org "
+options(repos = r)
+```
 
 ```{python optionschain_p, error=FALSE, message=FALSE, warning=FALSE, ,echo=FALSE, include=FALSE, tidy=TRUE}
 #usethis::edit_r_profile()
@@ -309,6 +317,18 @@ print(put)
 
 
 ```{r nse_general, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+#setrepositories()
+
+#no package called nser
+# install.packages("devtools")
+# library(devtools)
+# install_github("nandp1/nser")
+
+# install.packages("devtools")
+#install rtools
+# devtools::install_github("rsquaredacademy/nse2r",force=TRUE)
+
+#no package called nsepy
 data_bhavtoday_nser <- function() #function
 {
   get_data <- function(get_data) 
@@ -374,8 +394,8 @@ cashmarkets_stocks <- function() #function
 
 #Function Calls
 packages()
-#fdii = fdii()
-#netFIIDIIfn(fdii)
+fdii = fdii()
+netFIIDIIfn(fdii)
 ```
 
 ## <span style='color: #bf6900'>Preopen NSE FO Markets
@@ -570,7 +590,7 @@ from datetime import datetime
 from requests import Session
 import pandas as pd
 #import click
-#mport csv
+#import csv
 
 page_url = "https://www.nseindia.com/get-quotes/equity?symbol=LT"
 chart_data_url = "https://www.nseindia.com/api/chart-databyindex"
