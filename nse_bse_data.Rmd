@@ -14,6 +14,7 @@ geometry: margin=2cm
 r = getOption("repos")
 r["CRAN"] = "http://cran.us.r-project.org "
 options(repos = r)
+library(reticulate)
 ```
 
 ```{python optionschain_p, error=FALSE, message=FALSE, warning=FALSE, ,echo=FALSE, include=FALSE, tidy=TRUE}
@@ -159,14 +160,6 @@ bnf_highestoi_PE = highest_oi_PE(10,100,bnf_nearest,url_bnf)
 
 ```
 
-```{r include=FALSE}
-library(reticulate)
-```
-
-
-```{r oi_p, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
-
-```                
 ## Option Chain Technical Analysis {#option-technical-analysis}
 
 | Option Property            | Value                   |
@@ -182,42 +175,41 @@ library(reticulate)
 
 ### <span style='color: #bf6900'> FII & DII Trading Activity
 
-```{r echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
-#If having trouble in installing, copy and paste the lines in the console
+```{r fiidii, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
 packages <- function()
 {
   # Package names
 packages <- c("ggplot2", 
-              "bslib",
-              "shiny",
+              #"bslib",
+              #"shiny",
               "readxl", "nser", "lattice", 
                 "reshape2", 
-                "hablar", 
+                #"hablar", 
                 "dplyr", 
-                "tidyquant",
-                "tidyverse",
-              "kableExtra",
+                #"tidyquant",
+                "tidyverse", 
                 "scales",
                 "padr",
-                "purrr",
+                #"purrr",
+                #"svDialogs",
                 "utils", 
                 "quantmod",
               "broom", 
-              "magrittr",
+              #"magrittr",
                 "diffr", 
-                "diffobj",
+                #"diffobj",
                 "alphavantager",
                 "plotly",
                 "ggpubr",
-                "derivmkts",
-                "TTR",
-              "dygraphs",
+                #"derivmkts",
+                #"TTR",
                 "optionstrat",
-                "knitr",
-                "rmarkdown",
+                #"knitr",
+                #"rmarkdown",
               "PerformanceAnalytics",
               "dygraphs",
-                "nse2r"
+                "nse2r",
+              "tidyverse"
                 )
   
 # Install packages not yet installed
@@ -233,42 +225,33 @@ invisible(lapply(packages, library, character.only = TRUE))
 api_key="MB7IR06HYB54IUJG"
 av_api_key(api_key)
   }
-
 netFIIDIIfn <- function(fdii) #function
 {
 date = fdii[3:20,1]
 date <- gsub("-", "", date)                        # Applying gsub function
 date = as.Date(date, "%d%b%y")
-
-
 net_FII = fdii[3:20,4]
 net_FII = factor(net_FII)
 net_FII <- gsub(",","", net_FII)                   # Applying gsub function
 options(digits=7)
 net_FII=as.double(net_FII)
-
 net_DII = fdii[3:20,7]
 net_DII = factor(net_DII)
 net_DII <- gsub(",","", net_DII)                   # Applying gsub function
 options(digits=7)
 net_DII=as.double(net_DII)
-
 fdii_main <- data.frame(date,net_FII,net_DII)
-
 #netFII+netDII
 fig.align = 'right'
 p <- ggplot(fdii_main,aes(x = date, y = net_FII+net_DII)) 
-
 #geom_text(aes(label=net_FII+net_DII),nudge_x = 0,
 #            nudge_y = 0,angle=45,vjust=0.5) 
-
 #  
-
 p + geom_bar(aes(fill = net_FII), stat = "identity") + theme_dark() + labs(x = "Date", y = "Gross Purchase (Crores)",subtitle = paste("Last updated",Sys.time())) + geom_text(aes(label=net_FII+net_DII),colour='#D2CCA1') + guides(x = guide_axis(n.dodge = 2)) + scale_x_date(date_labels="%b %d",date_breaks  ="1 day")  
 }
 ```
 
-```{r blackscholes, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
+```{r blackscholes, eval=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 BlackScholes <- function(S, K, r, T, sig, type){
   
   if(type=="C"){
@@ -293,7 +276,6 @@ print(call)
 print(put)
 ```
 
-
 ### Option Profitability Calculator
 
 ### Option Strategy
@@ -310,19 +292,33 @@ print(put)
 | Profitability              | `r print(paste("45","%"))`  |
 
 
-```{r nse_general, error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
-#setrepositories()
+```{r error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+fdii <- function()
+{
+  #  check internet connection
+  if (!curl::has_internet()) {
+    message("No internet connection.")
+    return(invisible(NULL))
+  }
+   url = 'https://www.moneycontrol.com/stocks/marketstats/fii_dii_activity/index.php'
+  dat = url %>%
+  read_html() %>%
+  html_nodes(xpath='//*[@id="fidicash"]/div') %>%
+  html_table()
 
-#no package called nser
-# install.packages("devtools")
-# library(devtools)
-# install_github("nandp1/nser")
+  dat = dat[[1]]
+  dat = as.data.frame(dat)
+  dat = dat[-c(3,4,5),]
+  nam = c("DATE", "FII Rs Crores" ,"FII Rs Crores" ,"FII Rs Crores" ,"DII Rs Crores", "DII Rs Crores" ,"DII Rs Crores")
+  dat = `colnames<-`(dat, nam)
+  DATE = str_extract(dat$DATE, '[^_\n]+')
+  dat = dat[,-1]
+  dat = cbind(DATE, dat)
+  dat[1,1] = ""
+  row.names(dat) <- NULL
+  return(dat)
+}
 
-# install.packages("devtools")
-#install rtools
-# devtools::install_github("rsquaredacademy/nse2r",force=TRUE)
-
-#no package called nsepy
 data_bhavtoday_nser <- function() #function
 {
   get_data <- function(get_data) 
