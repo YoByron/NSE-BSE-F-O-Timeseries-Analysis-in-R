@@ -182,7 +182,7 @@ library(reticulate)
 
 ### <span style='color: #bf6900'> FII & DII Trading Activity
 
-```{r , echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+```{r echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
 #If having trouble in installing, copy and paste the lines in the console
 packages <- function()
 {
@@ -211,6 +211,7 @@ packages <- c("ggplot2",
                 "ggpubr",
                 "derivmkts",
                 "TTR",
+              "dygraphs",
                 "optionstrat",
                 "knitr",
                 "rmarkdown",
@@ -309,7 +310,7 @@ print(put)
 | Profitability              | `r print(paste("45","%"))`  |
 
 
-```{r nse_general, eval=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+```{r nse_general, error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 #setrepositories()
 
 #no package called nser
@@ -472,7 +473,7 @@ scroll_box(width = "80%", height = "50%")
 ```{r nse_ipo, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 #knitr::kable(nselive()) #Nifty stocks
 library(kableExtra)
-library(nse2r)
+library(nser)
 knitr::kable(nseipo())%>%
   kable_styling(bootstrap_options = "condensed",
                 , full_width = F
@@ -526,7 +527,7 @@ scroll_box(width = "100%", height = "400px")
 # scroll_box(width = "100%", height = "400px")
 ```
 
-```{python nifty_pe_python, include=TRUE, echo=FALSE, tidy=TRUE}
+```{python include=FALSE, tidy=TRUE}
 #Python Nifty PE Script
 #pip install nsepy
 from datetime import date
@@ -539,7 +540,7 @@ nifty_pe = get_index_pe_history(symbol="NIFTY",
 
 ## NIFTY PE
 
-```{r nifty_pe_r, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+```{r nifty_pe_r, error=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 pythonr <- py$nifty_pe
 knitr::kable(pythonr)%>%
   kable_styling(bootstrap_options = "condensed",
@@ -552,6 +553,9 @@ scroll_box(width = "170px", height = "350px")
 ## <span style='color: #bf6900'>RBI Current Data
 
 ```{python rbidata_python, include=TRUE, echo=FALSE, tidy=TRUE}
+#no module named jugaad_data
+#pip install jugaad-data
+#Goto System tools set Python 2nd option (system interpreter) as default
 from jugaad_data.rbi import RBI
 r = RBI()
 rbi = r.current_rates()
@@ -632,7 +636,9 @@ pydf %>%
 
 ## Stock Portfolio
 
-```{r stock_portfolio, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+```{r stock_portfolio, eval=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+#Dyoptions not found Error
+#install.packages('dygraphs')
 monthly_returns <- function(ticker, base_year)
 {
   # Obtain stock price data from Yahoo! Finance
