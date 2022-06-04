@@ -7,7 +7,7 @@ date: "`r Sys.Date()`"
 author: "Dhruv Haldar (haldar@kth.se)"
 geometry: margin=2cm
 ---
-## <span style='color: #bf6900'>Option Data
+## <span style='color: #bf6900'> Option Data
 ### Option Chain
 
 ```{r error=FALSE, message=FALSE, warning=FALSE, , echo=FALSE, include=FALSE}
@@ -17,7 +17,7 @@ options(repos = r)
 library(reticulate)
 ```
 
-```{python optionschain_p, error=FALSE, message=FALSE, warning=FALSE, ,echo=FALSE, include=FALSE, tidy=TRUE}
+```{python optionschain_p, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE, ,echo=FALSE, tidy=TRUE}
 # Python program to print
 # colored text and background
 def strBold(skk):        return "\033[1m {}\033[0m".format(skk)
@@ -175,7 +175,7 @@ bnf_highestoi_PE = highest_oi_PE(10,100,bnf_nearest,url_bnf)
 
 ### <span style='color: #bf6900'> FII & DII Trading Activity
 
-```{r fiidii, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+```{r error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 packages <- function()
 {
   # Package names
@@ -251,6 +251,22 @@ p + geom_bar(aes(fill = net_FII), stat = "identity") + theme_dark() + labs(x = "
 }
 ```
 
+### Option Profitability Calculator
+
+### Option Strategy
+#### Strangle
+#### Bear Call Spread
+#### Bull Call Spread
+#### Bear Put Spread
+#### Bull Put Spread
+
+| Calculator                 | Value                       |
+|----------------------------|-----------------------------|
+| 50% Profit                 | `r print(0.05*30)`          |
+| 30% Loss                   | `r print(0.03*30)`          |
+| Profitability              | `r print(paste("45","%"))`  |
+
+Black Scholes
 ```{r blackscholes, eval=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 BlackScholes <- function(S, K, r, T, sig, type){
   
@@ -276,30 +292,14 @@ print(call)
 print(put)
 ```
 
-### Option Profitability Calculator
-
-### Option Strategy
-#### Strangle
-#### Bear Call Spread
-#### Bull Call Spread
-#### Bear Put Spread
-#### Bull Put Spread
-
-| Calculator                 | Value                       |
-|----------------------------|-----------------------------|
-| 50% Profit                 | `r print(0.05*30)`          |
-| 30% Loss                   | `r print(0.03*30)`          |
-| Profitability              | `r print(paste("45","%"))`  |
-
-
-```{r error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+```{r echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 fdii <- function()
 {
-  #  check internet connection
-  if (!curl::has_internet()) {
-    message("No internet connection.")
-    return(invisible(NULL))
-  }
+  if(!require('rvest')) 
+    {
+    install.packages('rvest')
+    library('rvest')
+    }
    url = 'https://www.moneycontrol.com/stocks/marketstats/fii_dii_activity/index.php'
   dat = url %>%
   read_html() %>%
