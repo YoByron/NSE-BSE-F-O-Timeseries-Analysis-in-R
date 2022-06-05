@@ -544,11 +544,12 @@ from nsepy import get_index_pe_history
 nifty_pe = get_index_pe_history(symbol="NIFTY",
                                 start=date(2022,1,1),
                                 end=date(2022,5,9))
+print(nifty_pe)
 ```
 
 ## NIFTY PE
 
-```{r nifty_pe_r, error=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+```{r nifty_pe_r, echo=TRUE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 pythonr <- py$nifty_pe
 knitr::kable(pythonr)%>%
   kable_styling(bootstrap_options = "condensed",
