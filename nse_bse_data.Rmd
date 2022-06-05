@@ -5,10 +5,7 @@ date: "`r Sys.Date()`"
 output:
   html_document:
     css: style.css
-  pdf_document: default
 geometry: margin=2cm
-editor_options: 
-  chunk_output_type: console
 ---
 
 ## <span style='color: #bf6900'> Option Data
@@ -214,6 +211,7 @@ packages <- c("ggplot2",
                 #"rmarkdown",
               "PerformanceAnalytics",
               "dygraphs",
+              "reticulate",
                 "nse2r",
               "tidyverse"
                 )
