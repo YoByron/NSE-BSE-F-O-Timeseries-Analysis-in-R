@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output:
   html_document:
     css: style.css
-geometry: margin=2cm
+geometry: margin=0.5cm
 ---
 
 ## <span style='color: #bf6900'> Option Data
@@ -255,28 +255,27 @@ p + geom_bar(aes(fill = net_FII), stat = "identity") + theme_dark() + labs(x = "
 }
 ```
 
-### Option Profitability Calculator
+### Option Profitability Calculator (later)
 
-### Option Strategy
+### Option Strategy (later)
 
-#### Strangle
+#### Strangle (later)
 
-#### Bear Call Spread
+#### Bear Call Spread (later)
 
-#### Bull Call Spread
+#### Bull Call Spread (later)
 
-#### Bear Put Spread
+#### Bear Put Spread (later)
 
-#### Bull Put Spread
+#### Bull Put Spread (later)
 
-| Calculator    | Value                      |
+| Calculator (later)   | Value     (later)   |
 |---------------|----------------------------|
 | 50% Profit    | `r print(0.05*30)`         |
 | 30% Loss      | `r print(0.03*30)`         |
 | Profitability | `r print(paste("45","%"))` |
 
-Black Scholes
-
+Black Scholes (later)
 ```{r blackscholes, eval=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 BlackScholes <- function(S, K, r, T, sig, type){
   
@@ -301,9 +300,7 @@ put <- BlackScholes(110,100,0.04,1,0.2,"P")
 print(call)
 print(put)
 ```
-
 ### <span style='color: #bf6900'> FII & DII Trading Activity
-
 ```{r echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 fdii <- function()
 {
@@ -399,11 +396,9 @@ fdii = fdii()
 netFIIDIIfn(fdii)
 
 ```
-
 ## <span style='color: #bf6900'>Preopen NSE FO Markets
 
 ### <span style='color: #73C1C6'> NSE FO Top Gainers
-
 ```{r nse_fo_top_gainers, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE,escape = FALSE}
 options(warn=-1) #supress coercion warnings, fix later
   #nseopen_fo = nseopen("fo") #FO stocks
@@ -420,7 +415,6 @@ scroll_box(width = "100%", height = "600px")
 ```
 
 ### <span style='color: #e83151'> NSE FO Top Losers
-
 ```{r nse_fo_top_losers, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 knitr::kable(nse_fo_top_losers(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -431,9 +425,7 @@ scroll_box(width = "100%", height = "600px")
 ```
 
 ## <span style='color: #bf6900'> NSE Indices
-
 ### Preopen Nifty
-
 ```{r nse_preopen_nifty, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 knitr::kable(nse_preopen_nifty(clean_names = TRUE))%>% #preopen NIFTY
   kable_styling(bootstrap_options = "condensed",
@@ -444,18 +436,16 @@ scroll_box(width = "100%", height = "600px")
 ```
 
 ### Preopen Nifty Bank
-
 ```{r nse_preopen_niftybk, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
-# knitr::kable(nse_preopen_nifty_bank(clean_names = TRUE))%>% #preopen 
-#   kable_styling(bootstrap_options = "condensed",
-#                 , full_width = F
-#                 ,font_size = 12,
-#                 fixed_thead = T)%>%
-# scroll_box(width = "100%", height = "50%")
+knitr::kable(nse_preopen_nifty_bank(clean_names = TRUE))%>% #preopen
+  kable_styling(bootstrap_options = "condensed",
+                , full_width = F
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "100%", height = "50%")
 ```
 
 ### NSE Index
-
 ```{r nse_index, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_index_quote(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -466,7 +456,6 @@ scroll_box(width = "50%", height = "200px")
 ```
 
 ## <span style='color: #bf6900'> Most Traded Stocks {#span-stylecolor-bf6900-most-traded-stocks}
-
 ```{r nse_most_traded, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_most_traded(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -477,7 +466,6 @@ scroll_box(width = "80%", height = "50%")
 ```
 
 ## <span style='color: #bf6900'>NSE IPO
-
 ```{r nse_ipo, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 #knitr::kable(nselive()) #Nifty stocks
 library(kableExtra)
@@ -490,9 +478,17 @@ knitr::kable(nseipo())%>%
 ```
 
 ## <span style='color: #bf6900'>NSE Cash Market
+### Advances Declines
+```{r advdec, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+knitr::kable(nse_advances_declines(clean_names = TRUE))%>%
+  kable_styling(bootstrap_options = "condensed",
+                , full_width = F
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "50%", height = "600px")
+```
 
 ### 52 Week high
-
 ```{r 52wkhigh, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_year_high(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -503,7 +499,6 @@ scroll_box(width = "100%", height = "600px")
 ```
 
 ### 52 Week low
-
 ```{r 52wklow, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_year_low(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -514,7 +509,6 @@ scroll_box(width = "100%", height = "600px")
 ```
 
 ### Top Gainers
-
 ```{r topgainers, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_top_gainers(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -525,16 +519,16 @@ scroll_box(width = "100%", height = "400px")
 ```
 
 ### Top Losers
-
 ```{r toplosers, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
-# knitr::kable(nse_stock_top_losers(clean_names = TRUE))%>%
-#   kable_styling(bootstrap_options = "condensed",
-#                 , full_width = F
-#                 ,font_size = 12,
-#                 fixed_thead = T)%>%
-# scroll_box(width = "100%", height = "400px")
+knitr::kable(nse_stock_top_losers(clean_names = TRUE))%>%
+  kable_styling(bootstrap_options = "condensed",
+                , full_width = F
+                ,font_size = 12,
+                fixed_thead = T)%>%
+scroll_box(width = "100%", height = "400px")
 ```
 
+## NIFTY PE from `2022-1-1` to `2022-5-9`
 ```{python include=FALSE, tidy=TRUE}
 #Python Nifty PE Script
 #pip install nsepy
@@ -546,10 +540,7 @@ nifty_pe = get_index_pe_history(symbol="NIFTY",
                                 end=date(2022,5,9))
 print(nifty_pe)
 ```
-
-## NIFTY PE
-
-```{r nifty_pe_r, echo=TRUE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
+```{r nifty_pe_r, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 pythonr <- py$nifty_pe
 knitr::kable(pythonr)%>%
   kable_styling(bootstrap_options = "condensed",
@@ -560,7 +551,6 @@ scroll_box(width = "170px", height = "350px")
 ```
 
 ## <span style='color: #bf6900'>RBI Current Data
-
 ```{python rbidata_python, include=TRUE, echo=FALSE, tidy=TRUE}
 #no module named jugaad_data
 #pip install jugaad-data
@@ -569,7 +559,6 @@ from jugaad_data.rbi import RBI
 r = RBI()
 rbi = r.current_rates()
 ```
-
 ```{r rbidata_r, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='hold', tidy=TRUE}
 python_rbi_value <- py$rbi
 python_rbi_value[8:11] <- NULL
@@ -585,12 +574,13 @@ knitr::kable(python_rbi_value,
 scroll_box(width = "310px", height = "600px")
 ```
 
+
+
 ```{r , include=TRUE, echo=FALSE, tidy=TRUE}
 py$symbol <- "INFY"
 ```
 
 ## <span style='color: #bf6900'> `r py$symbol` Stock Price Chart
-
 ```{python , include=TRUE, echo=FALSE, tidy=TRUE}
 #pip install jugaad-data
 #pip install nsepy
