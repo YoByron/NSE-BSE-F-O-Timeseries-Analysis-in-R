@@ -5,6 +5,8 @@ date: "`r Sys.Date()`"
 output:
   html_document:
     css: style.css
+  pdf_document:
+    latex_engine: xelatex
 geometry: margin=0.5cm
 ---
 
@@ -19,7 +21,7 @@ options(repos = r)
 library(reticulate)
 ```
 
-```{python optionschain_p, echo=TRUE, error=FALSE, message=FALSE, warning=FALSE, ,echo=FALSE, tidy=TRUE}
+```{python optionschain_p, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, ,echo=FALSE, tidy=TRUE}
 # Python program to print
 # colored text and background
 def strBold(skk):        return "\033[1m {}\033[0m".format(skk)
@@ -396,8 +398,8 @@ fdii = fdii()
 netFIIDIIfn(fdii)
 
 ```
-## <span style='color: #bf6900'>Preopen NSE FO Markets
 
+## <span style='color: #bf6900'>Preopen NSE FO Markets
 ### <span style='color: #73C1C6'> NSE FO Top Gainers
 ```{r nse_fo_top_gainers, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE,escape = FALSE}
 options(warn=-1) #supress coercion warnings, fix later
