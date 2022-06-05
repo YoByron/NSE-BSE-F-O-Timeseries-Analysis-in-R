@@ -13,7 +13,33 @@ knitr::opts_chunk$set(echo = TRUE)
 library(curl)
 req <- curl_fetch_memory("https://eu.httpbin.org/get?foo=123")
 str(req)
+
 parse_headers(req$headers)
+
+jsonlite::prettify(rawToChar(req$content))
+
+con <- curl("https://eu.httpbin.org/get")
+open(con)
+
+# Get 3 lines
+out <- readLines(con, n = 3)
+cat(out, sep = "\n")
+
+# Get 3 more lines
+out <- readLines(con, n = 3)
+cat(out, sep = "\n")
+
+# Get remaining lines
+out <- readLines(con)
+close(con)
+cat(out, sep = "\n")
+
+req <- curl_fetch_memory("https://api.dhan.co/holdings")
+
+str(req)
+
+parse_headers(req$headers)
+
 jsonlite::prettify(rawToChar(req$content))
 
 ```
