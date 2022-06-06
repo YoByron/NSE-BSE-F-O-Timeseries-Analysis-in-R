@@ -10,36 +10,6 @@ output:
 geometry: margin=0.5cm
 runtime: shiny
 ---
-### Here are two Shiny widgets
-
-```{r echo = FALSE}
-selectInput("n_breaks", label = "Number of bins:",
-              choices = c(10, 20, 35, 50), selected = 20)
-  
-sliderInput("bw_adjust", label = "Bandwidth adjustment:",
-              min = 0.2, max = 2, value = 1, step = 0.2)
-```
-
-### ...that build a histogram.
-
-```{r echo = FALSE}
-renderPlot({
-  hist(faithful$eruptions, probability = TRUE, breaks = as.numeric(input$n_breaks),
-       xlab = "Duration (minutes)", main = "Geyser eruption duration")
-  
-  dens <- density(faithful$eruptions, adjust = input$bw_adjust)
-  lines(dens, col = "blue")
-})
-
-# Exit ---------------------------------------------------------------
-observe({
-    if (isTRUE(input$mainpage == "exit")) {
-    stopApp()
-  }
-})
-```
-
-
 
 ## <span style='color: #bf6900'> Option Data
 
@@ -233,6 +203,7 @@ packages <- c("ggplot2",
               "broom", 
               #"magrittr",
                 "diffr", 
+                "plotly",
                 #"diffobj",
                 "alphavantager",
                 "plotly",
@@ -302,13 +273,19 @@ p + geom_bar(aes(fill = net_FII), stat = "identity") + theme_dark() + labs(x = "
 
 #### Bull Put Spread (later)
 
-| Calculator (later)   | Value     (later)   |
-|---------------|----------------------------|
-| 50% Profit    | `r print(0.05*30)`         |
-| 30% Loss      | `r print(0.03*30)`         |
-| Profitability | `r print(paste("45","%"))` |
+```{r}
+optionprice=50
+optionprice <- as.tibble(optionprice)
+```
+
+| Calculator (later) | Value (later)               |
+|--------------------|-----------------------------|
+| 50% Profit         | `r print(0.05*optionprice)` |
+| 30% Loss           | `r print(0.03*optionprice)` |
+| Profitability      | `r print(paste("45","%"))`  |
 
 Black Scholes (later)
+
 ```{r blackscholes, eval=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 BlackScholes <- function(S, K, r, T, sig, type){
   
@@ -333,7 +310,9 @@ put <- BlackScholes(110,100,0.04,1,0.2,"P")
 print(call)
 print(put)
 ```
+
 ### <span style='color: #bf6900'> FII & DII Trading Activity
+
 ```{r echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 fdii <- function()
 {
@@ -431,7 +410,9 @@ netFIIDIIfn(fdii)
 ```
 
 ## <span style='color: #bf6900'>Preopen NSE FO Markets
+
 ### <span style='color: #73C1C6'> NSE FO Top Gainers
+
 ```{r nse_fo_top_gainers, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE,escape = FALSE}
 options(warn=-1) #supress coercion warnings, fix later
   #nseopen_fo = nseopen("fo") #FO stocks
@@ -448,6 +429,7 @@ scroll_box(width = "100%", height = "600px")
 ```
 
 ### <span style='color: #e83151'> NSE FO Top Losers
+
 ```{r nse_fo_top_losers, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 knitr::kable(nse_fo_top_losers(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -458,7 +440,9 @@ scroll_box(width = "100%", height = "600px")
 ```
 
 ## <span style='color: #bf6900'> NSE Indices
+
 ### Preopen Nifty
+
 ```{r nse_preopen_nifty, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 knitr::kable(nse_preopen_nifty(clean_names = TRUE))%>% #preopen NIFTY
   kable_styling(bootstrap_options = "condensed",
@@ -469,6 +453,7 @@ scroll_box(width = "100%", height = "600px")
 ```
 
 ### Preopen Nifty Bank
+
 ```{r nse_preopen_niftybk, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_preopen_nifty_bank(clean_names = TRUE))%>% #preopen
   kable_styling(bootstrap_options = "condensed",
@@ -479,6 +464,7 @@ scroll_box(width = "100%", height = "50%")
 ```
 
 ### NSE Index
+
 ```{r nse_index, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_index_quote(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -489,6 +475,7 @@ scroll_box(width = "50%", height = "200px")
 ```
 
 ## <span style='color: #bf6900'> Most Traded Stocks {#span-stylecolor-bf6900-most-traded-stocks}
+
 ```{r nse_most_traded, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_most_traded(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -499,6 +486,7 @@ scroll_box(width = "80%", height = "50%")
 ```
 
 ## <span style='color: #bf6900'>NSE IPO
+
 ```{r nse_ipo, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 #knitr::kable(nselive()) #Nifty stocks
 library(kableExtra)
@@ -511,7 +499,9 @@ knitr::kable(nseipo())%>%
 ```
 
 ## <span style='color: #bf6900'>NSE Cash Market
+
 ### Advances Declines
+
 ```{r advdec, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_advances_declines(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -522,6 +512,7 @@ scroll_box(width = "50%", height = "600px")
 ```
 
 ### 52 Week high
+
 ```{r 52wkhigh, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_year_high(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -532,6 +523,7 @@ scroll_box(width = "100%", height = "600px")
 ```
 
 ### 52 Week low
+
 ```{r 52wklow, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_year_low(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -542,6 +534,7 @@ scroll_box(width = "100%", height = "600px")
 ```
 
 ### Top Gainers
+
 ```{r topgainers, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_top_gainers(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -552,6 +545,7 @@ scroll_box(width = "100%", height = "400px")
 ```
 
 ### Top Losers
+
 ```{r toplosers, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 knitr::kable(nse_stock_top_losers(clean_names = TRUE))%>%
   kable_styling(bootstrap_options = "condensed",
@@ -562,6 +556,7 @@ scroll_box(width = "100%", height = "400px")
 ```
 
 ## NIFTY PE from `2022-1-1` to `2022-5-9`
+
 ```{python include=FALSE, tidy=TRUE}
 #Python Nifty PE Script
 #pip install nsepy
@@ -573,6 +568,7 @@ nifty_pe = get_index_pe_history(symbol="NIFTY",
                                 end=date(2022,5,9))
 print(nifty_pe)
 ```
+
 ```{r nifty_pe_r, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='asis', tidy=TRUE}
 pythonr <- py$nifty_pe
 knitr::kable(pythonr)%>%
@@ -584,6 +580,7 @@ scroll_box(width = "170px", height = "350px")
 ```
 
 ## <span style='color: #bf6900'>RBI Current Data
+
 ```{python rbidata_python, include=TRUE, echo=FALSE, tidy=TRUE}
 #no module named jugaad_data
 #pip install jugaad-data
@@ -592,6 +589,7 @@ from jugaad_data.rbi import RBI
 r = RBI()
 rbi = r.current_rates()
 ```
+
 ```{r rbidata_r, echo=FALSE, error=FALSE, warning=FALSE, paged.print=FALSE, results='hold', tidy=TRUE}
 python_rbi_value <- py$rbi
 python_rbi_value[8:11] <- NULL
@@ -607,137 +605,33 @@ knitr::kable(python_rbi_value,
 scroll_box(width = "310px", height = "600px")
 ```
 
-
-
-```{r , include=TRUE, echo=FALSE, tidy=TRUE}
-py$symbol <- "INFY"
+```{r include=FALSE, echo=FALSE, error=FALSE, warning=FALSE}
+library(tibble)
+ticker <- "HDFCBANK.NS"
+getSymbols(ticker,src='yahoo')
+ticker <- as.tibble(ticker)
 ```
 
-## <span style='color: #bf6900'> `r py$symbol` Stock Price Chart
-```{python , include=TRUE, echo=FALSE, tidy=TRUE}
-#pip install jugaad-data
-#pip install nsepy
-from datetime import datetime
-from requests import Session
-import pandas as pd
-#import click
-#import csv
+## `r ticker$value` Stock Ticker
 
-page_url = "https://www.nseindia.com/get-quotes/equity?symbol=LT"
-chart_data_url = "https://www.nseindia.com/api/chart-databyindex"
+```{r echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
+# trace example of ohlc charts
+df <- data.frame(Date=index(ticker),coredata(ticker))
+df <- tail(df, 182)
 
-s = Session()
-h = {"user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
-     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-    "accept-encoding": "gzip, deflate, br",
-    "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-    }
-s.headers.update(h)
-r = s.get(page_url)
-#symbol = "INFY"
+fig <- df %>% plot_ly(x = ~Date, type="candlestick",
+                       open = ~ticker.Open, close = ~ticker.Close,
+                       high = ~ticker.High, low = ~ticker.Low) 
+fig <- fig %>% add_lines(x = ~Date, y = ~ticker.Open, line = list(color = 'black', width = 0.75), inherit = F)
+fig <- fig %>% layout(showlegend = FALSE)
 
-def fetch_data(symbol):
-    data = {"index": symbol + "EQN"}
-    r = s.get(chart_data_url, params=data)
-    data = r.json()['grapthData']
-    return [[datetime.utcfromtimestamp(d[0]/1000),d[1]] for d in data]
-d = fetch_data(symbol)
-df = pd.DataFrame(d)
-df.columns = ['Time', "Price"]
-df.index = df['Time'].dt.time
-#df['Price'].plot(figsize=(12,6), grid=True)
+fig
 
 ```
-
-## R version
-
-```{r jugaad-data_r, echo=FALSE, tidy=TRUE, include=FALSE}
-## Visualize
-library(reticulate)
-library(tidyverse)
-library(tidyquant) 
-pydf <- py$df
-pydf_date <- py$df[1:1752,1]
-pydf_price <- py$df[1:1752,2]
-pydf <- data.frame(pydf_date,pydf_price)
-
-pydf %>%
-    ggplot(aes(x = pydf_date, y = pydf_price)) +
-    geom_line() +
-    labs(title = paste(py$symbol,"Line Chart"), y = "Closing Price", x = "Time") + 
-    theme_tq()
-```
-
-## Stock Portfolio
-
-```{r stock_portfolio, eval=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
-#Dyoptions not found Error
-#install.packages('dygraphs')
-monthly_returns <- function(ticker, base_year)
-{
-  # Obtain stock price data from Yahoo! Finance
-  stock <- getSymbols(ticker, src = "yahoo", auto.assign = FALSE) 
-  # Remove missing values
-  stock <- na.omit(stock)
-  # Keep only adjusted closing stock prices
-  stock <- stock[, 6]
-  
-  # Confine our observations to begin at the base year and end at the last available trading day
-  horizon <- paste0(as.character(base_year), "/", as.character(Sys.Date()))
-  stock <- stock[horizon]
-  
-  # Calculate monthly arithmetic returns
-  data <- periodReturn(stock, period = "monthly", type = "arithmetic")
-  
-  # Assign to the global environment to be accessible
-  assign(ticker, data, envir = .GlobalEnv)
-}
-
-# Call our function for each stock
-monthly_returns("SBUX", 2015)
-monthly_returns("CCL", 2015)
-monthly_returns("AAPL", 2015)
-
-# Get S&P 500 Data
-monthly_returns("SPY", 2015)
-
-# Merge all the data and rename columns
-returns <- merge.xts(SBUX, CCL, AAPL, SPY)
-colnames(returns) <- c("SBUX", "CCL", "AAPL", "SP500")
-
-# Produce interactive chart of stock returns
-dygraph(returns, main = "Starbucks vs. Carnival vs. Apple vs. S&P 500") %>%
-  dyAxis("y", label = "Return", valueRange = c(-1,0.5)) %>%
-  dyRangeSelector(dateWindow = c("2015-01-01", "2020-07-01")) %>%
-  dyOptions(colors = RColorBrewer::brewer.pal(4, "Set2")) 
-
-# Print last 5 rows of the data, rounded to 4 decimal places
-round(tail(returns, n = 5), 4)
-
-# Assign weights
-wts <- c(1/3, 1/3, 1/3)
-
-# Construct a portfolio using our returns object and weights
-# Only select first three columns to isolate our individual stock data
-portfolio_returns <- Return.portfolio(R = returns[,1:3], weights = wts, wealth.index = TRUE)
-
-# Then isolate our S&P 500 data
-benchmark_returns <- Return.portfolio(R = returns[,4], wealth.index = TRUE)
-
-# Merge the two
-comp <- merge.xts(portfolio_returns, benchmark_returns)
-colnames(comp) <- c("Portfolio", "Benchmark")
-
-# Build an interactive graph to compare performance
-dygraph(comp, main = "Portfolio Performance vs. Benchmark") %>%
-  dyAxis("y", label = "Amount ($)")
-```
-
-## Implement later <https://stackoverflow.com/questions/32906263/how-to-knit-pdf-from-rmd-script-by-clicking-an-executable-r-file>
 
 ## NSE Fundamentals do later
 
-```{r nsefundamentals, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+```{r nsefundamentals, eval=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 get.nse.ratios <- function(index.nse = 'NIFTY 50', date.start = as.Date('2001-01-01'), date.end = as.Date(Sys.time())){
   # url.base <- 'https://www1.nseindia.com/products/content/equities/indices/historical_pepb.htm'
   index.nse <- gsub(' ', '%20', index.nse)
