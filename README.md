@@ -1,4 +1,4 @@
-# NSE-BSE-F-O-Timeseries-Analysis-in-R
+# NSE BSE FO Timeseries Analysis in R
 
 Features incorporated so far : 
 1. NSE/BSE Timeseries in R
