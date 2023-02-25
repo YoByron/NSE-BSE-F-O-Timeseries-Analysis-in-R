@@ -25,7 +25,8 @@ library(reticulate)
 ```{python optionschain_p, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, ,echo=FALSE, tidy=TRUE}
 # Python program to print
 # colored text and background
-def strBold(skk):        return "\033[1m {}\033[0m".format(skk)
+def strBold(skk):        
+  return "\033[1m {}\033[0m".format(skk)
 
 # Libraries
 import requests
@@ -191,11 +192,12 @@ packages <- c("ggplot2",
                 "reshape2", 
                 #"hablar", 
                 "dplyr", 
-                "tidyquant",
+                #"tidyquant",
                 "tidyverse",
               "tibble",
                 "scales",
-                "padr",
+              #"devtools",
+                #"padr",
               "curl",
                 #"purrr",
                 #"svDialogs",
@@ -203,19 +205,19 @@ packages <- c("ggplot2",
                 "quantmod",
               "broom", 
               #"magrittr",
-                "diffr", 
+                #"diffr", 
                 "plotly",
                 #"diffobj",
-                "alphavantager",
+                #"alphavantager",
                 "plotly",
-                "ggpubr",
+                #"ggpubr",
                 #"derivmkts",
                 #"TTR",
-                "optionstrat",
-                #"knitr",
+                #"optionstrat",
+                "knitr",
                 #"rmarkdown",
-              "PerformanceAnalytics",
-              "dygraphs",
+              #"PerformanceAnalytics",
+              #"dygraphs",
               "reticulate",
                 "nse2r",
               "tidyverse"
@@ -230,9 +232,9 @@ if (any(installed_packages == FALSE)) {
 # Packages loading
 invisible(lapply(packages, library, character.only = TRUE))
   
-# Alpha Vantage API key
-api_key="MB7IR06HYB54IUJG"
-av_api_key(api_key)
+# # Alpha Vantage API key
+# api_key="MB7IR06HYB54IUJG"
+# av_api_key(api_key)
   }
 netFIIDIIfn <- function(fdii) #function
 {
