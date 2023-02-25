@@ -1,0 +1,72 @@
+---
+title: "Stock News Aggregator"
+author: "Dhruv"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: github
+---
+
+
+<!-- ``` -->
+<!-- You can include code snippets of languages other than R, but note that -->
+<!-- the block header has no curly brackets around the language name. -->
+
+<!-- ```cpp -->
+<!-- // [[Rcpp::export]] -->
+<!-- NumericVector timesTwo(NumericVector x) { -->
+<!--     return x * 2; -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- Please visit the [development page](https://github.com/yixuan/prettydoc/) of the  -->
+<!-- `prettydoc` package for latest updates and news. Comments, bug reports and -->
+<!-- pull requests are always welcome. -->
+
+```{r setup, echo = TRUE, include=FALSE, warning=FALSE, message=FALSE}
+# Load required packages
+
+packages <- c("dplyr", "lubridate", "httr","prettydoc","httr","rvest")
+
+for (pkg in packages) {
+  if (!require(pkg, character.only = TRUE)) {
+    install.packages(pkg)
+  }
+  
+  suppressPackageStartupMessages(library(pkg, character.only = TRUE))
+rm(packages)
+rm(pkg)
+rm(r)
+  }
+```
+```{r echo=FALSE}
+scrape_news <- function(ticker, date_range) {
+  # Construct the URL
+  url <- paste0(
+    "https://www.google.com/search?q=",
+    ticker,
+    "+stock+news&tbm=nws&tbs=cdr:1,cd_min:",
+    date_range[1],
+    ",cd_max:",
+    date_range[2]
+  )
+  
+  # Make the HTTP request and extract the content
+  res <- GET(url)
+  content <- content(res, "text")
+  content <- gsub("\\\\u....", "", content)
+  
+  # Parse the HTML and extract the titles and links
+  html <- read_html(content)
+  titles <- html %>% html_nodes(".BNeawe") %>% html_text()
+  links <- html %>% html_nodes(".dbsr") %>% html_attr("href")
+  #links <- links[grep("^http", links)]
+print(titles)
+print (links)
+  }
+
+
+scrape_news("AAPL", c("2022-01-01", "2022-02-01"))
+```
+
