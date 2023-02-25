@@ -5,6 +5,7 @@ library(lubridate)
 library(httr)
 library(rvest)
 
+tickers = c("AAPL", "GOOGL", "AMZN", "MSFT")
 # Define UI
 ui <- fluidPage(titlePanel("Stock News Aggregator"),
                 sidebarLayout(
@@ -12,7 +13,7 @@ ui <- fluidPage(titlePanel("Stock News Aggregator"),
                     selectInput(
                       inputId = "ticker",
                       label = "Select Ticker Symbol:",
-                      choices = c("AAPL", "GOOGL", "AMZN", "MSFT"),
+                      choices = tickers,
                       selected = "AAPL"
                     ),
                     dateRangeInput(
@@ -38,22 +39,8 @@ server <- function(input, output) {
   
   # Function to clean up news article titles
   clean_title <- function(title) {
-    # Remove stock symbol from title
-    #title <- gsub("\\b[A-Z]+\\b", "", title)
     # Remove " - " separator
-    #title <- gsub(" - ", " ", title)
-    # Remove " , " separator
-    #title <- gsub(" , ", " ", title)
-    # Remove " . " separator
-    #title <- gsub(" . ", " ", title)
-    # Remove " ... " separator
-    #title <- gsub(" ... ", " ", title)
-    # Remove " () " separator
-    #title <- gsub(" () ", "", title)
-    # Remove " ) " separator
-    #title <- gsub(" ) ", "", title)
-    # Remove " [video] " separator
-    #title <- gsub(" [video] ", " ", title)
+    title <- gsub(" - ", " ", title)
     # Remove leading/trailing whitespace
     title <- trimws(title)
     # Return cleaned-up title
@@ -82,11 +69,30 @@ server <- function(input, output) {
     titles <- html %>% html_nodes(".BNeawe") %>% html_text() %>% 
       # Clean up titles
       lapply(clean_title) %>% unlist()
+    links <- html %>% html_nodes(".dbsr") %>% html_attr("href")
+    links <- links[grep("^http", links)]
+    
+    print(links)
     
     # Combine the titles into a data frame
     data.frame(title = titles, stringsAsFactors = FALSE) %>% 
+      # Filter out short titles
+      filter(nchar(title) >= 26) %>% 
+      # Filter out titles containing "Good Investment"
+      filter(!grepl("Good Investment", title)) %>%
+      # Filter out titles containing "Good Buy"
+      filter(!grepl("Good Buy", title)) %>%
+      # Filter out titles containing "Nearly"
+      filter(!grepl("Nearly", title)) %>%
+      # Filter out titles containing "Was Up"
+      filter(!grepl("Was Up", title)) %>%
+      # Filter out titles containing S&P
+      filter(!grepl("S&P", title)) %>% 
+      # Remove duplicate titles
       distinct()
   }
+  
+  
   
   # Reactive expression to get the latest news for the selected ticker and date range
   latest_news <- reactive({
