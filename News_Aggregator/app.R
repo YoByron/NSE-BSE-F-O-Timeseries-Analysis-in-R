@@ -4,6 +4,7 @@ library(dplyr)
 library(lubridate)
 library(httr)
 library(rvest)
+library(openNLP)
 
 tickers = c("AAPL", "GOOGL", "AMZN", "MSFT")
 # Define UI
@@ -43,10 +44,17 @@ server <- function(input, output) {
     title <- gsub(" - ", " ", title)
     # Remove leading/trailing whitespace
     title <- trimws(title)
+    # Remove ticker symbol enclosed in parentheses
+    title <- gsub(sprintf("\\s*\\(%s:[^\\)]+\\)", input$ticker), "", title)
+    # Remove "..." from title
+    title <- gsub("\\.\\.\\.", "", title)
     # Return cleaned-up title
     title
   }
   
+  
+  
+  # Function to scrape news articles
   # Function to scrape news articles
   scrape_news <- function(ticker, date_range) {
     # Construct the URL
@@ -58,7 +66,7 @@ server <- function(input, output) {
       ",cd_max:",
       date_range[2]
     )
-    
+    print(url)
     # Make the HTTP request and extract the content
     res <- GET(url)
     content <- content(res, "text")
@@ -69,10 +77,17 @@ server <- function(input, output) {
     titles <- html %>% html_nodes(".BNeawe") %>% html_text() %>% 
       # Clean up titles
       lapply(clean_title) %>% unlist()
-    links <- html %>% html_nodes(".dbsr") %>% html_attr("href")
-    links <- links[grep("^http", links)]
     
-    print(links)
+    # Correct grammar in titles
+    sentences <- sentDetect(titles)
+    words <- unlist(strsplit(sentences, "\\s+"))
+    tagged.words <- tagPOS(words)
+    corrected.words <- hunspell_suggest(tagged.words)
+    corrected.sentences <- lapply(corrected.words, paste, collapse = " ")
+    corrected.titles <- unlist(corrected.sentences)
+    
+    links <- html %>% html_nodes(".BNeawe") %>% html_attr("href")
+    links <- links[grep("^http", links)]
     
     # Combine the titles into a data frame
     data.frame(title = titles, stringsAsFactors = FALSE) %>% 
@@ -82,6 +97,10 @@ server <- function(input, output) {
       filter(!grepl("Good Investment", title)) %>%
       # Filter out titles containing "Good Buy"
       filter(!grepl("Good Buy", title)) %>%
+      # Filter out titles containing "Good Buy"
+      filter(!grepl("Better Buy", title)) %>%
+      # Filter out titles containing "Bull Market"
+      filter(!grepl("Bull Market", title)) %>%
       # Filter out titles containing "Nearly"
       filter(!grepl("Nearly", title)) %>%
       # Filter out titles containing "Was Up"
@@ -89,8 +108,11 @@ server <- function(input, output) {
       # Filter out titles containing S&P
       filter(!grepl("S&P", title)) %>% 
       # Remove duplicate titles
-      distinct()
+      distinct() %>% 
+      # Filter out titles that do not start with an uppercase letter
+      filter(grepl("^[[:upper:]]", title))
   }
+  
   
   
   

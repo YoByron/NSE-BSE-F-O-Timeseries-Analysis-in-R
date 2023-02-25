@@ -4,7 +4,7 @@ author: "Dhruv"
 date: "`r Sys.Date()`"
 output:
   prettydoc::html_pretty:
-    theme: architect
+    theme: hpstr
     highlight: github
 ---
 
@@ -51,6 +51,7 @@ scrape_news <- function(ticker, date_range) {
     ",cd_max:",
     date_range[2]
   )
+  print(url)
   
   # Make the HTTP request and extract the content
   res <- GET(url)
