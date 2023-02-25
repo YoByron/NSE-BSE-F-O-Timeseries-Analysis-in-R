@@ -4,7 +4,6 @@ library(dplyr)
 library(lubridate)
 library(httr)
 library(rvest)
-library(openNLP)
 
 tickers = c("AAPL", "GOOGL", "AMZN", "MSFT")
 # Define UI
@@ -77,14 +76,6 @@ server <- function(input, output) {
     titles <- html %>% html_nodes(".BNeawe") %>% html_text() %>% 
       # Clean up titles
       lapply(clean_title) %>% unlist()
-    
-    # Correct grammar in titles
-    sentences <- sentDetect(titles)
-    words <- unlist(strsplit(sentences, "\\s+"))
-    tagged.words <- tagPOS(words)
-    corrected.words <- hunspell_suggest(tagged.words)
-    corrected.sentences <- lapply(corrected.words, paste, collapse = " ")
-    corrected.titles <- unlist(corrected.sentences)
     
     links <- html %>% html_nodes(".BNeawe") %>% html_attr("href")
     links <- links[grep("^http", links)]
